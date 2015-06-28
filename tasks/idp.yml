@@ -1,0 +1,152 @@
+---
+- name: 'Set shared facts'
+  set_fact:
+    jetty_shibboleth_base='{{ jetty.home }}/shibboleth'
+    idp_dist_archive_path='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+    idp_inst_home='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}'
+    installer_script_path='{{ installer.path }}/install.sh'
+
+- name: 'Download Shibboleth IdP distribution'
+  get_url:
+    url: 'http://www.shibboleth.net/downloads/identity-provider/latest/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+    dest: '{{ idp_dist_archive_path }}'
+    sha256sum: '{{ shib_idp.sha256sum }}'
+
+- name: 'Extract Shibboleth IdP distribution'
+  shell: >
+    tar zx -C {{ installer.path }} -f {{ idp_dist_archive_path }}
+    creates={{ idp_inst_home }}/
+
+- name: 'Create shibboleth directories for jetty'
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0470
+  with_items:
+    - '{{ jetty_shibboleth_base }}'
+    - '{{ jetty_shibboleth_base }}/modules'
+    - '{{ jetty_shibboleth_base }}/etc'
+    - '{{ jetty_shibboleth_base }}/webapps'
+    - '{{ jetty_shibboleth_base }}/lib'
+    - '{{ jetty_shibboleth_base }}/lib/ext'
+    - '{{ jetty_shibboleth_base }}/logs'
+    - '{{ jetty_shibboleth_base }}/resources'
+
+- name: 'Create shibboleth / jetty profile'
+  template:
+    dest: '/etc/default/jetty'
+    src: 'templates/idp/jetty-profile'
+    owner: root
+    group: jetty
+
+- name: 'Create shibboleth start.ini'
+  template:
+    dest: '{{ jetty_shibboleth_base }}/start.ini'
+    src: 'templates/idp/start.ini'
+    owner: root
+    group: jetty
+
+- name: 'Create Logback configuration'
+  template:
+    dest: '{{ jetty_shibboleth_base }}/etc/logback.xml'
+    src: 'templates/idp/logback.xml'
+    owner: root
+    group: jetty
+
+- name: 'Create Logback access configuration'
+  template:
+    dest: '{{ jetty_shibboleth_base }}/etc/logback-access.xml'
+    src: 'templates/idp/logback-access.xml'
+    owner: root
+    group: jetty
+
+- name: 'Create IdP context in jetty'
+  template:
+    dest: '{{ jetty_shibboleth_base }}/webapps/idp.xml'
+    src: 'templates/idp/idp.xml'
+    owner: root
+    group: jetty
+
+- name: 'Set http.mod'
+  template:
+    dest: '{{ jetty_shibboleth_base }}/modules/http.mod'
+    src: 'templates/idp/http.mod'
+    owner: root
+    group: jetty
+
+# Required for headerless Shibboleth IdP install
+- name: 'Create idp.merge.properties'
+  file: 'path={{ idp_inst_home }}/conf/idp.merge.properties state=touch'
+  changed_when: False
+
+# Wraps the Shibboleth IdP installer
+- name: 'Create installer script'
+  template:
+    dest: '{{ installer_script_path }}'
+    src: 'templates/idp/install.sh'
+    owner: root
+    group: root
+    mode: 0500
+
+# Required for http://docs.ansible.com/expect_module.html
+- name: 'Download pexpect 3.3'
+  get_url:
+    url: 'https://pypi.python.org/packages/source/p/pexpect/pexpect-3.3.tar.gz'
+    dest: '{{ installer.path }}/pexpect-3.3.tar.gz'
+
+- name: 'Extract pexpect distribution'
+  shell: >
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/pexpect-3.3.tar.gz
+    creates={{ installer.path }}/pexpect-3.3
+
+- name: 'Install pxepect'
+  shell: python setup.py install
+  args:
+    chdir: '{{ installer.path }}/pexpect-3.3'
+    creates: '/usr/lib/python2.7/site-packages/pexpect'
+
+- name: 'Run IdP installer script'
+  expect:
+    command: sh {{ installer_script_path }}
+    responses:
+      (?i)TLS Private Key Password: "{{ idp_keystore_password }}"
+      (?i)Re-enter password: "{{ idp_keystore_password }}"
+      (?i)Cookie Encryption Key Password: "{{ idp_cookie_enc_key_password }}"
+      (?i)Re-enter password: "{{ idp_cookie_enc_key_password }}"
+    creates: '{{ shib_idp.home }}'
+
+- name: 'Copy over bundled slf4j & logback libs'
+  command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty_shibboleth_base }}/lib/ creates="{{ jetty_shibboleth_base }}/lib/{{ item }}"'
+  with_items:
+    - jcl-over-slf4j-1.7.10.jar
+    - slf4j-api-1.7.10.jar
+    - logback-core-1.1.2.jar
+    - logback-classic-1.1.2.jar
+
+- name: 'Download placeholder keystore'
+  get_url:
+    url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
+    dest: '{{ jetty_shibboleth_base }}/etc'
+
+- name: 'Tighten jetty_shibboleth_base ({{ jetty_shibboleth_base }}) context permissions'
+  file:
+    path: '{{ jetty_shibboleth_base }}/'
+    owner: root
+    group: jetty
+    state: directory
+    mode: 'o-rwx,u-x'
+    recurse: yes
+
+- name: 'Set Shibboleth IdP home ({{ shib_idp.home }}) permissions for jetty group'
+  file:
+    path: '{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0470
+    state: directory
+    recurse: yes
+  with_items:
+  - '{{ shib_idp.home }}'
+

@@ -1,0 +1,59 @@
+---
+- hosts: idp-servers
+  vars:
+    installer:
+      path: /opt/shibboleth-idp-installer
+    jetty:
+      version: 9.2.10.v20150310
+      sha256sum: 0034587a3dcfdab23fca28291e5e22ae7ff6e80f9f4c7a67f5b2b7777a84b40e
+      home: /opt/jetty
+    shib_idp:
+      version: 3.1.1
+      sha256sum: 8504d120fc6e033294fb9d132d13974dab58ba662d8fac8e338d6bf707d2ff3a
+      home: /opt/shibboleth-idp
+  vars_prompt:
+    - name: "idp_host_name"
+      prompt: "IdP Hostname"
+      default: "idp.institution.domain.edu.au"
+      private: no
+    - name: "idp_entity_id"
+      prompt: "IdP EntityID"
+      default: "https://idp.institution.domain.edu.au/idp/shibboleth"
+      private: no
+    - name: "idp_attribute_scope"
+      prompt: "Attribute Scope"
+      default: "institution.domain.edu.au"
+      private: no
+    - name: "idp_keystore_password"
+      prompt: "TLS Private Key Password"
+      private: yes
+    - name: "idp_cookie_enc_key_password"
+      prompt: "Cookie Encryption Key Password"
+      private: yes
+  tasks:
+    - name: 'Create required directories for installer setup'
+      file:
+        name: '{{ item }}'
+        state: directory
+        owner: root
+        group: root
+        mode: 0600
+      with_items:
+        - '{{ installer.path }}'
+
+    - name: 'Update yum packages (yum -y update)'
+      yum: name=* state=latest
+    - name: 'Install required packages'
+      yum: pkg={{ item }} state=installed
+      with_items:
+        - httpd
+        - mod_ssl
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+        - mariadb-server
+        - mariadb-devel
+        - mariadb
+        - ntp
+    - include: tasks/jetty.yml
+    - include: tasks/idp.yml
+

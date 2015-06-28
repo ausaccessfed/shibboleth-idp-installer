@@ -1,0 +1,11 @@
+JAVA_HOME=/usr/lib/jvm/java
+JAVA=$JAVA_HOME/bin/java
+JAVA_OPTIONS=" -server"
+JETTY_HOME={{ jetty.home }}
+JETTY_USER=jetty
+JETTY_PORT=8080
+JETTY_HOST=0.0.0.0
+JETTY_LOGS={{ jetty_shibboleth_base }}/logs
+JETTY_ARGS=jetty.logs=$JETTY_LOGS
+JETTY_BASE={{ jetty_shibboleth_base }}
+

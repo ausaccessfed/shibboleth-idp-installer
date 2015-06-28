@@ -1,0 +1,81 @@
+---
+- name: 'Set shared facts'
+  set_fact:
+    jetty_dist_archive_path='{{ installer.path }}/jetty-distribution-{{ jetty.version }}.tar.gz'
+    jetty_dist_path='{{ jetty.home }}-dist'
+    jetty_path='{{ jetty.home }}-dist/jetty-distribution-{{ jetty.version }}'
+
+- name: 'Create jetty user'
+  user: name=jetty
+
+- name: 'Create required directories for jetty'
+  file:
+    name: '{{ jetty_dist_path }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0670
+
+- name: 'Download jetty distribution'
+  get_url:
+    url: 'https://olex-secure.openlogic.com/content/private/5e6a6f0815e830bba705e79e4a0470fbee8a5880//olex-secure.openlogic.com/jetty-distribution-9.2.10.v20150310.tar.gz'
+    dest: '{{ jetty_dist_archive_path }}'
+    sha256sum: '{{ jetty.sha256sum }}'
+
+- name: 'Extract jetty distribution'
+  shell: >
+     tar zx -C {{ jetty_dist_path }} -f {{ jetty_dist_archive_path }}
+     creates={{ jetty_path }}/
+
+- name: 'Remove demo-base'
+  file:
+    path: '{{ jetty_path }}/demo-base'
+    state: absent
+
+- name: 'Symlink jetty to installed distribution'
+  file:
+    name: '{{ jetty.home }}'
+    src: '{{ jetty_path }}'
+    owner: root
+    group: root
+    mode: 0670
+    state: link
+    force: yes
+
+- name: 'Symlink /etc/init.d script'
+  file:
+    name: '/etc/init.d/jetty'
+    src: '{{ jetty.home }}/bin/jetty.sh'
+    owner: root
+    group: root
+    state: link
+    force: yes
+
+- name: 'Set jetty.xml'
+  template:
+    dest: '{{ jetty.home }}/etc/jetty.xml'
+    src: 'templates/jetty/jetty.xml'
+    owner: root
+    group: jetty
+
+- name: 'Tighten jetty permissions'
+  file:
+    path: '{{ jetty_path }}/'
+    owner: root
+    group: jetty
+    state: directory
+    mode: 'o-rwx,u-x'
+    recurse: yes
+
+- name: 'Set logs directory as writable'
+  file:
+    path: '{{ jetty_path }}/logs'
+    owner: root
+    group: jetty
+    state: directory
+    mode: 'g+w'
+    recurse: yes
+
+- name: 'Configure jetty to start on boot'
+  service: name=jetty runlevel=345 enabled=yes
+
