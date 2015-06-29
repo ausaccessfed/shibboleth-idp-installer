@@ -1,1 +1,4 @@
 ansible_hosts
+passwords
+host_vars
+!host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist

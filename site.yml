@@ -11,25 +11,8 @@
       version: 3.1.1
       sha256sum: 8504d120fc6e033294fb9d132d13974dab58ba662d8fac8e338d6bf707d2ff3a
       home: /opt/shibboleth-idp
-  vars_prompt:
-    - name: "idp_host_name"
-      prompt: "IdP Hostname"
-      default: "idp.institution.domain.edu.au"
-      private: no
-    - name: "idp_entity_id"
-      prompt: "IdP EntityID"
-      default: "https://idp.institution.domain.edu.au/idp/shibboleth"
-      private: no
-    - name: "idp_attribute_scope"
-      prompt: "Attribute Scope"
-      default: "institution.domain.edu.au"
-      private: no
-    - name: "idp_keystore_password"
-      prompt: "TLS Private Key Password"
-      private: yes
-    - name: "idp_cookie_enc_key_password"
-      prompt: "Cookie Encryption Key Password"
-      private: yes
+      keystore_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
+      cookie_enc_key_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/cookie_enc_key_password chars=letters,digits length=64') }}"
   tasks:
     - name: 'Create required directories for installer setup'
       file:

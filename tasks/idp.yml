@@ -111,10 +111,10 @@
   expect:
     command: sh {{ installer_script_path }}
     responses:
-      (?i)TLS Private Key Password: "{{ idp_keystore_password }}"
-      (?i)Re-enter password: "{{ idp_keystore_password }}"
-      (?i)Cookie Encryption Key Password: "{{ idp_cookie_enc_key_password }}"
-      (?i)Re-enter password: "{{ idp_cookie_enc_key_password }}"
+      (?i)TLS Private Key Password: "{{ shib_idp.keystore_password }}"
+      (?i)Re-enter password: "{{ shib_idp.keystore_password }}"
+      (?i)Cookie Encryption Key Password: "{{ shib_idp.cookie_enc_key_password }}"
+      (?i)Re-enter password: "{{ shib_idp.cookie_enc_key_password }}"
     creates: '{{ shib_idp.home }}'
 
 - name: 'Copy over bundled slf4j & logback libs'
