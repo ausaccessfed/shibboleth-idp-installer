@@ -16,15 +16,17 @@ The following components will be installed:
 
 # Configuration
 
-1. Create a local [ansible_hosts](ansible_hosts.dist) file.
+1. Create a local [ansible_hosts](ansible_hosts.dist) file containing the the
+   hosts you want to target.
 2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist)
-   for each host defined in previous step. IdP properties are defined here. I.E:
-   ```
-   ---
-   idp_host_name: "idp.institution.domain.edu.au"
-   idp_entity_id: "https://idp.institution.domain.edu.au/idp/shibboleth"
-   idp_attribute_scope: "institution.domain.edu.au"
-   ```
+   for *each host* defined in the previous step. IdP properties are defined
+   here. I.E:
+```
+---
+idp_host_name: "idp.institution.domain.edu.au"
+idp_entity_id: "https://idp.institution.domain.edu.au/idp/shibboleth"
+idp_attribute_scope: "institution.domain.edu.au"
+```
 
 # Usage
 ```
