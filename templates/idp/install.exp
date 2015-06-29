@@ -1,0 +1,7 @@
+#!/usr/bin/expect
+spawn sh {{ installer.path }}/install.sh
+expect "TLS Private Key Password:"       { send "{{ shib_idp.keystore_password }}\r" }
+expect "Re-enter password:"              { send "{{ shib_idp.keystore_password }}\r" }
+expect "Cookie Encryption Key Password:" { send "{{ shib_idp.cookie_enc_key_password }}\r" }
+expect "Re-enter password:"              { send "{{ shib_idp.cookie_enc_key_password }}\r" }
+interact

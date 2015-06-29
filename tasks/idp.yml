@@ -4,7 +4,6 @@
     jetty_shibboleth_base='{{ jetty.home }}/shibboleth'
     idp_dist_archive_path='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
     idp_inst_home='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}'
-    installer_script_path='{{ installer.path }}/install.sh'
 
 - name: 'Download Shibboleth IdP distribution'
   get_url:
@@ -84,38 +83,23 @@
 # Wraps the Shibboleth IdP installer
 - name: 'Create installer script'
   template:
-    dest: '{{ installer_script_path }}'
+    dest: '{{ installer.path }}/install.sh'
     src: 'templates/idp/install.sh'
     owner: root
     group: root
     mode: 0500
 
-# Required for http://docs.ansible.com/expect_module.html
-- name: 'Download pexpect 3.3'
-  get_url:
-    url: 'https://pypi.python.org/packages/source/p/pexpect/pexpect-3.3.tar.gz'
-    dest: '{{ installer.path }}/pexpect-3.3.tar.gz'
+# Interacts with install.sh'
+- name: 'Create expect script'
+  template:
+    dest: '{{ installer.path }}/install.exp'
+    src: 'templates/idp/install.exp'
+    owner: root
+    group: root
+    mode: 0500
 
-- name: 'Extract pexpect distribution'
-  shell: >
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/pexpect-3.3.tar.gz
-    creates={{ installer.path }}/pexpect-3.3
-
-- name: 'Install pxepect'
-  shell: python setup.py install
-  args:
-    chdir: '{{ installer.path }}/pexpect-3.3'
-    creates: '/usr/lib/python2.7/site-packages/pexpect'
-
-- name: 'Run IdP installer script'
-  expect:
-    command: sh {{ installer_script_path }}
-    responses:
-      (?i)TLS Private Key Password: "{{ shib_idp.keystore_password }}"
-      (?i)Re-enter password: "{{ shib_idp.keystore_password }}"
-      (?i)Cookie Encryption Key Password: "{{ shib_idp.cookie_enc_key_password }}"
-      (?i)Re-enter password: "{{ shib_idp.cookie_enc_key_password }}"
-    creates: '{{ shib_idp.home }}'
+- name: 'Run IdP install.exp'
+  command: expect {{ installer.path }}/install.exp creates='{{ shib_idp.home }}'
 
 - name: 'Copy over bundled slf4j & logback libs'
   command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty_shibboleth_base }}/lib/ creates="{{ jetty_shibboleth_base }}/lib/{{ item }}"'

@@ -37,6 +37,7 @@
         - mariadb-devel
         - mariadb
         - ntp
+        - expect
     - include: tasks/jetty.yml
     - include: tasks/idp.yml
 
