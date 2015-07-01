@@ -67,13 +67,13 @@
     mode: 'o-rwx,u-x'
     recurse: yes
 
-- name: 'Set logs directory as writable'
+- name: 'Set logs directory ownership to jetty'
   file:
     path: '{{ jetty_path }}/logs'
-    owner: root
+    owner: jetty
     group: jetty
     state: directory
-    mode: 'g+w'
+    mode: 0700
     recurse: yes
 
 - name: 'Configure jetty to start on boot'
