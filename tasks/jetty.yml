@@ -14,7 +14,7 @@
     state: directory
     owner: root
     group: jetty
-    mode: 0670
+    mode: 0750
 
 - name: 'Download jetty distribution'
   get_url:
