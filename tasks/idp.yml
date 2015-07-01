@@ -120,7 +120,7 @@
     owner: root
     group: jetty
     state: directory
-    mode: 'o-rwx,u-x'
+    mode: 0750
     recurse: yes
 
 - name: 'Set Shibboleth IdP home permissions for jetty group'

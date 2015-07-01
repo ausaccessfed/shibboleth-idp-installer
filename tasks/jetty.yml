@@ -64,7 +64,7 @@
     owner: root
     group: jetty
     state: directory
-    mode: 'o-rwx,u-x'
+    mode: 0750
     recurse: yes
 
 - name: 'Set logs directory ownership to jetty'
