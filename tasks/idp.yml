@@ -114,7 +114,7 @@
     url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
     dest: '{{ jetty_shibboleth_base }}/etc'
 
-- name: 'Tighten jetty_shibboleth_base ({{ jetty_shibboleth_base }}) context permissions'
+- name: 'Tighten jetty_shibboleth_base context permissions'
   file:
     path: '{{ jetty_shibboleth_base }}/'
     owner: root
@@ -123,7 +123,7 @@
     mode: 'o-rwx,u-x'
     recurse: yes
 
-- name: 'Set Shibboleth IdP home ({{ shib_idp.home }}) permissions for jetty group'
+- name: 'Set Shibboleth IdP home permissions for jetty group'
   file:
     path: '{{ item }}'
     owner: root
