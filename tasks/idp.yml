@@ -13,7 +13,7 @@
 
 - name: 'Download Shibboleth IdP distribution'
   get_url:
-    url: 'http://shibboleth.net/downloads/identity-provider/3.1.1/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+    url: 'http://shibboleth.net/downloads/identity-provider/{{ shib_idp.version }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
     dest: '{{ idp_dist_archive_path }}'
     sha256sum: '{{ shib_idp.sha256sum }}'
 
