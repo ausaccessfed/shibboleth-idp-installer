@@ -23,9 +23,9 @@ The following components will be installed:
    here. I.E:
 ```
 ---
-idp_host_name: "idp.institution.domain.edu.au"
-idp_entity_id: "https://idp.institution.domain.edu.au/idp/shibboleth"
-idp_attribute_scope: "institution.domain.edu.au"
+idp_host_name: "idp.example.edu"
+idp_entity_id: "https://idp.example.edu/idp/shibboleth"
+idp_attribute_scope: "example.edu"
 ```
 
 # Usage
