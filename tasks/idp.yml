@@ -154,6 +154,23 @@
     state: directory
     mode: 0700
 
+
+- name: 'Create IdP log directory'
+  file:
+    name: /var/log/shibboleth-idp
+    owner: jetty
+    group: jetty
+    mode: 0700
+    state: directory
+
+- name: 'Symlink IdP log directory'
+  file:
+    name: '{{ shib_idp.home }}/logs'
+    src: /var/log/shibboleth-idp
+    state: link
+    owner: root
+    group: root
+
 # For out the box config for now
 - name: 'Fix IdP file permissions'
   file:
