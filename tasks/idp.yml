@@ -154,16 +154,6 @@
     state: directory
     mode: 0700
 
-#- name: 'Fix IdP directory permissions'
-#  file:
-#    name: '{{ shib_idp.home }}/{{ item }}'
-#    owner: root
-#    group: jetty
-#    mode: 0750
-#    state: directory
-#  with_items:
-#  - conf
-
 # For out the box config for now
 - name: 'Fix IdP file permissions'
   file:
