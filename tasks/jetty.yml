@@ -72,14 +72,6 @@
     state: directory
     mode: 0700
 
-#- name: 'Set logs directory ownership to jetty'
-#  file:
-#    path: '{{ jetty.home }}/logs'
-#    owner: jetty
-#    group: jetty
-#    state: directory
-#    mode: 0700
-
 - name: 'Set permissions on jetty files'
   file:
     path: '{{ item }}'
