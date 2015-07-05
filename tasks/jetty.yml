@@ -22,8 +22,10 @@
 
 - name: 'Extract jetty distribution'
   shell: >
-     tar zx -C {{ jetty.root }} -f {{ jetty_dist_archive_path }}
-     creates={{ jetty.home }}
+    umask 0027;
+    tar zx -C {{ jetty.root }} -f {{ jetty_dist_archive_path }} --no-same-permissions;
+    chgrp -R jetty {{ jetty.home }}
+    creates={{ jetty.home }}
 
 - name: 'Remove demo-base'
   file:

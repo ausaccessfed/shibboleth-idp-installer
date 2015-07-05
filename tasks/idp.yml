@@ -19,7 +19,9 @@
 
 - name: 'Extract Shibboleth IdP distribution'
   shell: >
-    tar zx -C {{ shib_idp.src_root }} -f {{ idp_dist_archive_path }}
+    umask 0027;
+    tar zx -C {{ shib_idp.src_root }} -f {{ idp_dist_archive_path }} --no-same-permissions;
+    chgrp -R jetty {{ shib_idp.src }}
     creates={{ shib_idp.src }}
 
 - name: 'Set Shibboleth IdP source directory permissions'
