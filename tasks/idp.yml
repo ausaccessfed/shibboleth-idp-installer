@@ -148,15 +148,6 @@
     - '{{ jetty.base }}/lib/ext/logback-classic-1.1.2.jar'
     - '{{ jetty.base }}/etc/keystore'
 
-- name: 'Set logs directory ownership to jetty'
-  file:
-    path: '{{ jetty.base }}/logs'
-    owner: jetty
-    group: jetty
-    state: directory
-    mode: 0700
-
-
 - name: 'Create IdP log directory'
   file:
     name: /var/log/shibboleth-idp
@@ -172,6 +163,24 @@
     state: link
     owner: root
     group: root
+    force: yes
+
+- name: 'Create jetty log directory'
+  file:
+    name: /var/log/jetty
+    owner: jetty
+    group: jetty
+    mode: 0700
+    state: directory
+
+- name: 'Symlink jetty log directory'
+  file:
+    name: '{{ jetty.base }}/logs'
+    src: /var/log/jetty
+    state: link
+    owner: root
+    group: root
+    force: yes
 
 # For out the box config for now
 - name: 'Fix IdP file permissions'
