@@ -1,0 +1,49 @@
+---
+- hosts: idp-servers
+  vars:
+    installer:
+      path: /opt/shibboleth-idp-installer
+    jetty:
+      version: 9.2.10.v20150310
+      sha256sum: 0034587a3dcfdab23fca28291e5e22ae7ff6e80f9f4c7a67f5b2b7777a84b40e
+      root: /opt/jetty
+      home: /opt/jetty/jetty-distribution-9.2.10.v20150310
+      base: /opt/shibboleth/jetty
+      current: /opt/jetty/current
+      state_directory: /tmp/jetty
+    shib_idp:
+      version: 3.1.1
+      sha256sum: 8504d120fc6e033294fb9d132d13974dab58ba662d8fac8e338d6bf707d2ff3a
+      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-3.1.1
+      src_root: /opt/shibboleth/shibboleth-src
+      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-3.1.1
+      keystore_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
+      cookie_enc_key_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/cookie_enc_key_password chars=letters,digits length=64') }}"
+  tasks:
+    - name: 'Create required directories for installer setup'
+      file:
+        name: '{{ item }}'
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
+      with_items:
+        - '{{ installer.path }}'
+
+    - name: 'Update yum packages (yum -y update)'
+      yum: name=* state=latest
+    - name: 'Install required packages'
+      yum: pkg={{ item }} state=installed
+      with_items:
+        - httpd
+        - mod_ssl
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+        - mariadb-server
+        - mariadb-devel
+        - mariadb
+        - ntp
+        - expect
+    - include: tasks/jetty.yml
+    - include: tasks/idp.yml
+

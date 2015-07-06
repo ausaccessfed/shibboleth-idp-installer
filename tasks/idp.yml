@@ -1,0 +1,218 @@
+---
+- name: 'Set shared facts'
+  set_fact:
+    idp_dist_archive_path='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+
+- name: 'Create Shibboleth IdP source root directory'
+  file:
+    name: '{{ shib_idp.src_root }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0750
+
+- name: 'Download Shibboleth IdP distribution'
+  get_url:
+    url: 'http://shibboleth.net/downloads/identity-provider/{{ shib_idp.version }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+    dest: '{{ idp_dist_archive_path }}'
+    sha256sum: '{{ shib_idp.sha256sum }}'
+
+- name: 'Extract Shibboleth IdP distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ shib_idp.src_root }} -f {{ idp_dist_archive_path }} --no-same-permissions;
+    chgrp -R jetty {{ shib_idp.src }}
+    creates={{ shib_idp.src }}
+
+- name: 'Set Shibboleth IdP source directory permissions'
+  file:
+    name: '{{ shib_idp.src }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0750
+
+- name: 'Create directories required for JETTY_BASE'
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0750
+  with_items:
+    - '{{ jetty.base }}'
+    - '{{ jetty.base }}/modules'
+    - '{{ jetty.base }}/etc'
+    - '{{ jetty.base }}/webapps'
+    - '{{ jetty.base }}/lib'
+    - '{{ jetty.base }}/lib/ext'
+    - '{{ jetty.base }}/resources'
+
+- name: 'Create default jetty profile'
+  template:
+    dest: '/etc/default/jetty'
+    src: 'templates/idp/jetty-profile'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Create shibboleth start.ini'
+  template:
+    dest: '{{ jetty.base }}/start.ini'
+    src: 'templates/idp/start.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Create Logback configuration'
+  template:
+    dest: '{{ jetty.base }}/etc/logback.xml'
+    src: 'templates/idp/logback.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Create Logback access configuration'
+  template:
+    dest: '{{ jetty.base }}/etc/logback-access.xml'
+    src: 'templates/idp/logback-access.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Create IdP context in jetty'
+  template:
+    dest: '{{ jetty.base }}/webapps/idp.xml'
+    src: 'templates/idp/idp.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set http.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/http.mod'
+    src: 'templates/idp/http.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+
+# Required for Shibboleth IdP install
+- name: 'Create idp.merge.properties'
+  file: 'path={{ shib_idp.src }}/conf/idp.merge.properties state=touch'
+  changed_when: False
+
+# Wraps the Shibboleth IdP installer
+- name: 'Create installer script'
+  template:
+    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.sh'
+    src: 'templates/idp/install.sh'
+    owner: root
+    group: root
+    mode: 0700
+
+# Interacts with install.sh'
+- name: 'Create expect script'
+  template:
+    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp'
+    src: 'templates/idp/install.exp'
+    owner: root
+    group: root
+    mode: 0700
+
+- name: 'Run IdP install.exp'
+  command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version}}.exp creates='{{ shib_idp.home }}'
+
+- name: 'Copy over bundled slf4j & logback libs'
+  command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/{{ item }}"'
+  with_items:
+    - jcl-over-slf4j-1.7.10.jar
+    - slf4j-api-1.7.10.jar
+    - logback-core-1.1.2.jar
+    - logback-classic-1.1.2.jar
+
+- name: 'Download placeholder keystore'
+  get_url:
+    url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
+    dest: '{{ jetty.base }}/etc'
+
+- name: 'Set jetty.base file permissions'
+  file:
+    name: '{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0640
+  with_items:
+    - '{{ jetty.base }}/lib/ext/jcl-over-slf4j-1.7.10.jar'
+    - '{{ jetty.base }}/lib/ext/slf4j-api-1.7.10.jar'
+    - '{{ jetty.base }}/lib/ext/logback-core-1.1.2.jar'
+    - '{{ jetty.base }}/lib/ext/logback-classic-1.1.2.jar'
+    - '{{ jetty.base }}/etc/keystore'
+
+- name: 'Create IdP log directory'
+  file:
+    name: /var/log/shibboleth-idp
+    owner: jetty
+    group: jetty
+    mode: 0700
+    state: directory
+
+- name: 'Symlink IdP log directory'
+  file:
+    name: '{{ shib_idp.home }}/logs'
+    src: /var/log/shibboleth-idp
+    state: link
+    owner: root
+    group: root
+    force: yes
+
+- name: 'Create jetty log directory'
+  file:
+    name: /var/log/jetty
+    owner: jetty
+    group: jetty
+    mode: 0700
+    state: directory
+
+- name: 'Symlink jetty log directory'
+  file:
+    name: '{{ jetty.base }}/logs'
+    src: /var/log/jetty
+    state: link
+    owner: root
+    group: root
+    force: yes
+
+# For out the box config for now
+- name: 'Fix IdP file permissions'
+  file:
+    name: '{{ shib_idp.home }}/{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0640
+  with_items:
+  - conf/logback.xml
+  - conf/global.xml
+  - conf/errors.xml
+  - conf/authn/authn-comparison.xml
+  - conf/authn/general-authn.xml
+  - conf/session-manager.xml
+  - system/conf/services-system.xml
+  - conf/services.xml
+  - conf/c14n/subject-c14n.xml
+  - conf/intercept/profile-intercept.xml
+  - conf/cas-protocol.xml
+  - conf/idp.properties
+  - conf/services.properties
+  - conf/access-control.xml
+  - conf/metadata-providers.xml
+  - conf/relying-party.xml
+  - conf/credentials.xml
+  - credentials/idp-encryption.key
+  - credentials/idp-signing.key
+  - conf/saml-nameid.xml
+  - conf/attribute-resolver.xml
+  - conf/attribute-filter.xml
+  - conf/audit.xml
+  - conf/ldap.properties
+  - conf/saml-nameid.properties
+
