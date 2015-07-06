@@ -19,6 +19,11 @@
       src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-3.1.1
       keystore_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
       cookie_enc_key_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/cookie_enc_key_password chars=letters,digits length=64') }}"
+    db:
+      name: idp_db
+      username: idp_admin
+    mariadb:
+      password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
   tasks:
     - name: 'Create required directories for installer setup'
       file:
@@ -42,8 +47,10 @@
         - mariadb-server
         - mariadb-devel
         - mariadb
+        - MySQL-python
         - ntp
         - expect
     - include: tasks/jetty.yml
     - include: tasks/idp.yml
+    - include: tasks/db.yml
 
