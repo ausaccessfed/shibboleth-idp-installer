@@ -190,6 +190,7 @@
     group: jetty
     mode: 0640
   with_items:
+  - conf/logback.xml
   - conf/global.xml
   - conf/errors.xml
   - conf/authn/authn-comparison.xml
