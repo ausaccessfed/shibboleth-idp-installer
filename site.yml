@@ -23,10 +23,7 @@
       name: idp_db
       username: idp_admin
     mariadb:
-      version: 1.1.7
       password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
-      connector:
-      sha256sum: ff0b807b9209fbd5e05d62152006f6a43868ba7f55bb9716035dc6d8a5382390
   tasks:
     - name: 'Create required directories for installer setup'
       file:
