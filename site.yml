@@ -37,6 +37,12 @@
 
     - name: 'Update yum packages (yum -y update)'
       yum: name=* state=latest
+
+    - name: 'Set SELinux to permissive'
+      selinux:
+        policy: targeted
+        state: permissive
+
     - name: 'Install required packages'
       yum: pkg={{ item }} state=installed
       with_items:
@@ -53,4 +59,5 @@
     - include: tasks/jetty.yml
     - include: tasks/idp.yml
     - include: tasks/db.yml
+    - include: tasks/apache.yml
 

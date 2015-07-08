@@ -3,6 +3,9 @@ passwords
 host_vars
 !host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist
 assets
+!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/intermediate.crt
+!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/server.crt
+!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/server.key
 .vagrant
 Vagrantfile
 vagrant_id_rsa

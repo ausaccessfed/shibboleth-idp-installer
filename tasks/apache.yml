@@ -1,0 +1,66 @@
+---
+- name: 'Install Apache base configuration'
+  template:
+    src: templates/apache/httpd.conf
+    dest: /etc/httpd/conf/httpd.conf
+    owner: root
+    group: apache
+    mode: 0640
+  notify: 'Restart Apache'
+
+- name: 'Remove unused configuration'
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+    - /etc/httpd/conf.d/ssl.conf
+    - /etc/httpd/conf.d/welcome.conf
+
+- name: 'Install Apache configuration'
+  template:
+    src: templates/apache/idp.conf
+    dest: '/etc/httpd/conf.d/idp.conf'
+    owner: root
+    group: apache
+    mode: 0640
+  notify: 'Restart Apache'
+
+- name: 'Create keypair directory'
+  file:
+    name: '/opt/keypairs'
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: 'Install Apache SSL keys'
+  copy:
+    src: 'assets/{{inventory_hostname}}/apache/{{ item }}'
+    dest: '/opt/keypairs/{{ item }}'
+    owner: root
+    group: apache
+    mode: 0640
+  with_items:
+    - server.crt
+    - server.key
+    - intermediate.crt
+  notify: 'Restart Apache'
+
+- name: 'Open Apache firewall ports'
+  firewalld:
+    port: '{{ item }}'
+    state: enabled
+    permanent: yes
+  with_items:
+    - 443/tcp
+  register: firewall
+
+- name: 'Restart firewalld'
+  service: name=firewalld state=restarted enabled=yes
+  when: firewall | changed
+
+- meta: flush_handlers
+
+- name: 'Enable Apache service'
+  service: name=httpd state=started enabled=yes
+
