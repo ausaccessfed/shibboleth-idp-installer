@@ -7,10 +7,12 @@ Installs Shibboleth IdP on a target machine via ansible.
 The following components will be installed:
 - Jetty
 - Shibboleth IdP
+- MariaDB
+- Apache
 - ... more to come ...
 
 # Requirements
-- Ansible 2.0.0
+- Ansible 1.9.2 or newer
 - Centos 7 target
 - Internet connectivity from target machine
 
