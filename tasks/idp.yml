@@ -216,3 +216,6 @@
   - conf/ldap.properties
   - conf/saml-nameid.properties
 
+- name: 'Enable idp service'
+  service: name=jetty state=started enabled=yes
+
