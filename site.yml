@@ -41,7 +41,7 @@
     - name: 'Set SELinux to permissive'
       selinux:
         policy: targeted
-        state: permissive
+        state: disabled
 
     - name: 'Install required packages'
       yum: pkg={{ item }} state=installed
