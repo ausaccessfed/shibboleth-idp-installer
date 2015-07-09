@@ -61,3 +61,13 @@
     - include: tasks/db.yml
     - include: tasks/apache.yml
 
+  handlers:
+    - name: Restart idp
+      service:
+        name: idp
+        state: restarted
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
+
