@@ -8,13 +8,34 @@
     mode: 0640
   notify: 'Restart Apache'
 
+- name: 'Install Apache module configuration'
+  template:
+    src: templates/apache/00-base.conf
+    dest: /etc/httpd/conf.modules.d/00-base.conf
+    owner: root
+    group: apache
+    mode: 0640
+  notify: 'Restart Apache'
+
 - name: 'Remove unused configuration'
-  file:
-    path: '{{ item }}'
-    state: absent
+  template:
+    src: templates/apache/config-blocker.conf
+    dest: '/etc/httpd/{{ item }}'
+    owner: root
+    group: apache
+    mode: 0640
   with_items:
-    - /etc/httpd/conf.d/ssl.conf
-    - /etc/httpd/conf.d/welcome.conf
+    - conf.d/ssl.conf
+    - conf.d/welcome.conf
+    - conf.d/autoindex.conf
+    - conf.d/userdir.conf
+    - conf.modules.d/00-dav.conf
+    - conf.modules.d/00-lua.conf
+    - conf.modules.d/00-mpm.conf
+    - conf.modules.d/00-proxy.conf
+    - conf.modules.d/00-ssl.conf
+    - conf.modules.d/00-systemd.conf
+    - conf.modules.d/01-cgi.conf
 
 - name: 'Install Apache configuration'
   template:
