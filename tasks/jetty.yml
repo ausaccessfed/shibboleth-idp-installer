@@ -41,15 +41,6 @@
     state: link
     force: yes
 
-- name: 'Symlink /etc/init.d script'
-  file:
-    name: '/etc/init.d/jetty'
-    src: '{{ jetty.home }}/bin/jetty.sh'
-    owner: root
-    group: root
-    state: link
-    force: yes
-
 - name: 'Set jetty.xml'
   template:
     dest: '{{ jetty.home }}/etc/jetty.xml'
@@ -107,11 +98,8 @@
   file:
     path: '{{ item }}'
     owner: root
-    group: root
-    mode: 0700
+    group: jetty
+    mode: 0750
   with_items:
   - '{{ jetty.home }}/bin/jetty.sh'
-
-- name: 'Configure jetty to start on boot'
-  service: name=jetty runlevel=345 enabled=yes
 
