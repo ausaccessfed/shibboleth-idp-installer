@@ -76,10 +76,6 @@
     - 443/tcp
   register: firewall
 
-- name: 'Restart firewalld'
-  service: name=firewalld state=restarted enabled=yes
-  when: firewall | changed
-
 - meta: flush_handlers
 
 - name: 'Enable Apache service'
