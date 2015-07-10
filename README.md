@@ -7,10 +7,12 @@ Installs Shibboleth IdP on a target machine via ansible.
 The following components will be installed:
 - Jetty
 - Shibboleth IdP
+- MariaDB
+- Apache
 - ... more to come ...
 
 # Requirements
-- Ansible 2.0.0
+- Ansible 1.9.2 or newer
 - Centos 7 target
 - Internet connectivity from target machine
 
@@ -19,14 +21,18 @@ The following components will be installed:
 1. Create a local [ansible_hosts](ansible_hosts.dist) file containing the the
    hosts you want to target.
 2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist)
-   for *each host* defined in the previous step. IdP properties are defined
-   here. I.E:
+   for *each host* defined in the previous step. Define your IdP properties in
+   this file.
+3. Create a local `assets` directory.
+4. Add your SSL key, certificate and intermediate CA following this exact
+   structure:
+
 ```
----
-idp_host_name: "idp.example.edu"
-idp_entity_id: "https://idp.example.edu/idp/shibboleth"
-idp_attribute_scope: "example.edu"
+assets/<HOSTNAME>/apache/server.crt
+assets/<HOSTNAME>/apache/server.key
+assets/<HOSTNAME>/apache/intermediate.crt
 ```
+See example [here](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
 
 # Usage
 ```

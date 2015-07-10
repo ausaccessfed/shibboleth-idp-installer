@@ -37,6 +37,12 @@
 
     - name: 'Update yum packages (yum -y update)'
       yum: name=* state=latest
+
+    - name: 'Disable SELinux'
+      selinux:
+        policy: targeted
+        state: disabled
+
     - name: 'Install required packages'
       yum: pkg={{ item }} state=installed
       with_items:
@@ -53,4 +59,15 @@
     - include: tasks/jetty.yml
     - include: tasks/idp.yml
     - include: tasks/db.yml
+    - include: tasks/apache.yml
+
+  handlers:
+    - name: Restart idp
+      service:
+        name: idp
+        state: restarted
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
 

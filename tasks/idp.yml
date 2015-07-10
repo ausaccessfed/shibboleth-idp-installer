@@ -216,3 +216,16 @@
   - conf/ldap.properties
   - conf/saml-nameid.properties
 
+- name: 'Install IdP systemd unit'
+  template:
+    src: templates/idp/idp.service
+    dest: /lib/systemd/system/idp.service
+    owner: root
+    group: root
+    mode: 0600
+
+- meta: flush_handlers
+
+- name: 'Enable idp service'
+  service: name=idp state=started enabled=yes
+
