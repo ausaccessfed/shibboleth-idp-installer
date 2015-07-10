@@ -56,6 +56,10 @@
         - MySQL-python
         - ntp
         - expect
+
+    - name: 'Enable NTP service'
+      service: name=ntpd state=started enabled=yes
+
     - include: tasks/jetty.yml
     - include: tasks/idp.yml
     - include: tasks/db.yml
