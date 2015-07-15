@@ -2,4 +2,8 @@
 idp_host_name: "idp.example.edu"
 idp_entity_id: "https://idp.example.edu/idp/shibboleth"
 idp_attribute_scope: "example.edu"
+metadata_url: "https://ds.test.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml"
+metadata_cert_url: "https://ds.test.aaf.edu.au/distribution/metadata/metadata-cert.pem"
+attribute_filter_url: "https://ds.test.aaf.edu.au/distribution/attributefilter/4472.xml"
+organisation_name: "Example University"
 
