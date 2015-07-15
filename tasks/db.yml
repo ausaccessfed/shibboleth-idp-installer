@@ -28,14 +28,14 @@
 - name: 'Create lock_down_db.sql'
   template:
     src: templates/db/lock_down_db.sql
-    dest: /root/lock_down_db.sql
+    dest: '{{ installer.path }}/lock_down_db.sql'
     owner: root
     group: root
     mode: 0600
   register: security_sql
 
 - name: 'Run lock_down_db.sql'
-  command: 'mysql -e "source /root/lock_down_db.sql"'
+  command: 'mysql -e "source {{ installer.path }}/lock_down_db.sql"'
   when: security_sql | changed
 
 - name: 'Write /root/.my.cnf'
@@ -53,4 +53,32 @@
     collation: utf8_general_ci
     encoding: utf8
     state: present
+
+- name: 'Create db user'
+  mysql_user: 'name={{ db.username }} password={{ db.password }} priv=idp_db.*:ALL state=present'
+  register: db_user
+
+- name: 'Copy over AESPT schema'
+  template:
+    src: templates/db/tb_st_ddl.sql
+    dest: '{{ installer.path }}/tb_st_ddl.sql'
+    owner: root
+    group: root
+    mode: 0600
+
+- name: 'Copy over TargetedID schema'
+  template:
+    src: templates/db/shibpid_ddl.sql
+    dest: '{{ installer.path }}/shibpid_ddl.sql'
+    owner: root
+    group: root
+    mode: 0600
+
+- name: 'Import AESPT schema'
+  mysql_db: 'state=import name={{ db.name }} target={{ installer.path }}/tb_st_ddl.sql'
+  when: db_user.changed
+
+- name: 'Import TargetedID schema'
+  mysql_db: 'state=import name={{ db.name }} target={{ installer.path }}/shibpid_ddl.sql'
+  when: db_user.changed
 
