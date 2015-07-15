@@ -128,4 +128,17 @@
     <Set name="dumpAfterStart"><Property name="jetty.server.dumpAfterStart" deprecated="jetty.dump.start" default="false"/></Set>
     <Set name="dumpBeforeStop"><Property name="jetty.server.dumpBeforeStop" deprecated="jetty.dump.stop" default="false"/></Set>
 
+
+    <New id="DS_idp_admin" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>jdbc/DS_idp_admin</Arg>
+        <Arg>
+            <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+                <Set name="Url">jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true&amp;sessionVariables=wait_timeout=31536000</Set>
+                <Set name="User">{{ db.username }}</Set>
+                <Set name="Password">{{ db.password }}</Set>
+            </New>
+        </Arg>
+   </New>
+
 </Configure>
