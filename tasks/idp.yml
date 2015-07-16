@@ -122,6 +122,14 @@
 - name: 'Run IdP install.exp'
   command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version}}.exp creates='{{ shib_idp.home }}'
 
+- name: 'Install aaf-shib-ext library'
+  get_url:
+    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
+
+- name: 'Re-run IdP install.sh to install aaf-shib-ext'
+  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar'
+
 - name: 'Install mysql connector library'
   get_url:
     url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.35.tar.gz'
@@ -245,14 +253,6 @@
     group: jetty
     mode: 0640
 
-- name: 'Install aaf-shib-ext library'
-  get_url:
-    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
-
-- name: 'Re-run IdP install.sh to install aaf-shib-ext'
-  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar'
-
 - name: 'Fix IdP file permissions'
   file:
     name: '{{ shib_idp.home }}/{{ item }}'
@@ -283,6 +283,10 @@
   - conf/audit.xml
   - conf/ldap.properties
   - conf/saml-nameid.properties
+  - conf/intercept/intercept-events-flow.xml
+  - conf/authn/authn-events-flow.xml
+  - conf/authn/password-authn-config.xml
+  - conf/authn/ldap-authn-config.xml
 
 - name: 'Install IdP systemd unit'
   template:
