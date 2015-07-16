@@ -9,7 +9,6 @@ The following components will be installed:
 - Shibboleth IdP
 - MariaDB
 - Apache
-- ... more to come ...
 
 # Requirements
 - Ansible 1.9.2 or newer
@@ -33,6 +32,13 @@ assets/<HOSTNAME>/apache/server.key
 assets/<HOSTNAME>/apache/intermediate.crt
 ```
 See example [here](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
+
+5. After running the playbook you must configure your IdP. Typically this would
+   be the configuration of {idp.home}/conf/attribute-resolver.xml` and
+   `{idp.home}/conf/ldap.properties`.
+
+   To activate your configuration these changes you may need to restart the
+   service with the command: `systemctl restart idp`
 
 # Usage
 ```
