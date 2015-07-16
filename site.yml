@@ -60,9 +60,7 @@
         - ntp
         - expect
 
-    - name: 'Enable NTP service'
-      service: name=ntpd state=started enabled=yes
-
+    - include: tasks/ntp.yml
     - include: tasks/jetty.yml
     - include: tasks/db.yml
     - include: tasks/idp.yml
