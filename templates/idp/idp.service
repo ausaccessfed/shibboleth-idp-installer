@@ -6,6 +6,7 @@ After=syslog.target network.target mariadb.target
 ExecStart=/bin/bash -c "/opt/jetty/current/bin/jetty.sh start"
 ExecStop=/bin/bash -c "/opt/jetty/current/bin/jetty.sh stop"
 RemainAfterExit=yes
+TimeoutSec=300
 
 [Install]
 WantedBy=multi-user.target
