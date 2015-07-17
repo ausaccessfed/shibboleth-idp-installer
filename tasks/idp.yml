@@ -96,11 +96,6 @@
     group: jetty
     mode: 0640
 
-# Required for Shibboleth IdP install
-- name: 'Create idp.merge.properties'
-  file: 'path={{ shib_idp.src }}/conf/idp.merge.properties state=touch'
-  changed_when: False
-
 # Wraps the Shibboleth IdP installer
 - name: 'Create installer script'
   template:
