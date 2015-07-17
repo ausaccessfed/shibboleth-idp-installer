@@ -15,6 +15,7 @@
     <appender-ref ref="jetty" />
   </root>
 
+  <logger name="au.edu.aaf.shibext" level="DEBUG"/>
   <logger name="org.springframework" level="OFF" />
   <logger name="ch.qos.logback" level="WARN" />
 </configuration>
