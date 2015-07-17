@@ -287,6 +287,10 @@
   - conf/authn/authn-events-flow.xml
   - conf/authn/password-authn-config.xml
   - conf/authn/ldap-authn-config.xml
+  - conf/authn/password-authn-config.xml
+  - conf/c14n/subject-c14n-events-flow.xml
+  - conf/c14n/simple-subject-c14n-config.xml
+  - conf/intercept/consent-intercept-config.xml
 
 - name: 'Install IdP systemd unit'
   template:
