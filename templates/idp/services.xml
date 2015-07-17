@@ -6,11 +6,6 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="FederationAttributeFilterResource" class="net.shibboleth.ext.spring.resource.FileBackedHTTPResource"
-      c:client-ref="shibboleth.MemoryCachingHttpClient"
-      c:url="{{ attribute_filter_url }}"
-      c:resource="file://%{idp.home}/conf/federation-attribute-filter.xml"/>
-
     <!-- This set of resources supports a native Spring relying-party.xml file. -->
     <util:list id="shibboleth.RelyingPartyResolverResources">
         <value>%{idp.home}/conf/relying-party.xml</value>
@@ -35,6 +30,10 @@
 
     <util:list id ="shibboleth.AttributeFilterResources">
         <value>%{idp.home}/conf/attribute-filter.xml</value>
+        <bean id="FederationAttributeFilterResource" class="net.shibboleth.ext.spring.resource.FileBackedHTTPResource"
+        c:client-ref="shibboleth.MemoryCachingHttpClient"
+        c:url="{{ attribute_filter_url }}"
+        c:resource="file://%{idp.home}/conf/federation-attribute-filter.xml"/>
     </util:list>
 
     <util:list id ="shibboleth.NameIdentifierGenerationResources">
@@ -59,3 +58,4 @@
     </util:list>
 
 </beans>
+
