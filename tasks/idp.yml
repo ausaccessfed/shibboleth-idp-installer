@@ -239,6 +239,7 @@
   get_url:
     url: '{{ metadata_cert_url }}'
     dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
+  when: attribute_filter_url != ""
 
 - name: 'Set attribute resolver'
   template:
