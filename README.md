@@ -28,7 +28,7 @@ The IdP installer provides no backup or monitoring of the platform. It is **stro
 This section outlines the process of registering a new IdP and running the installer.
 
 1. Create a local [ansible_hosts](ansible_hosts.dist) file containing the the hosts you want to target.
-2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist) for each host defined in the previous step. Define your IdP properties in this file. At this stage you will not be able to define all properties (such as `metadata_url`, `metadata_cert_url`, `attribute_filter_url`). **Leave these blank for now**, after registering your IdP in Federation Registry you will have access to these details.
+2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist) for each host defined in the previous step. Define your IdP properties in this file. At this stage you will not be able to define `attribute_filter_url`. **Leave this blank for now** — you will address this in a later step.
 3. Create a local `assets` directory. Add your Apache SSL key, certificate and intermediate CA following the structure given in [this example](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
 4. Run the playbook with the command: `ansible-playbook -i <ansible_host_file> site.yml`
 5. Register your IdP in Federation Registry in [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp) or [Production](https://manager.aaf.edu.au/federationregistry/registration/idp). For 'Public Key', paste the value from `{idp.home}/credentials/idp-signing.crt`. For 'Supported Attributes' select the following:
@@ -44,7 +44,7 @@ This section outlines the process of registering a new IdP and running the insta
     * auEduPersonAffiliation
     * surname
     * uid
-6. You will receive an email from the federation indicating your IdP is pending. After your IdP has been **approved** you will be able to fill all missing properties (See Step 2).
+6. You will receive an email from the federation indicating your IdP is pending. After your IdP has been **approved** you will be able to fill `attribute_filter_url` (See Step 2).
 7. Re-run the playbook using the same command issued previously (Step 4).
 
 **IMPORTANT — After running the playbook you must still configure your IdP!** Typically this would be the configuration of `{idp.home}/conf/attribute-resolver.xml` and `{idp.home}/conf/ldap.properties`.
