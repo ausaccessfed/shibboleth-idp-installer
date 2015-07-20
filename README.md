@@ -5,7 +5,6 @@ Shibboleth IdP Installer
 Installs Shibboleth IdP on a target machine via ansible. This IdP will be preconfigured to use the [AAF Core Attributes](http://aaf.edu.au/technical/aaf-core-attributes/) and may be modified to fit your requirements.
 
 The following components will be installed:
-
 - Jetty 9.2
 - Shibboleth IdP 3.1.1
 - MariaDB
@@ -13,7 +12,6 @@ The following components will be installed:
 - NTP
 
 # Requirements
-
 - Ansible 1.9.2 or newer
 - Centos 7 target
 - Internet connectivity from target machine
@@ -21,28 +19,19 @@ The following components will be installed:
 # Backup / resilience
 
 The IdP installer provides no backup or monitoring of the platform. It is **strongly suggested** that deployers configure:
-
 - Regular backups (VM, Database etc)
 - Monitoring of service availability
 - Monitoring of platform concerns, such as disk space and load average
 
 # Usage
+
 This section outlines the process of registering a new IdP and running the installer.
 
 1. Create a local [ansible_hosts](ansible_hosts.dist) file containing the the hosts you want to target.
 2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist) for each host defined in the previous step. Define your IdP properties in this file. At this stage you will not be able to define all properties (such as `metadata_url`, `metadata_cert_url`, `attribute_filter_url`). **Leave these blank for now**, after registering your IdP in Federation Registry you will have access to these details.
-3. Create a local `assets` directory. Add your Apache SSL key, certificate and intermediate CA following this exact structure:
-```
-assets/<HOSTNAME>/apache/server.crt
-assets/<HOSTNAME>/apache/server.key
-assets/<HOSTNAME>/apache/intermediate.crt
-```
-See example [here](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
-4. Run the playbook:
-```
-ansible-playbook -i <ansible_host_file> site.yml
-```
-5. Register your IdP in Federation Registry in [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp) or [Production](https://manager.aaf.edu.au/federationregistry/registration/idp). Ensure the following attributes are selected:
+3. Create a local `assets` directory. Add your Apache SSL key, certificate and intermediate CA following the structure given in [this example](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
+4. Run the playbook with the command: `ansible-playbook -i <ansible_host_file> site.yml`
+5. Register your IdP in Federation Registry in [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp) or [Production](https://manager.aaf.edu.au/federationregistry/registration/idp). For 'Public Key', paste the value from `{idp.home}/credentials/idp-signing.crt`. For 'Supported Attributes' select the following:
     * auEduPersonSharedToken
     * commonName
     * displayName
