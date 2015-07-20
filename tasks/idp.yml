@@ -201,14 +201,13 @@
     group: root
     force: yes
 
-- name: 'Touch backing metadata provider (federation-metadata.xml) as jetty:jetty'
-  file:
-    path: '{{ shib_idp.home }}/metadata/federation-metadata.xml'
-    state: touch
+- name: 'Create empty metadata provider (federation-metadata.xml) as jetty:jetty'
+  template:
+    src: templates/idp/federation-metadata.xml
+    dest: '{{ shib_idp.home }}/metadata/federation-metadata.xml'
     owner: jetty
     group: jetty
     mode: 0600
-  changed_when: False
 
 - name: 'Set metadata provider'
   template:
@@ -305,5 +304,5 @@
 - meta: flush_handlers
 
 - name: 'Enable idp service'
-  service: name=idp state=started enabled=yes
+  service: name=idp state=restarted enabled=yes
 
