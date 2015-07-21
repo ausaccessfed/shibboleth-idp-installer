@@ -28,8 +28,8 @@ The IdP installer provides no backup or monitoring of the platform. It is **stro
 This section outlines the process of registering a new IdP and running the installer.
 
 1. Create a local [ansible_hosts](ansible_hosts.dist) file containing the the hosts you want to target.
-2. Configure a [host_var config](host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist) for each host defined in the previous step. Define your IdP properties in this file. At this stage you will not be able to define `attribute_filter_url`. **Leave this blank for now** — you will address this in a later step.
-3. Create a local `assets` directory. Add your Apache SSL key, certificate and intermediate CA following the structure given in [this example](assets/shib-idp-installer-1.aaf.dev.edu.au.dist).
+2. Configure a [host_var config](host_vars/idp.example.edu.dist) for each host defined in the previous step. Define your IdP properties in this file. At this stage you will not be able to define `attribute_filter_url`. **Leave this blank for now** — you will address this in a later step.
+3. Create a local `assets` directory. Add your Apache SSL key, certificate and intermediate CA following the structure given in [this example](assets/idp.example.edu.dist).
 4. Run the playbook with the command: `ansible-playbook -i <ansible_host_file> site.yml`
 5. Register your IdP in Federation Registry in [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp) or [Production](https://manager.aaf.edu.au/federationregistry/registration/idp). For 'Public Key', paste the value from `{idp.home}/credentials/idp-signing.crt`. For 'Supported Attributes' select the following:
     * auEduPersonSharedToken
