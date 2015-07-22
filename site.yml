@@ -47,6 +47,9 @@
         policy: targeted
         state: disabled
 
+    - name: 'Enable NTP service'
+      service: name=ntpd state=started enabled=yes
+
     - name: 'Install required packages'
       yum: pkg={{ item }} state=installed
       with_items:
@@ -61,7 +64,6 @@
         - ntp
         - expect
 
-    - include: tasks/ntp.yml
     - include: tasks/jetty.yml
     - include: tasks/db.yml
     - include: tasks/idp.yml
