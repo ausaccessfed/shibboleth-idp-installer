@@ -1,0 +1,23 @@
+---
+# ------------------------------------------------------------------------------
+# EXAMPLE: CONFIGURED FOR AAF PRODUCTION ENVIRONMENT
+# ------------------------------------------------------------------------------
+
+# The host name of the target machine
+idp_host_name: "idp.example.edu"
+
+# IdP Entity ID
+idp_entity_id: "https://idp.example.edu/idp/shibboleth"
+
+# IdP 'Attribute Scope'
+idp_attribute_scope: "idp.example.edu"
+
+# Shared federation metadata
+metadata_url: "https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml"
+
+# Shared federation certificate
+metadata_cert_url: "https://ds.aaf.edu.au/distribution/metadata/metadata-cert.pem"
+
+# IdP attribute filter (obtained after IdP registration)
+attribute_filter_url: "" # https://ds.aaf.edu.au/distribution/attributefilter/<UNIQUE ID>.xml
+

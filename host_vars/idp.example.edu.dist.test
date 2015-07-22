@@ -1,5 +1,7 @@
 ---
-# Example configuration for an IdP in the AAF test federation.
+# ------------------------------------------------------------------------------
+# EXAMPLE: CONFIGURED FOR AAF TEST ENVIRONMENT
+# ------------------------------------------------------------------------------
 
 # The host name of the target machine
 idp_host_name: "idp.example.edu"
@@ -16,6 +18,6 @@ metadata_url: "https://ds.test.aaf.edu.au/distribution/metadata/metadata.aaf.sig
 # Shared federation certificate
 metadata_cert_url: "https://ds.test.aaf.edu.au/distribution/metadata/metadata-cert.pem"
 
-# IdP specific attribute filter
+# IdP attribute filter (obtained after IdP registration)
 attribute_filter_url: "" # https://ds.test.aaf.edu.au/distribution/attributefilter/<UNIQUE ID>.xml
 
