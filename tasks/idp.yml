@@ -184,6 +184,24 @@
     group: root
     force: yes
 
+- name: 'Symlink IdP src directory'
+  file:
+    name: '{{ shib_idp.src_root }}/current'
+    src: '{{ shib_idp.src }}'
+    state: link
+    owner: root
+    group: root
+    force: yes
+
+- name: 'Symlink IdP instance directory'
+  file:
+    name: '{{ shib_idp.home_root }}/current'
+    src: '{{ shib_idp.home }}'
+    state: link
+    owner: root
+    group: root
+    force: yes
+
 - name: 'Create jetty log directory'
   file:
     name: /var/log/jetty

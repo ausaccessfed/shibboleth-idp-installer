@@ -14,6 +14,7 @@
     shib_idp:
       version: 3.1.1
       sha256sum: 8504d120fc6e033294fb9d132d13974dab58ba662d8fac8e338d6bf707d2ff3a
+      home_root: /opt/shibboleth/shibboleth-idp
       home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-3.1.1
       src_root: /opt/shibboleth/shibboleth-src
       src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-3.1.1
