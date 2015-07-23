@@ -102,15 +102,15 @@
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition id="isUnderGrad" xsi:type="ad:Simple" sourceAttributeID="isUnderGrad">
-    <resolver:Dependency ref="staticAttributes" />
+    <resolver:Dependency ref="myLDAP" />
    </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition id="isPostGrad" xsi:type="ad:Simple" sourceAttributeID="isPostGrad">
-    <resolver:Dependency ref="staticAttributes" />
+    <resolver:Dependency ref="myLDAP" />
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition id="isStaff" xsi:type="ad:Simple" sourceAttributeID="isStaff">
-    <resolver:Dependency ref="staticAttributes" />
+    <resolver:Dependency ref="myLDAP" />
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition id="eduPersonAffiliation" xsi:type="ad:Script">
@@ -164,18 +164,11 @@
       <dc:Value>urn:mace:aaf.edu.au:iap:id:1</dc:Value>
       <dc:Value>urn:mace:aaf.edu.au:iap:authn:1</dc:Value>
     </dc:Attribute>
+    <!--
     <dc:Attribute id="eduPersonEntitlement">
       <dc:Value>urn:mace:dir:entitlement:common-lib-terms</dc:Value>
     </dc:Attribute>
-    <dc:Attribute id="isUnderGrad">
-      <dc:Value>FALSE</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="isPostGrad">
-      <dc:Value>FALSE</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="isStaff">
-      <dc:Value>TRUE</dc:Value>
-    </dc:Attribute>
+    -->
   </resolver:DataConnector>
 
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
