@@ -195,11 +195,7 @@
 
     <resolver:Dependency ref="myLDAP" />
 
-    <dc:ApplicationManagedConnection
-      jdbcDriver="com.mysql.jdbc.Driver"
-      jdbcURL="jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true&amp;sessionVariables=wait_timeout=31536000"
-      jdbcUserName="{{ db.username }}"
-      jdbcPassword="{{ db.password }}" />
+    <dc:ContainerManagedConnection resourceName="jdbc/DS_idp_admin" />
 
   </resolver:DataConnector>
 
