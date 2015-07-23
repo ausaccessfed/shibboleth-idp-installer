@@ -127,9 +127,9 @@
     <Set name="dumpBeforeStop"><Property name="jetty.server.dumpBeforeStop" deprecated="jetty.dump.stop" default="false"/></Set>
 
 
-    <New id="DS_idp_admin" class="org.eclipse.jetty.plus.jndi.Resource">
+    <New id="shib_idp" class="org.eclipse.jetty.plus.jndi.Resource">
         <Arg></Arg>
-        <Arg>jdbc/DS_idp_admin</Arg>
+        <Arg>jdbc/shib_idp</Arg>
         <Arg>
             <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
                 <Set name="Url">jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true&amp;sessionVariables=wait_timeout=31536000</Set>

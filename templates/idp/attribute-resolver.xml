@@ -183,7 +183,7 @@
     id="sharedToken"
     sourceAttributeId="commonName"
     salt="{{ shib_idp.aepst_salt }}"
-    dataSource="jdbc/DS_idp_admin">
+    dataSource="jdbc/shib_idp">
     <resolver:Dependency ref="myLDAP" />
   </resolver:DataConnector>
 
@@ -195,7 +195,7 @@
 
     <resolver:Dependency ref="myLDAP" />
 
-    <dc:ContainerManagedConnection resourceName="jdbc/DS_idp_admin" />
+    <dc:ContainerManagedConnection resourceName="jdbc/shib_idp" />
 
   </resolver:DataConnector>
 
