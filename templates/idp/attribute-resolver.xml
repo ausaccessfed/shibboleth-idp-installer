@@ -84,7 +84,7 @@
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationName" sourceAttributeID="o">
-    <resolver:Dependency ref="myLDAP" />
+    <resolver:Dependency ref="staticAttributes" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:o" encodeType="false" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.10" friendlyName="o" encodeType="false" />
   </resolver:AttributeDefinition>
@@ -159,6 +159,18 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.4" friendlyName="sn" encodeType="false" />
   </resolver:AttributeDefinition>
 
+  <resolver:AttributeDefinition id="homeOrganizationType" xsi:type="ad:Simple" sourceAttributeID="homeOrganizationType">
+    <resolver:Dependency ref="staticAttributes" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" friendlyName="homeOrganizationType" />
+  </resolver:AttributeDefinition>
+
+  <resolver:AttributeDefinition id="homeOrganization" xsi:type="ad:Simple" sourceAttributeID="homeOrganization">
+    <resolver:Dependency ref="staticAttributes" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" friendlyName="homeOrganization" />
+  </resolver:AttributeDefinition>
+
   <resolver:DataConnector id="staticAttributes" xsi:type="dc:Static">
     <dc:Attribute id="eduPersonAssurance">
       <dc:Value>urn:mace:aaf.edu.au:iap:id:1</dc:Value>
@@ -169,6 +181,16 @@
       <dc:Value>urn:mace:dir:entitlement:common-lib-terms</dc:Value>
     </dc:Attribute>
     -->
+    <dc:Attribute id="o">
+      <dc:Value>{{ organisation_name }}</dc:Value>
+    </dc:Attribute>
+    <dc:Attribute id="homeOrganization">
+      <dc:Value>{{ home_organisation }}</dc:Value>
+    </dc:Attribute>
+    <dc:Attribute id="homeOrganizationType">
+      <dc:Value>{{ home_organisation_type }}</dc:Value>
+    </dc:Attribute>
+
   </resolver:DataConnector>
 
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
