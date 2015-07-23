@@ -43,22 +43,21 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:cn" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
     <ad:Script><![CDATA[
+
       commonName.getValues().clear();
 
-      if ((typeof givenName != "undefined" && givenName != null && givenName.getValues().size()>0) &&
-         (typeof surname != "undefined" && surname != null && surname.getValues().size()>0)) {
-         commonName.getValues().add(givenName.getValues().get(0) + " " + surname.getValues().get(0));
-       }
+      var hyphenatedGN = null;
+      var hyphenatedSN = null;
 
-       if ((typeof givenName == "undefined" || givenName == null || givenName.getValues().size()==0) &&
-          (typeof surname != "undefined" && surname != null && surname.getValues().size()>0)) {
-          commonName.getValues().add(" " + surname.getValues().get(0));
-        }
+      if (typeof givenName != "undefined" && givenName != null && givenName.getValues().size() > 0) {
+          hyphenatedGN = givenName.getValues().get(0).replace(/ /g, '-');
+      }
 
-       if ((typeof givenName != "undefined" && givenName != null && givenName.getValues().size()>0) &&
-          (typeof surname == "undefined" && surname == null && surname.getValues().size()==0)) {
-          commonName.getValues().add(givenName.getValues().get(0) +" ");
-        }
+      if (typeof surname != "undefined" && surname != null && surname.getValues().size() > 0) {
+          hyphenatedSN = surname.getValues().get(0).replace(/ /g, '-');
+      }
+
+      commonName.getValues().add([hyphenatedGN, hyphenatedSN].join(' '));
 
         ]]>
     </ad:Script>
