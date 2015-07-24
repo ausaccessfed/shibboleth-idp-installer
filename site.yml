@@ -27,7 +27,11 @@
       username: idp_admin
       password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
       mysql_connector:
+        version: 5.1.35
         sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+    aaf_shib_ext:
+      version: 1.0.0
+
   tasks:
     - name: 'Create required directories for installer setup'
       file:

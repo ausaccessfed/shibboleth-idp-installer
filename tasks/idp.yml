@@ -116,22 +116,22 @@
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
 
 - name: 'Re-run IdP install.sh to install aaf-shib-ext'
-  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar'
+  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
 
 - name: 'Install mysql connector library'
   get_url:
-    url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.35.tar.gz'
+    url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
     dest: '{{ installer.path }}'
     sha256sum: '{{ db.mysql_connector.sha256sum }}'
 
 - name: 'Extract mysql connector library distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-5.1.35.tar.gz;
-    creates={{ installer.path }}/mysql-connector-java-5.1.35/mysql-connector-java-5.1.35-bin.jar
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz;
+    creates={{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar
 
 - name: 'Copy over mysql connector lib'
-  command: 'cp {{ installer.path }}/mysql-connector-java-5.1.35/mysql-connector-java-5.1.35-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-5.1.35-bin.jar"'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar"'
 
 - name: 'Copy over bundled slf4j & logback libs'
   command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/{{ item }}"'
@@ -157,7 +157,7 @@
     - '{{ jetty.base }}/lib/ext/slf4j-api-1.7.10.jar'
     - '{{ jetty.base }}/lib/ext/logback-core-1.1.2.jar'
     - '{{ jetty.base }}/lib/ext/logback-classic-1.1.2.jar'
-    - '{{ jetty.base }}/lib/ext/mysql-connector-java-5.1.35-bin.jar'
+    - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
 
 - name: 'Create IdP log directory'
