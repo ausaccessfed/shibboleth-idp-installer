@@ -49,6 +49,22 @@
     group: jetty
     mode: 0640
 
+- name: 'Set jetty-requestlog logback configuration'
+  template:
+    dest: '{{ jetty.home }}/etc/jetty-requestlog.xml'
+    src: 'templates/jetty/jetty-requestlog.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set jetty-logging logback configuration'
+  template:
+    dest: '{{ jetty.home }}/etc/jetty-logging.xml'
+    src: 'templates/jetty/jetty-logging.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set permissions on jetty directory'
   file:
     path: '{{ jetty.home }}'

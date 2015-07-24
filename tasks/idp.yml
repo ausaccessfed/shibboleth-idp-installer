@@ -64,13 +64,6 @@
     group: jetty
     mode: 0640
 
-- name: 'Create Logback configuration'
-  template:
-    dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'templates/idp/logback.xml'
-    owner: root
-    group: jetty
-    mode: 0640
 
 - name: 'Create Logback access configuration'
   template:
@@ -270,6 +263,14 @@
   template:
     src: templates/idp/attribute-filter.xml
     dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set Shibboleth logback configuration'
+  template:
+    dest: '{{ jetty.base }}/etc/logback.xml'
+    src: 'templates/idp/logback.xml'
     owner: root
     group: jetty
     mode: 0640

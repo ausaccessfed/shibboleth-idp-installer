@@ -1,21 +1,101 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true">
-  <appender name="jetty" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${jetty.base}/logs/jetty.log</File>
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <FileNamePattern>${jetty.base}/logs/jetty-%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-    </rollingPolicy>
-    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <charset>UTF-8</charset>
-      <Pattern>%date{HH:mm:ss.SSS} - %level [%logger:%line] - %msg%n</Pattern>
-    </encoder>
-  </appender>
+i<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
 
-  <root level="INFO">
-    <appender-ref ref="jetty" />
-  </root>
+  <!-- Logs IdP, but not OpenSAML, messages -->
+  <logger name="net.shibboleth.idp" level="INFO"/>
 
-  <logger name="au.edu.aaf.shibext" level="DEBUG"/>
-  <logger name="org.springframework" level="OFF" />
-  <logger name="ch.qos.logback" level="WARN" />
+  <!-- Logs OpenSAML, but not IdP, messages -->
+  <logger name="org.opensaml.saml" level="INFO"/>
+
+  <!-- Logs LDAP related messages -->
+  <logger name="org.ldaptive" level="WARN"/>
+
+  <!-- Logs AEPST messages -->
+  <logger name="au.edu.aaf.shibext" level="INFO"/>
+
+  <!-- Especially chatty. -->
+  <logger name="net.shibboleth.idp.saml.attribute.mapping" level="INFO" />
+  <logger name="org.opensaml.saml.metadata.resolver.filter.impl.EntitiesDescriptorNameProcessor" level="INFO" />
+
+  <logger name="org.apache.xml.security" level="INFO" />
+  <logger name="org.springframework" level="ERROR"/>
+  <logger name="org.apache.catalina" level="ERROR"/>
+  <logger name="org.eclipse.jetty" level="ERROR"/>
+
+  <!-- Process log. -->
+  <appender name="IDP_PROCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${idp.home}/logs/idp-process.log</File>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${idp.home}/logs/idp-process-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <maxHistory>180</maxHistory>
+    </rollingPolicy>
+
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <charset>UTF-8</charset>
+        <Pattern>%date{ISO8601} - %level [%logger:%line] - %msg%n%ex{short}</Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="IDP_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- Suppress anything below WARN. -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>WARN</level>
+    </filter>
+
+    <File>${idp.home}/logs/idp-warn.log</File>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${idp.home}/logs/idp-warn-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <maxHistory>180</maxHistory>
+    </rollingPolicy>
+
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <charset>UTF-8</charset>
+        <Pattern>%date{ISO8601} - %level [%logger:%line] - %msg%n%ex{short}</Pattern>
+    </encoder>
+  </appender>
+
+  <!-- Audit log. -->
+  <appender name="IDP_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${idp.home}/logs/idp-audit.log</File>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${idp.home}/logs/idp-audit-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <maxHistory>180</maxHistory>
+    </rollingPolicy>
+
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <charset>UTF-8</charset>
+      <Pattern>%msg%n</Pattern>
+    </encoder>
+  </appender>
+
+  <!-- Consent audit log. -->
+  <appender name="IDP_CONSENT_AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${idp.home}/logs/idp-consent-audit.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${idp.home}/logs/idp-consent-audit-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <maxHistory>180</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <charset>UTF-8</charset>
+      <Pattern>%msg%n</Pattern>
+    </encoder>
+  </appender>
+
+  <logger name="Shibboleth-Audit" level="INFO">
+    <appender-ref ref="IDP_AUDIT"/>
+  </logger>
+
+  <logger name="Shibboleth-Consent-Audit" level="INFO">
+    <appender-ref ref="IDP_CONSENT_AUDIT"/>
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="IDP_PROCESS"/>
+    <appender-ref ref="IDP_WARN" />
+  </root>
+
 </configuration>
+
