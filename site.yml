@@ -51,9 +51,6 @@
         policy: targeted
         state: disabled
 
-    - name: 'Enable NTP service'
-      service: name=ntpd state=started enabled=yes
-
     - name: 'Install required packages'
       yum: pkg={{ item }} state=installed
       with_items:
@@ -67,6 +64,9 @@
         - MySQL-python
         - ntp
         - expect
+
+    - name: 'Enable NTP service'
+      service: name=ntpd state=started enabled=yes
 
     - include: tasks/jetty.yml
     - include: tasks/db.yml
