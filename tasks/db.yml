@@ -55,7 +55,7 @@
     state: present
 
 - name: 'Create db user'
-  mysql_user: 'name={{ db.username }} password={{ db.password }} priv=idp_db.*:ALL state=present'
+  mysql_user: 'name={{ db.username }} password={{ db.password }} priv={{ db.name }}.*:ALL state=present'
   register: db_user
 
 - name: 'Copy over AESPT schema'
