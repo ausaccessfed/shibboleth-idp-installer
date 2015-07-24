@@ -134,12 +134,6 @@
   <!-- ========================================== -->
   <!--            OPTIONAL ATTRIBUTES             -->
   <!-- ========================================== -->
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="uid" sourceAttributeID="uid">
-    <resolver:Dependency ref="ldap" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:uid" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.1" friendlyName="uid" encodeType="false" />
-  </resolver:AttributeDefinition>
-
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="givenName" sourceAttributeID="givenName">
     <resolver:Dependency ref="ldap" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
@@ -189,7 +183,7 @@
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
   <resolver:DataConnector xsi:type="SharedToken" xmlns="urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc"
     id="sharedToken"
-    sourceAttributeId="uid"
+    sourceAttributeId="YOUR_SOURCE_ATTRIBUTE_HERE"
     salt="{{ shib_idp.aepst_salt }}"
     dataSource="jdbc/shib_idp">
     <resolver:Dependency ref="ldap" />
@@ -197,7 +191,7 @@
 
   <resolver:DataConnector id="StoredIDConnector"
     xsi:type="dc:StoredId"
-    sourceAttributeID="uid"
+    sourceAttributeID="YOUR_SOURCE_ATTRIBUTE_HERE"
     salt="{{ shib_idp.targeted_id_salt }}"
     generatedAttributeID="computedID">
 

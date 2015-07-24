@@ -42,7 +42,6 @@ This section outlines the process of registering a new IdP and running the insta
     * email
     * organizationName
     * surname
-    * uid (if your organisation supports this)
 6. You will receive an email from the federation indicating your IdP is pending. After your IdP has been **approved** you will be able to fill `attribute_filter_url` (See Step 2).
 7. Re-run the playbook using the same command issued previously (Step 4).
 
