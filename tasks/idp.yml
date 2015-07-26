@@ -64,6 +64,13 @@
     group: jetty
     mode: 0640
 
+- name: 'Create jetty-logging.properties'
+  template:
+    dest: '{{ jetty.base }}/resources/jetty-logging.properties'
+    src: 'templates/idp/jetty-logging.properties'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Create Logback access configuration'
   template:
@@ -133,14 +140,6 @@
 - name: 'Copy over mysql connector lib'
   command: 'cp {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar"'
 
-- name: 'Copy over bundled slf4j & logback libs'
-  command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/{{ item }}"'
-  with_items:
-    - jcl-over-slf4j-1.7.10.jar
-    - slf4j-api-1.7.10.jar
-    - logback-core-1.1.2.jar
-    - logback-classic-1.1.2.jar
-
 - name: 'Download placeholder keystore'
   get_url:
     url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
@@ -153,10 +152,6 @@
     group: jetty
     mode: 0640
   with_items:
-    - '{{ jetty.base }}/lib/ext/jcl-over-slf4j-1.7.10.jar'
-    - '{{ jetty.base }}/lib/ext/slf4j-api-1.7.10.jar'
-    - '{{ jetty.base }}/lib/ext/logback-core-1.1.2.jar'
-    - '{{ jetty.base }}/lib/ext/logback-classic-1.1.2.jar'
     - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
 
