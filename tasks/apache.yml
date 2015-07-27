@@ -67,6 +67,9 @@
     - intermediate.crt
   notify: 'Restart Apache'
 
+- name: 'Enable firewalld'
+  service: name=firewalld state=started enabled=yes
+
 - name: 'Open Apache firewall ports'
   firewalld:
     port: '{{ item }}'
