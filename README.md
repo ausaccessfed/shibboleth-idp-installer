@@ -73,6 +73,7 @@ To activate your configuration these you may need to restart the IdP service wit
 /var
 └── log
     ├── shibboleth                              # Shibboleth specific logs
+    ├── httpd                                   # Apache logs
     └── jetty                                   # Jetty base logs
 ```
 
