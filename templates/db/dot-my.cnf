@@ -1,4 +1,4 @@
 [client]
 user = root
-password = {{ mariadb.password }}
+password = {{ db.password }}
 

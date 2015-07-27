@@ -1,11 +1,12 @@
 ansible_hosts
 passwords
 host_vars
-!host_vars/shib-idp-installer-1.aaf.dev.edu.au.dist
+!host_vars/idp.example.edu.dist.production
+!host_vars/idp.example.edu.dist.test
 assets
-!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/intermediate.crt
-!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/server.crt
-!assets/shib-idp-installer-1.aaf.dev.edu.au.dist/apache/server.key
+!assets/idp.example.edu.dist/apache/intermediate.crt
+!assets/idp.example.edu.dist/apache/server.crt
+!assets/idp.example.edu.dist/apache/server.key
 .vagrant
 Vagrantfile
 vagrant_id_rsa

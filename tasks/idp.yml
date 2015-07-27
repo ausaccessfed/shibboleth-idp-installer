@@ -64,10 +64,10 @@
     group: jetty
     mode: 0640
 
-- name: 'Create Logback configuration'
+- name: 'Create jetty-logging.properties'
   template:
-    dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'templates/idp/logback.xml'
+    dest: '{{ jetty.base }}/resources/jetty-logging.properties'
+    src: 'templates/idp/jetty-logging.properties'
     owner: root
     group: jetty
     mode: 0640
@@ -96,11 +96,6 @@
     group: jetty
     mode: 0640
 
-# Required for Shibboleth IdP install
-- name: 'Create idp.merge.properties'
-  file: 'path={{ shib_idp.src }}/conf/idp.merge.properties state=touch'
-  changed_when: False
-
 # Wraps the Shibboleth IdP installer
 - name: 'Create installer script'
   template:
@@ -122,13 +117,28 @@
 - name: 'Run IdP install.exp'
   command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version}}.exp creates='{{ shib_idp.home }}'
 
-- name: 'Copy over bundled slf4j & logback libs'
-  command: 'cp {{ shib_idp.home }}/webapp/WEB-INF/lib/{{ item }} {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/{{ item }}"'
-  with_items:
-    - jcl-over-slf4j-1.7.10.jar
-    - slf4j-api-1.7.10.jar
-    - logback-core-1.1.2.jar
-    - logback-classic-1.1.2.jar
+- name: 'Install aaf-shib-ext library'
+  get_url:
+    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
+
+- name: 'Re-run IdP install.sh to install aaf-shib-ext'
+  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+
+- name: 'Install mysql connector library'
+  get_url:
+    url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
+    dest: '{{ installer.path }}'
+    sha256sum: '{{ db.mysql_connector.sha256sum }}'
+
+- name: 'Extract mysql connector library distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz;
+    creates={{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar
+
+- name: 'Copy over mysql connector lib'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar"'
 
 - name: 'Download placeholder keystore'
   get_url:
@@ -142,10 +152,7 @@
     group: jetty
     mode: 0640
   with_items:
-    - '{{ jetty.base }}/lib/ext/jcl-over-slf4j-1.7.10.jar'
-    - '{{ jetty.base }}/lib/ext/slf4j-api-1.7.10.jar'
-    - '{{ jetty.base }}/lib/ext/logback-core-1.1.2.jar'
-    - '{{ jetty.base }}/lib/ext/logback-classic-1.1.2.jar'
+    - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
 
 - name: 'Create IdP log directory'
@@ -160,6 +167,24 @@
   file:
     name: '{{ shib_idp.home }}/logs'
     src: /var/log/shibboleth-idp
+    state: link
+    owner: root
+    group: root
+    force: yes
+
+- name: 'Symlink IdP src directory'
+  file:
+    name: '{{ shib_idp.src_root }}/current'
+    src: '{{ shib_idp.src }}'
+    state: link
+    owner: root
+    group: root
+    force: yes
+
+- name: 'Symlink IdP instance directory'
+  file:
+    name: '{{ shib_idp.home_root }}/current'
+    src: '{{ shib_idp.home }}'
     state: link
     owner: root
     group: root
@@ -182,7 +207,69 @@
     group: root
     force: yes
 
-# For out the box config for now
+- name: 'Create empty metadata provider (federation-metadata.xml) as jetty:jetty'
+  template:
+    src: templates/idp/federation-metadata.xml
+    dest: '{{ shib_idp.home }}/metadata/federation-metadata.xml'
+    owner: jetty
+    group: jetty
+    mode: 0600
+
+- name: 'Set metadata provider'
+  template:
+    src: templates/idp/metadata-providers.xml
+    dest: '{{ shib_idp.home }}/conf/metadata-providers.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Touch federation attribute filter (federation-attribute-filter.xml) as jetty:jetty'
+  file:
+    path: '{{ shib_idp.home }}/conf/federation-attribute-filter.xml'
+    state: touch
+    owner: jetty
+    group: jetty
+    mode: 0600
+  changed_when: False
+
+- name: 'Set services.xml'
+  template:
+    src: templates/idp/services.xml
+    dest: '{{ shib_idp.home }}/conf/services.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Get metadata certificate'
+  get_url:
+    url: '{{ metadata_cert_url }}'
+    dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
+  when: attribute_filter_url != ""
+
+- name: 'Set attribute resolver'
+  template:
+    src: templates/idp/attribute-resolver.xml
+    dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set attribute filter'
+  template:
+    src: templates/idp/attribute-filter.xml
+    dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set Shibboleth logback configuration'
+  template:
+    dest: '{{ jetty.base }}/etc/logback.xml'
+    src: 'templates/idp/logback.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Fix IdP file permissions'
   file:
     name: '{{ shib_idp.home }}/{{ item }}'
@@ -197,24 +284,28 @@
   - conf/authn/general-authn.xml
   - conf/session-manager.xml
   - system/conf/services-system.xml
-  - conf/services.xml
   - conf/c14n/subject-c14n.xml
   - conf/intercept/profile-intercept.xml
   - conf/cas-protocol.xml
   - conf/idp.properties
   - conf/services.properties
   - conf/access-control.xml
-  - conf/metadata-providers.xml
   - conf/relying-party.xml
   - conf/credentials.xml
   - credentials/idp-encryption.key
   - credentials/idp-signing.key
   - conf/saml-nameid.xml
-  - conf/attribute-resolver.xml
-  - conf/attribute-filter.xml
   - conf/audit.xml
   - conf/ldap.properties
   - conf/saml-nameid.properties
+  - conf/intercept/intercept-events-flow.xml
+  - conf/authn/authn-events-flow.xml
+  - conf/authn/password-authn-config.xml
+  - conf/authn/ldap-authn-config.xml
+  - conf/authn/password-authn-config.xml
+  - conf/c14n/subject-c14n-events-flow.xml
+  - conf/c14n/simple-subject-c14n-config.xml
+  - conf/intercept/consent-intercept-config.xml
 
 - name: 'Install IdP systemd unit'
   template:
@@ -227,5 +318,5 @@
 - meta: flush_handlers
 
 - name: 'Enable idp service'
-  service: name=idp state=started enabled=yes
+  service: name=idp state=restarted enabled=yes
 

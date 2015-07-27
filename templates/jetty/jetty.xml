@@ -87,11 +87,9 @@
       <Set name="sendDateHeader"><Property name="jetty.httpConfig.sendDateHeader" deprecated="jetty.send.date.header" default="false" /></Set>
       <Set name="headerCacheSize"><Property name="jetty.httpConfig.headerCacheSize" default="512" /></Set>
       <Set name="delayDispatchUntilContent"><Property name="jetty.httpConfig.delayDispatchUntilContent" deprecated="jetty.delayDispatchUntilContent" default="true"/></Set>
-      <!-- Uncomment to enable handling of X-Forwarded- style headers
       <Call name="addCustomizer">
         <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
       </Call>
-      -->
     </New>
 
     <!-- =========================================================== -->
@@ -127,5 +125,18 @@
     <Set name="stopTimeout">5000</Set>
     <Set name="dumpAfterStart"><Property name="jetty.server.dumpAfterStart" deprecated="jetty.dump.start" default="false"/></Set>
     <Set name="dumpBeforeStop"><Property name="jetty.server.dumpBeforeStop" deprecated="jetty.dump.stop" default="false"/></Set>
+
+
+    <New id="shib_idp" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>jdbc/shib_idp</Arg>
+        <Arg>
+            <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+                <Set name="Url">jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true&amp;sessionVariables=wait_timeout=31536000</Set>
+                <Set name="User">{{ db.username }}</Set>
+                <Set name="Password">{{ db.password }}</Set>
+            </New>
+        </Arg>
+   </New>
 
 </Configure>
