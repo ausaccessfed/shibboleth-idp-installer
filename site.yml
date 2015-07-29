@@ -72,6 +72,7 @@
     - include: tasks/db.yml
     - include: tasks/idp.yml
     - include: tasks/apache.yml
+    - include: tasks/firewalld.yml
 
   handlers:
     - name: Restart idp
