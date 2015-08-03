@@ -11,6 +11,8 @@
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
       state_directory: /tmp/jetty
+      dta_ssl:
+        version: 1.0.0
     shib_idp:
       version: 3.1.1
       sha256sum: 8504d120fc6e033294fb9d132d13974dab58ba662d8fac8e338d6bf707d2ff3a
