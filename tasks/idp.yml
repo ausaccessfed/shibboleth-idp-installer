@@ -64,6 +64,14 @@
     group: jetty
     mode: 0640
 
+- name: 'Create ssl.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/ssl.mod'
+    src: 'templates/idp/ssl.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Create jetty-logging.properties'
   template:
     dest: '{{ jetty.base }}/resources/jetty-logging.properties'
@@ -122,6 +130,11 @@
     url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
 
+- name: 'Install jetty-dta-ssl'
+  get_url:
+    url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
+    dest: '{{ jetty.base }}/lib/ext'
+
 - name: 'Re-run IdP install.sh to install aaf-shib-ext'
   shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
 
@@ -154,6 +167,7 @@
   with_items:
     - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
+    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
 
 - name: 'Create IdP log directory'
   file:
@@ -306,6 +320,7 @@
   - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
+  - credentials/idp-backchannel.p12
 
 - name: 'Install IdP systemd unit'
   template:

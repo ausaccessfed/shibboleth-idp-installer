@@ -67,22 +67,6 @@
     - intermediate.crt
   notify: 'Restart Apache'
 
-- name: 'Enable firewalld'
-  service: name=firewalld state=started enabled=yes
-
-- name: 'Open Apache firewall ports'
-  firewalld:
-    port: '{{ item }}'
-    state: enabled
-    permanent: yes
-  with_items:
-    - 443/tcp
-  register: firewall
-
-- name: 'Restart firewalld'
-  service: name=firewalld state=restarted enabled=yes
-  when: firewall | changed
-
 - meta: flush_handlers
 
 - name: 'Enable Apache service'

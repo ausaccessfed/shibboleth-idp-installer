@@ -49,6 +49,22 @@
     group: jetty
     mode: 0640
 
+- name: 'Set jetty-https.xml'
+  template:
+    dest: '{{ jetty.base }}/etc/jetty-https.xml'
+    src: 'templates/jetty/jetty-https.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set jetty-ssl.xml'
+  template:
+    dest: '{{ jetty.base }}/etc/jetty-ssl.xml'
+    src: 'templates/jetty/jetty-ssl.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set jetty-requestlog logback configuration'
   template:
     dest: '{{ jetty.home }}/etc/jetty-requestlog.xml'
