@@ -276,6 +276,30 @@
     group: jetty
     mode: 0640
 
+- name: 'Set attribute-release.vm template'
+  template:
+    src: templates/idp/attribute-release.vm
+    dest: '{{ shib_idp.home }}/views/intercept/attribute-release.vm'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set idp.properties'
+  template:
+    src: templates/idp/idp.properties
+    dest: '{{ shib_idp.home }}/conf/idp.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set global.xml'
+  template:
+    src: templates/idp/global.xml
+    dest: '{{ shib_idp.home }}/conf/global.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set Shibboleth logback configuration'
   template:
     dest: '{{ jetty.base }}/etc/logback.xml'
@@ -292,7 +316,6 @@
     mode: 0640
   with_items:
   - conf/logback.xml
-  - conf/global.xml
   - conf/errors.xml
   - conf/authn/authn-comparison.xml
   - conf/authn/general-authn.xml
@@ -301,7 +324,6 @@
   - conf/c14n/subject-c14n.xml
   - conf/intercept/profile-intercept.xml
   - conf/cas-protocol.xml
-  - conf/idp.properties
   - conf/services.properties
   - conf/access-control.xml
   - conf/relying-party.xml

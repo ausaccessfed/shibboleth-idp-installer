@@ -74,11 +74,23 @@
     group: root
     mode: 0600
 
+- name: 'Copy over StorageRecords schema'
+  template:
+    src: templates/db/tb_storage_records_ddl.sql
+    dest: '{{ installer.path }}/tb_storage_records_ddl.sql'
+    owner: root
+    group: root
+    mode: 0600
+
 - name: 'Import AESPT schema'
   mysql_db: 'state=import name={{ db.name }} target={{ installer.path }}/tb_st_ddl.sql'
   when: db_user.changed
 
 - name: 'Import TargetedID schema'
   mysql_db: 'state=import name={{ db.name }} target={{ installer.path }}/shibpid_ddl.sql'
+  when: db_user.changed
+
+- name: 'Import Shibboleth IdP StorageRecords schema'
+  mysql_db: 'state=import name={{ db.name }} target={{ installer.path }}/tb_storage_records_ddl.sql'
   when: db_user.changed
 
