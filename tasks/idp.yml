@@ -123,7 +123,7 @@
     mode: 0700
 
 - name: 'Run IdP install.exp'
-  command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version}}.exp creates='{{ shib_idp.home }}'
+  command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp creates='{{ shib_idp.home }}'
 
 - name: 'Install aaf-shib-ext library'
   get_url:
@@ -135,8 +135,62 @@
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
     dest: '{{ jetty.base }}/lib/ext'
 
-- name: 'Re-run IdP install.sh to install aaf-shib-ext'
-  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh creates={{ shib_idp.home }}/webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+- name: 'Set customised error-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/error-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/branding/error-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set customised css branding'
+  template:
+    dest: '{{ shib_idp.home }}/edit-webapp/css/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/branding/css/{{ item }}'
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - consent.css
+    - main.css
+
+- name: 'Remove "dummy" branding'
+  file:
+    path: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
+    state: absent
+  with_items:
+    - dummylogo-mobile.png
+    - dummylogo.png
+
+- name: 'Set customised image branding'
+  copy:
+    dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/branding/images/{{ item }}'
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - logo-mobile.png
+    - logo.png
+
+- name: 'Set customised views'
+  template:
+    dest: '{{ shib_idp.home }}/views/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/branding/views/{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0640
+  with_items:
+    - error.vm
+    - expiring-password.vm
+    - login-error.vm
+    - login.vm
+    - logout-response.vm
+    - logout.vm
+    - resolvertest.vm
+
+- name: 'Re-run IdP install.sh to install aaf-shib-ext and branding'
+  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh'
 
 - name: 'Install mysql connector library'
   get_url:
