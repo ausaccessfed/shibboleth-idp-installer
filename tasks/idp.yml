@@ -138,15 +138,15 @@
 - name: 'Set customised error-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/error-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/branding/error-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/error-messages.properties'
     owner: root
     group: jetty
     mode: 0640
 
-- name: 'Set customised css branding'
+- name: 'Set customised IdP branding (css)'
   template:
     dest: '{{ shib_idp.home }}/edit-webapp/css/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/css/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/css/{{ item }}'
     owner: root
     group: root
     mode: 0600
@@ -154,7 +154,7 @@
     - consent.css
     - main.css
 
-- name: 'Remove "dummy" branding'
+- name: 'Remove "dummy" IdP branding'
   file:
     path: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
     state: absent
@@ -162,10 +162,10 @@
     - dummylogo-mobile.png
     - dummylogo.png
 
-- name: 'Set customised image branding'
+- name: 'Set customised IdP branding (images)'
   copy:
     dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/images/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
     owner: root
     group: root
     mode: 0600
@@ -176,7 +176,7 @@
 - name: 'Set customised views'
   template:
     dest: '{{ shib_idp.home }}/views/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/views/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/views/{{ item }}'
     owner: root
     group: jetty
     mode: 0640
@@ -189,7 +189,7 @@
     - logout.vm
     - resolvertest.vm
 
-- name: 'Re-run IdP install.sh to install aaf-shib-ext and branding'
+- name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
   shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh'
 
 - name: 'Install mysql connector library'
