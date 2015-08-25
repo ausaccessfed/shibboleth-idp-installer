@@ -5,7 +5,7 @@ EXAMPLE_HOST=idp.example.edu.dist
 HOST=$1
 
 function set_assets {
-  cp -n assets/$EXAMPLE_HOST assets/$HOST
+  cp -R -n assets/$EXAMPLE_HOST assets/$HOST
   echo "Created directory 'assets/$HOST'. This is the source for your IdP " \
     "configuration."
 }
