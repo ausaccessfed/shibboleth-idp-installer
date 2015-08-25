@@ -6,6 +6,7 @@
     owner: root
     group: apache
     mode: 0640
+    backup: yes
   notify: 'Restart Apache'
 
 - name: 'Install Apache module configuration'
@@ -44,6 +45,7 @@
     owner: root
     group: apache
     mode: 0640
+    backup: yes
   notify: 'Restart Apache'
 
 - name: 'Create keypair directory'
@@ -61,6 +63,7 @@
     owner: root
     group: apache
     mode: 0640
+    backup: yes
   with_items:
     - server.crt
     - server.key
