@@ -32,22 +32,6 @@
     group: jetty
     mode: 0750
 
-- name: 'Create directories required for JETTY_BASE'
-  file:
-    name: '{{ item }}'
-    state: directory
-    owner: root
-    group: jetty
-    mode: 0750
-  with_items:
-    - '{{ jetty.base }}'
-    - '{{ jetty.base }}/modules'
-    - '{{ jetty.base }}/etc'
-    - '{{ jetty.base }}/webapps'
-    - '{{ jetty.base }}/lib'
-    - '{{ jetty.base }}/lib/ext'
-    - '{{ jetty.base }}/resources'
-
 - name: 'Create default jetty profile'
   template:
     dest: '/etc/default/jetty'
