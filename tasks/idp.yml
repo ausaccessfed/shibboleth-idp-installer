@@ -132,13 +132,13 @@
 
 - name: 'Install aaf-shib-ext library'
   get_url:
-    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
+    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
 
 - name: 'Install jetty-dta-ssl'
   get_url:
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
-    dest: '{{ jetty.base }}/lib/ext'
+    dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -204,7 +204,7 @@
 - name: 'Install mysql connector library'
   get_url:
     url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
-    dest: '{{ installer.path }}'
+    dest: '{{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
     sha256sum: '{{ db.mysql_connector.sha256sum }}'
 
 - name: 'Extract mysql connector library distribution'
@@ -219,7 +219,7 @@
 - name: 'Download placeholder keystore'
   get_url:
     url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
-    dest: '{{ jetty.base }}/etc'
+    dest: '{{ jetty.base }}/etc/keystore'
 
 - name: 'Set jetty.base file permissions'
   file:
