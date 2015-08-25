@@ -39,7 +39,7 @@
 
 - name: 'Install Apache configuration'
   template:
-    src: templates/apache/idp.conf
+    src: 'assets/{{inventory_hostname}}/apache/idp.conf'
     dest: '/etc/httpd/conf.d/idp.conf'
     owner: root
     group: apache
