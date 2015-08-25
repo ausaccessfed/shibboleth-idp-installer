@@ -51,7 +51,7 @@
 - name: 'Create default jetty profile'
   template:
     dest: '/etc/default/jetty'
-    src: 'assets/{{inventory_hostname}}/idp/jetty-profile'
+    src: 'assets/{{inventory_hostname}}/idp/sys/jetty-profile'
     owner: root
     group: jetty
     mode: 0640
@@ -295,7 +295,7 @@
 
 - name: 'Set metadata provider'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/metadata-providers.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
     dest: '{{ shib_idp.home }}/conf/metadata-providers.xml'
     owner: root
     group: jetty
@@ -313,7 +313,7 @@
 
 - name: 'Set services.xml'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/services.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/services.xml'
     dest: '{{ shib_idp.home }}/conf/services.xml'
     owner: root
     group: jetty
@@ -328,7 +328,7 @@
 
 - name: 'Set attribute resolver'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/attribute-resolver.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
     dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
     owner: root
     group: jetty
@@ -337,7 +337,7 @@
 
 - name: 'Set attribute filter'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/attribute-filter.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
     dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
     owner: root
     group: jetty
@@ -346,7 +346,7 @@
 
 - name: 'Set attribute-release.vm template'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/attribute-release.vm'
+    src: 'assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
     dest: '{{ shib_idp.home }}/views/intercept/attribute-release.vm'
     owner: root
     group: jetty
@@ -355,7 +355,7 @@
 
 - name: 'Set idp.properties'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/idp.properties'
+    src: 'assets/{{inventory_hostname}}/idp/conf/idp.properties'
     dest: '{{ shib_idp.home }}/conf/idp.properties'
     owner: root
     group: jetty
@@ -364,7 +364,7 @@
 
 - name: 'Set global.xml'
   template:
-    src: 'assets/{{inventory_hostname}}/idp/global.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/global.xml'
     dest: '{{ shib_idp.home }}/conf/global.xml'
     owner: root
     group: jetty
@@ -374,7 +374,7 @@
 - name: 'Set Shibboleth logback configuration'
   template:
     dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'assets/{{inventory_hostname}}/idp/logback.xml'
+    src: 'assets/{{inventory_hostname}}/idp/logging/logback.xml'
     owner: root
     group: jetty
     mode: 0640
