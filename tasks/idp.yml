@@ -32,29 +32,14 @@
     group: jetty
     mode: 0750
 
-- name: 'Create directories required for JETTY_BASE'
-  file:
-    name: '{{ item }}'
-    state: directory
-    owner: root
-    group: jetty
-    mode: 0750
-  with_items:
-    - '{{ jetty.base }}'
-    - '{{ jetty.base }}/modules'
-    - '{{ jetty.base }}/etc'
-    - '{{ jetty.base }}/webapps'
-    - '{{ jetty.base }}/lib'
-    - '{{ jetty.base }}/lib/ext'
-    - '{{ jetty.base }}/resources'
-
 - name: 'Create default jetty profile'
   template:
     dest: '/etc/default/jetty'
-    src: 'templates/idp/jetty-profile'
+    src: 'assets/{{inventory_hostname}}/idp/sys/jetty-profile'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Create shibboleth start.ini'
   template:
@@ -63,6 +48,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Create ssl.mod'
   template:
@@ -71,6 +57,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Create jetty-logging.properties'
   template:
@@ -79,6 +66,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Create Logback access configuration'
   template:
@@ -87,6 +75,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Create IdP context in jetty'
   template:
@@ -127,34 +116,36 @@
 
 - name: 'Install aaf-shib-ext library'
   get_url:
-    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-1.0.0.jar'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/'
+    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
 
 - name: 'Install jetty-dta-ssl'
   get_url:
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
-    dest: '{{ jetty.base }}/lib/ext'
+    dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
 
 - name: 'Set customised error-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/error-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/branding/error-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/error-messages.properties'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
-- name: 'Set customised css branding'
+- name: 'Set customised IdP branding (css)'
   template:
     dest: '{{ shib_idp.home }}/edit-webapp/css/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/css/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/css/{{ item }}'
     owner: root
     group: root
     mode: 0600
+    backup: yes
   with_items:
     - consent.css
     - main.css
 
-- name: 'Remove "dummy" branding'
+- name: 'Remove "dummy" IdP branding'
   file:
     path: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
     state: absent
@@ -162,13 +153,14 @@
     - dummylogo-mobile.png
     - dummylogo.png
 
-- name: 'Set customised image branding'
+- name: 'Set customised IdP branding (images)'
   copy:
     dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/images/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
     owner: root
     group: root
     mode: 0600
+    backup: yes
   with_items:
     - logo-mobile.png
     - logo.png
@@ -176,10 +168,11 @@
 - name: 'Set customised views'
   template:
     dest: '{{ shib_idp.home }}/views/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/branding/views/{{ item }}'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/views/{{ item }}'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
   with_items:
     - error.vm
     - expiring-password.vm
@@ -189,13 +182,13 @@
     - logout.vm
     - resolvertest.vm
 
-- name: 'Re-run IdP install.sh to install aaf-shib-ext and branding'
+- name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
   shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh'
 
 - name: 'Install mysql connector library'
   get_url:
     url: 'http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
-    dest: '{{ installer.path }}'
+    dest: '{{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
     sha256sum: '{{ db.mysql_connector.sha256sum }}'
 
 - name: 'Extract mysql connector library distribution'
@@ -210,7 +203,7 @@
 - name: 'Download placeholder keystore'
   get_url:
     url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
-    dest: '{{ jetty.base }}/etc'
+    dest: '{{ jetty.base }}/etc/keystore'
 
 - name: 'Set jetty.base file permissions'
   file:
@@ -282,14 +275,16 @@
     owner: jetty
     group: jetty
     mode: 0600
+    backup: yes
 
 - name: 'Set metadata provider'
   template:
-    src: templates/idp/metadata-providers.xml
+    src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
     dest: '{{ shib_idp.home }}/conf/metadata-providers.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Touch federation attribute filter (federation-attribute-filter.xml) as jetty:jetty'
   file:
@@ -302,11 +297,12 @@
 
 - name: 'Set services.xml'
   template:
-    src: templates/idp/services.xml
+    src: 'assets/{{inventory_hostname}}/idp/conf/services.xml'
     dest: '{{ shib_idp.home }}/conf/services.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Get metadata certificate'
   get_url:
@@ -316,51 +312,57 @@
 
 - name: 'Set attribute resolver'
   template:
-    src: templates/idp/attribute-resolver.xml
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
     dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set attribute filter'
   template:
-    src: templates/idp/attribute-filter.xml
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
     dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set attribute-release.vm template'
   template:
-    src: templates/idp/attribute-release.vm
+    src: 'assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
     dest: '{{ shib_idp.home }}/views/intercept/attribute-release.vm'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set idp.properties'
   template:
-    src: templates/idp/idp.properties
+    src: 'assets/{{inventory_hostname}}/idp/conf/idp.properties'
     dest: '{{ shib_idp.home }}/conf/idp.properties'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set global.xml'
   template:
-    src: templates/idp/global.xml
+    src: 'assets/{{inventory_hostname}}/idp/conf/global.xml'
     dest: '{{ shib_idp.home }}/conf/global.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set Shibboleth logback configuration'
   template:
     dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'templates/idp/logback.xml'
+    src: 'assets/{{inventory_hostname}}/idp/logging/logback.xml'
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Fix IdP file permissions'
   file:
@@ -405,6 +407,7 @@
     owner: root
     group: root
     mode: 0600
+    backup: yes
 
 - meta: flush_handlers
 

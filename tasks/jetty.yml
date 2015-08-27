@@ -41,6 +41,22 @@
     state: link
     force: yes
 
+- name: 'Create directories required for JETTY_BASE'
+  file:
+    name: '{{ item }}'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0750
+  with_items:
+    - '{{ jetty.base }}'
+    - '{{ jetty.base }}/modules'
+    - '{{ jetty.base }}/etc'
+    - '{{ jetty.base }}/webapps'
+    - '{{ jetty.base }}/lib'
+    - '{{ jetty.base }}/lib/ext'
+    - '{{ jetty.base }}/resources'
+
 - name: 'Set jetty.xml'
   template:
     dest: '{{ jetty.home }}/etc/jetty.xml'
@@ -48,6 +64,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set jetty-https.xml'
   template:
@@ -56,6 +73,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set jetty-ssl.xml'
   template:
@@ -64,6 +82,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set jetty-requestlog logback configuration'
   template:
@@ -72,6 +91,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set jetty-logging logback configuration'
   template:
@@ -80,6 +100,7 @@
     owner: root
     group: jetty
     mode: 0640
+    backup: yes
 
 - name: 'Set permissions on jetty directory'
   file:
