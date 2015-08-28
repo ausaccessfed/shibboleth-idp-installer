@@ -1,43 +1,39 @@
 #!/bin/bash
 set -e
 
-EXAMPLE_HOST=idp.example.edu.dist
-HOST=$1
-HOST_VAR_FOR_HOST="host_vars/$HOST"
-ASSETS_FOR_HOST="assets/$HOST"
+HOST_NAME=$1
+ENVIRONMENT=$2
+TEMPLATE_HOST=idp.example.edu.dist
+HOST_VAR="host_vars/$HOST_NAME"
+ASSETS="assets/$HOST_NAME"
 
 function create_assets {
-  if [ -d "$ASSETS_FOR_HOST" ]; then
-    echo "$ASSETS_FOR_HOST already exists, skipping"
+  if [ -d "$ASSETS" ]; then
+    echo "$ASSETS already exists, skipping"
   else
-    mkdir $ASSETS_FOR_HOST
-    cp -R assets/$EXAMPLE_HOST/* $ASSETS_FOR_HOST
+    mkdir $ASSETS
+    cp -R assets/$TEMPLATE_HOST/* $ASSETS
   fi
 }
 
 function create_host_var {
-  if [ ! -f $HOST_VAR_FOR_HOST ]; then
-    touch $HOST_VAR_FOR_HOST
+  if [ ! -f $HOST_VAR ]; then
+    cp host_vars/$TEMPLATE_HOST.$ENVIRONMENT $HOST_VAR
   else
-    echo "$HOST_VAR_FOR_HOST already exists, skipping"
+    echo "$HOST_VAR already exists, skipping"
   fi
 }
 
 function setup_assets {
   create_host_var
   create_assets
-  echo "Now configure your IdP:"
-  echo "1. Customise your host_var file: '$HOST_VAR_FOR_HOST'"
-  echo "   See 'host_vars/$EXAMPLE_HOST.[ENVIRONMENT]' for example values."
-  echo "2. Customise the IdP's asset directory: '$ASSETS_FOR_HOST'"
-  echo "   This will permanently hold your IdP configuration."
 }
 
-if [ "$#" -eq 1 ]
+if [ "$#" -eq 2 ]
 then
   setup_assets
 else
-  echo "Usage: `basename $0` <hostname>"
+  echo "Usage: `basename $0` <hostname> <environment>"
   exit 1
 fi
 
