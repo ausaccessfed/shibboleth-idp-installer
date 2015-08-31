@@ -2,7 +2,8 @@
 set -e
 
 # -------------------------- BOOTSTRAP CONFIGURATION ---------------------------
-# Your hostname for access outside the VM
+# Specify the externally facing address for this IdP. Typically you would have a
+# DNS entry for this. Do *NOT* use 'localhost' or any other local address.
 HOST_NAME=idp.example.edu
 #
 # The federation environment
