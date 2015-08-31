@@ -164,37 +164,40 @@ function display_completion_message {
 
 Bootstrap finished!
 
-Your IdP configuration has been created locally:
-- Configuration, branding, etc: $ASSETS
-- Properties (Federation URLs etc): $ANSIBLE_HOST_VARS
+To make your IdP functional follow these steps:
 
-The next step is to register your IdP in Federation Registry:
+1. Register your IdP in Federation Registry:
+   [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp)
+   [Production](https://manager.aaf.edu.au/federationregistry/registration/idp)
 
-[Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp)
-[Production](https://manager.aaf.edu.au/federationregistry/registration/idp)
+   When registering your IdP, for the 'Public Key Certificate' field, paste the
+   value from $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt.
 
-When registering, for 'Public Key', paste the value from the file
-$SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt.
+   For 'Supported Attributes' select the following:
+     * auEduPersonSharedToken
+     * commonName
+     * displayName
+     * eduPersonAffiliation
+     * eduPersonAssurance
+     * eduPersonScopedAffiliation
+     * eduPersonTargetedID
+     * email
+     * organizationName
+     * surname
 
-For 'Supported Attributes' select the following:
-  * auEduPersonSharedToken
-  * commonName
-  * displayName
-  * eduPersonAffiliation
-  * eduPersonAssurance
-  * eduPersonScopedAffiliation
-  * eduPersonTargetedID
-  * email
-  * organizationName
-  * surname
+   After completing this form, you will receive an email from the federation
+   indicating your IdP is pending.
 
-You will receive an email from the federation indicating your IdP is pending.
-After your IdP has been **approved** you will be able to fill
-'attribute_filter_url' in $ANSIBLE_HOST_VARS.
+2. Configure your IdP:
+   IdP settings, branding, etc in the directory: $ASSETS
+   Properties (Federation URLs etc) in the file: $ANSIBLE_HOST_VARS
 
-After making **any** changes, you must run the commands:
-  cd $LOCAL_REPO
-  ./update_idp.sh
+   After completing Step 1 and your IdP has been **approved** you will be able
+   to fill 'attribute_filter_url' in $ANSIBLE_HOST_VARS.
+
+   After making **any** changes now or in the future, you must run the commands:
+     cd $LOCAL_REPO
+     ./update_idp.sh
 
 EOF
 }
