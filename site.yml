@@ -2,7 +2,8 @@
 - hosts: idp-servers
   vars:
     installer:
-      path: /opt/shibboleth-idp-installer
+      root: /opt/shibboleth-idp-installer
+      path: /opt/shibboleth-idp-installer/build
     jetty:
       version: 9.2.10.v20150310
       sha256sum: 0034587a3dcfdab23fca28291e5e22ae7ff6e80f9f4c7a67f5b2b7777a84b40e
@@ -43,6 +44,7 @@
         group: root
         mode: 0700
       with_items:
+        - '{{ installer.root }}'
         - '{{ installer.path }}'
 
     - name: 'Update yum packages (yum -y update)'
