@@ -183,8 +183,7 @@ To make your IdP functional follow these steps:
    - For 'Step 3. SAML Configuration' we suggest using the "Easy registration
      using defaults" with the value 'https://$HOST_NAME'
 
-   - For 'Step 4. Attribute Scope' use your organisation's base domain I.E.
-     example.edu (NOT idp.example.edu)
+   - For 'Step 4. Attribute Scope' use '$HOME_ORGANISATION'.
 
    - For 'Step 5. Public Key Certificate', paste the contents of
      $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt
