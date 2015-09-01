@@ -180,13 +180,15 @@ To make your IdP functional follow these steps:
 1. Register your IdP in Federation Registry:
    `display_fr_idp_registration_link`
 
-   - For 'SAML Configuration' we suggest using the "Easy registration using
-     defaults" with the value 'https://$HOST_NAME'
-   - For the 'Public Key Certificate' field, paste the contents of
+   - For 'Step 3. SAML Configuration' we suggest using the "Easy registration
+     using defaults" with the value 'https://$HOST_NAME'
+
+   - For 'Step 4. Attribute Scope' use '$HOME_ORGANISATION'.
+
+   - For 'Step 5. Public Key Certificate', paste the contents of
      $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt
-   - For 'Attribute Scope' use your organisation's base domain I.E. example.edu
-     (NOT idp.example.edu)
-   - For 'Supported Attributes' select the following:
+
+   - For 'Step 6. Supported Attributes' select the following:
        * auEduPersonSharedToken
        * commonName
        * displayName
@@ -196,6 +198,7 @@ To make your IdP functional follow these steps:
        * eduPersonTargetedID
        * email
        * organizationName
+       * surname
        * givenName
 
    After completing this form, you will receive an email from the federation
