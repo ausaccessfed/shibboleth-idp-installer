@@ -52,6 +52,9 @@ GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 SSH_RSA_KEY=/root/.ssh/id_rsa
 SSH_AUTHORIZED_KEYS=/root/.ssh/authorized_keys
 
+FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
+FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
+
 function install_yum_dependencies {
   yum -y update
   yum -y install epel-release
@@ -159,6 +162,14 @@ function backup_shibboleth_credentials {
   cp -R $SHIBBOLETH_IDP_INSTANCE/credentials/* $backup_dir
 }
 
+function display_fr_idp_registration_link {
+  if [ "$ENVIRONMENT" == "test" ]; then
+    echo "$FR_TEST_REG"
+  else
+    echo "$FR_PROD_REG"
+  fi
+}
+
 function display_completion_message {
   cat << EOF
 
@@ -167,8 +178,7 @@ Bootstrap finished!
 To make your IdP functional follow these steps:
 
 1. Register your IdP in Federation Registry:
-   [Test](https://manager.test.aaf.edu.au/federationregistry/registration/idp)
-   [Production](https://manager.aaf.edu.au/federationregistry/registration/idp)
+   `display_fr_idp_registration_link`
 
    When registering your IdP, for the 'Public Key Certificate' field, paste the
    value from $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt.
@@ -218,4 +228,3 @@ function bootstrap {
 }
 
 bootstrap
-
