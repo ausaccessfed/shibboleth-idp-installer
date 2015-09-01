@@ -74,7 +74,7 @@ function setup_repo {
     pull_repo
   else
     mkdir -p $LOCAL_REPO
-    git clone -b feature/bootstrap $GIT_REPO $LOCAL_REPO
+    git clone -b develop $GIT_REPO $LOCAL_REPO
   fi
 }
 
