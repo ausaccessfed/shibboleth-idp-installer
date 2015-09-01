@@ -196,7 +196,7 @@ To make your IdP functional follow these steps:
        * eduPersonTargetedID
        * email
        * organizationName
-       * surname
+       * givenName
 
    After completing this form, you will receive an email from the federation
    indicating your IdP is pending.
