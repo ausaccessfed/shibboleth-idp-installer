@@ -57,7 +57,7 @@ set -e
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
-#LDAP_USER_FILTER="(uid={user})"
+#LDAP_USER_FILTER_ATTRIBUTE="uid"
 
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
@@ -69,6 +69,7 @@ ASSETS=$LOCAL_REPO/assets/$HOST_NAME
 APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
 LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
+APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 
@@ -126,8 +127,8 @@ function replace_property {
   local property=$1
   local value=$2
   local file=$3
-  if [ ! -z "$property" ]; then
-    sed -i "s/$property.*/$property $value/g" $file
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$property.*/$property $value/g" $file
   fi
 }
 
@@ -159,7 +160,16 @@ function set_ldap_properties {
   replace_property 'idp.authn.LDAP.bindDNCredential =' \
     "$LDAP_BIND_DN_PASSWORD" $LDAP_PROPERTIES
   replace_property 'idp.authn.LDAP.userFilter =' \
-    "$LDAP_USER_FILTER" $LDAP_PROPERTIES
+    "($LDAP_USER_FILTER_ATTRIBUTE={user})" $LDAP_PROPERTIES
+}
+
+function set_apache_ecp_ldap_properties {
+  replace_property 'AuthLDAPURL' \
+    "ldap:\/\/$LDAP_HOST\/$LDAP_BASE_DN?$LDAP_USER_FILTER_ATTRIBUTE" \
+    $APACHE_IDP_CONFIG
+  replace_property 'AuthLDAPBindDN' "\"$LDAP_BIND_DN\"" $APACHE_IDP_CONFIG
+  replace_property 'AuthLDAPBindPassword' "\"$LDAP_BIND_DN_PASSWORD\"" \
+    $APACHE_IDP_CONFIG
 }
 
 function create_ansible_assets {
@@ -280,6 +290,7 @@ function bootstrap {
   set_ansible_host_vars
   set_source_attribute_in_attribute_resolver
   set_ldap_properties
+  set_apache_ecp_ldap_properties
   create_host_ssh_keys
   add_self_as_authorized_key
   create_apache_self_signed_certs
