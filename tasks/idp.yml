@@ -328,6 +328,15 @@
     mode: 0640
     backup: yes
 
+- name: 'Set ldap.properties'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/ldap.properties'
+    dest: '{{ shib_idp.home }}/conf/ldap.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Set attribute-release.vm template'
   template:
     src: 'assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
