@@ -29,13 +29,8 @@
     </util:list>
 
     <util:list id ="shibboleth.AttributeFilterResources">
+        <value>%{idp.home}/conf/metadata-based-attribute-filter.xml</value>
         <value>%{idp.home}/conf/attribute-filter.xml</value>
-        {% if attribute_filter_url != "" %}
-        <bean id="FederationAttributeFilterResource" class="net.shibboleth.ext.spring.resource.FileBackedHTTPResource"
-        c:client-ref="shibboleth.MemoryCachingHttpClient"
-        c:url="{{ attribute_filter_url }}"
-        c:resource="file://%{idp.home}/conf/federation-attribute-filter.xml"/>
-        {% endif %}
     </util:list>
 
     <util:list id ="shibboleth.NameIdentifierGenerationResources">

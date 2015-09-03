@@ -31,6 +31,6 @@ home_organisation: "example.edu"
 # urn:mace:terena.org:schac:homeOrganizationType:au:other
 home_organisation_type: "urn:mace:terena.org:schac:homeOrganizationType:au:university"
 
-# IdP attribute filter (obtained after IdP registration)
-attribute_filter_url: "" # https://ds.test.aaf.edu.au/distribution/attributefilter/<UNIQUE ID>.xml
+# The federation's group id used for metadata-based attribute filtering
+federation_group_id: "aaf.edu.au"
 
