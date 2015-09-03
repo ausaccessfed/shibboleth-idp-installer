@@ -10,7 +10,7 @@ idp_host_name: "idp.example.edu"
 idp_entity_id: "https://idp.example.edu/idp/shibboleth"
 
 # IdP 'Attribute Scope'
-idp_attribute_scope: "idp.example.edu"
+idp_attribute_scope: "example.edu"
 
 # Shared federation metadata
 metadata_url: "https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml"

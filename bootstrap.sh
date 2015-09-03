@@ -17,9 +17,8 @@ set -e
 #  Your Organisation's name
 #ORGANISATION_NAME="The University of Example"
 
-#  Your schacHomeOrganization
-#  See http://www.terena.org/activities/tf-emc2/schacreleases.html
-#HOME_ORGANISATION=example.edu
+#  The base domain for your organisation
+#ORGANISATION_BASE_DOMAIN=example.edu
 
 #  Your schacHomeOrganizationType.
 #  See http://www.terena.org/activities/tf-emc2/schacreleases.html
@@ -80,7 +79,7 @@ FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
 FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
-  for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME HOME_ORGANISATION \
+  for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
     HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
@@ -108,7 +107,7 @@ function setup_repo {
     pull_repo
   else
     mkdir -p $LOCAL_REPO
-    git clone -b feature/ldap-bootstrap $GIT_REPO $LOCAL_REPO
+    git clone -b bugfix/correct-attribute-scope $GIT_REPO $LOCAL_REPO
   fi
 }
 
@@ -136,10 +135,11 @@ function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
   replace_property 'idp_host_name:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
   replace_property 'idp_entity_id:' "\"$entity_id\"" $ANSIBLE_HOST_VARS
-  replace_property 'idp_attribute_scope:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
+  replace_property 'idp_attribute_scope:' "\"$ORGANISATION_BASE_DOMAIN\"" \
+    $ANSIBLE_HOST_VARS
   replace_property 'organisation_name:' "\"$ORGANISATION_NAME\"" \
     $ANSIBLE_HOST_VARS
-  replace_property 'home_organisation:' "\"$HOME_ORGANISATION\"" \
+  replace_property 'home_organisation:' "\"$ORGANISATION_BASE_DOMAIN\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
     $ANSIBLE_HOST_VARS
@@ -243,7 +243,7 @@ To make your IdP functional follow these steps:
    - For 'Step 3. SAML Configuration' we suggest using the "Easy registration
      using defaults" with the value 'https://$HOST_NAME'
 
-   - For 'Step 4. Attribute Scope' use '$HOME_ORGANISATION'.
+   - For 'Step 4. Attribute Scope' use '$ORGANISATION_BASE_DOMAIN'.
 
    - For 'Step 5. Public Key Certificate', paste the contents of
      $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt
