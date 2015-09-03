@@ -1,42 +1,64 @@
 #!/bin/bash
 set -e
 
-# -------------------------- BOOTSTRAP CONFIGURATION ---------------------------
-# Specify the externally facing address for this IdP. Typically you would have a
-# DNS entry for this. Do *NOT* use 'localhost' or any other local address.
-HOST_NAME=idp.example.edu
+############################ BOOTSTRAP CONFIGURATION ###########################
 #
-# The federation environment
-# Allowable values: {test, production} (case-sensitive)
-ENVIRONMENT=test
-#
-# Organisation name
-ORGANISATION_NAME="The University of Example"
-#
-# Your schacHomeOrganization
-# See http://www.terena.org/activities/tf-emc2/schacreleases.html
-HOME_ORGANISATION=example.edu
-#
-# Your schacHomeOrganizationType.
-# See http://www.terena.org/activities/tf-emc2/schacreleases.html
-# Relevant values are:
-# "urn:mace:terena.org:schac:homeOrganizationType:au:university"
-# "urn:mace:terena.org:schac:homeOrganizationType:au:research-institution"
-# "urn:mace:terena.org:schac:homeOrganizationType:au:other"
-HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:university
-#
-# The attribute used for AuEduPersonSharedToken and EduPersonTargetedId
-# generation.
-#
-# See http://wiki.aaf.edu.au/tech-info/attributes/auedupersonsharedtoken
-#     http://wiki.aaf.edu.au/tech-info/attributes/edupersontargetedid
-#
-# IMPORTANT: The generation of AuEduPersonSharedToken and EduPersonTargetedId
-# require the value from the specified source attribute. If the value changes,
-# it will change the AuEduPersonSharedToken and EduPersonTargetedId. This will
-# cause the user to lose access in the federation. It is *critical* that you
-# specify an attribute that will never change.
-SOURCE_ATTRIBUTE_ID=uid
+#             MANDATORY SECTION - YOU MUST REVIEW AND SET EACH VALUE
+#             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#  Specify the externally facing address for this IdP. Typically you would have
+#  a DNS entry for this. Do *NOT* use 'localhost' or any other local address.
+#HOST_NAME=idp.example.edu
+
+#  The federation environment
+#  Allowable values: {test, production} (case-sensitive)
+#ENVIRONMENT=test
+
+#  Your Organisation's name
+#ORGANISATION_NAME="The University of Example"
+
+#  Your schacHomeOrganization
+#  See http://www.terena.org/activities/tf-emc2/schacreleases.html
+#HOME_ORGANISATION=example.edu
+
+#  Your schacHomeOrganizationType.
+#  See http://www.terena.org/activities/tf-emc2/schacreleases.html
+#  Relevant values are:
+#   urn:mace:terena.org:schac:homeOrganizationType:au:university
+#   urn:mace:terena.org:schac:homeOrganizationType:au:research-institution
+#   urn:mace:terena.org:schac:homeOrganizationType:au:other
+#HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:university
+
+#  The attribute used for AuEduPersonSharedToken and EduPersonTargetedId
+#  generation.
+#  See http://wiki.aaf.edu.au/tech-info/attributes/auedupersonsharedtoken
+#      http://wiki.aaf.edu.au/tech-info/attributes/edupersontargetedid
+#  IMPORTANT: The generation of AuEduPersonSharedToken and EduPersonTargetedId
+#  require the value from the specified source attribute. If the value changes,
+#  it will change the AuEduPersonSharedToken and EduPersonTargetedId. This will
+#  cause the user to lose access in the federation. It is *critical* that you
+#  specify an attribute that will never change.
+#SOURCE_ATTRIBUTE_ID=uid
+
+
+#                             OPTIONAL SECTION
+#                             ~~~~~~~~~~~~~~~~
+
+#  LDAP address Shibboleth IdP will connect to
+#LDAP_HOST="IP_ADDRESS:PORT"
+
+#  Point from where LDAP will search for users
+#LDAP_BASE_DN="ou=Users,dc=example,dc=edu"
+
+#  The administrator's bind dn
+#LDAP_BIND_DN="cn=Manager,dc=example,dc=edu"
+
+#  The adminstrator's password
+#LDAP_BIND_DN_PASSWORD="p@ssw0rd"
+
+#  Specify the attribute for user queries
+#LDAP_USER_FILTER_ATTRIBUTE="uid"
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
 LOCAL_REPO=/opt/shibboleth-idp-installer/repository
@@ -46,6 +68,8 @@ ANSIBLE_HOST_VARS=$LOCAL_REPO/host_vars/$HOST_NAME
 ASSETS=$LOCAL_REPO/assets/$HOST_NAME
 APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
+LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
+APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 
@@ -54,6 +78,16 @@ SSH_AUTHORIZED_KEYS=/root/.ssh/authorized_keys
 
 FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
 FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
+
+function ensure_mandatory_variables_set {
+  for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME HOME_ORGANISATION \
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID; do
+    if [ ! -n "${!var:-}" ]; then
+      echo "Variable '$var' is not set! Set this in `basename $0`"
+      exit 1
+    fi
+  done
+}
 
 function install_yum_dependencies {
   yum -y update
@@ -74,7 +108,7 @@ function setup_repo {
     pull_repo
   else
     mkdir -p $LOCAL_REPO
-    git clone -b develop $GIT_REPO $LOCAL_REPO
+    git clone -b feature/ldap-bootstrap $GIT_REPO $LOCAL_REPO
   fi
 }
 
@@ -93,17 +127,22 @@ function replace_property {
   local property=$1
   local value=$2
   local file=$3
-  sed -i "s/$property:.*/$property: \"$value\"/g" $file
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$property.*/$property $value/g" $file
+  fi
 }
 
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
-  replace_property 'idp_host_name' "$HOST_NAME" $ANSIBLE_HOST_VARS
-  replace_property 'idp_entity_id' "$entity_id" $ANSIBLE_HOST_VARS
-  replace_property 'idp_attribute_scope' "$HOST_NAME" $ANSIBLE_HOST_VARS
-  replace_property 'organisation_name' "$ORGANISATION_NAME" $ANSIBLE_HOST_VARS
-  replace_property 'home_organisation' "$HOME_ORGANISATION" $ANSIBLE_HOST_VARS
-  replace_property 'home_organisation_type' "$HOME_ORG_TYPE" $ANSIBLE_HOST_VARS
+  replace_property 'idp_host_name:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
+  replace_property 'idp_entity_id:' "\"$entity_id\"" $ANSIBLE_HOST_VARS
+  replace_property 'idp_attribute_scope:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
+  replace_property 'organisation_name:' "\"$ORGANISATION_NAME\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'home_organisation:' "\"$HOME_ORGANISATION\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
+    $ANSIBLE_HOST_VARS
 }
 
 function set_source_attribute_in_attribute_resolver {
@@ -111,6 +150,27 @@ function set_source_attribute_in_attribute_resolver {
   sed -i "s/YOUR_SOURCE_ATTRIBUTE_HERE/$SOURCE_ATTRIBUTE_ID/g" $attr_resolver
 }
 
+function set_ldap_properties {
+  replace_property 'idp.authn.LDAP.ldapURL =' \
+    "ldap:\/\/$LDAP_HOST" $LDAP_PROPERTIES
+  replace_property 'idp.authn.LDAP.baseDN =' \
+    "$LDAP_BASE_DN" $LDAP_PROPERTIES
+  replace_property 'idp.authn.LDAP.bindDN =' \
+    "$LDAP_BIND_DN" $LDAP_PROPERTIES
+  replace_property 'idp.authn.LDAP.bindDNCredential =' \
+    "$LDAP_BIND_DN_PASSWORD" $LDAP_PROPERTIES
+  replace_property 'idp.authn.LDAP.userFilter =' \
+    "($LDAP_USER_FILTER_ATTRIBUTE={user})" $LDAP_PROPERTIES
+}
+
+function set_apache_ecp_ldap_properties {
+  replace_property 'AuthLDAPURL' \
+    "ldap:\/\/$LDAP_HOST\/$LDAP_BASE_DN?$LDAP_USER_FILTER_ATTRIBUTE" \
+    $APACHE_IDP_CONFIG
+  replace_property 'AuthLDAPBindDN' "\"$LDAP_BIND_DN\"" $APACHE_IDP_CONFIG
+  replace_property 'AuthLDAPBindPassword' "\"$LDAP_BIND_DN_PASSWORD\"" \
+    $APACHE_IDP_CONFIG
+}
 
 function create_ansible_assets {
   cd $LOCAL_REPO
@@ -222,12 +282,15 @@ EOF
 }
 
 function bootstrap {
+  ensure_mandatory_variables_set
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
   create_ansible_assets
   set_ansible_host_vars
   set_source_attribute_in_attribute_resolver
+  set_ldap_properties
+  set_apache_ecp_ldap_properties
   create_host_ssh_keys
   add_self_as_authorized_key
   create_apache_self_signed_certs
