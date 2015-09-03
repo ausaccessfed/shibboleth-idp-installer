@@ -107,7 +107,7 @@ function setup_repo {
     pull_repo
   else
     mkdir -p $LOCAL_REPO
-    git clone -b bugfix/correct-attribute-scope $GIT_REPO $LOCAL_REPO
+    git clone -b develop $GIT_REPO $LOCAL_REPO
   fi
 }
 
@@ -270,9 +270,6 @@ To make your IdP functional follow these steps:
 2. Configure your IdP:
    IdP settings, branding, etc in the directory: $ASSETS
    Properties (Federation URLs etc) in the file: $ANSIBLE_HOST_VARS
-
-   After completing Step 1 and your IdP has been **approved** you will be able
-   to fill 'attribute_filter_url' in $ANSIBLE_HOST_VARS.
 
    After making **any** changes now or in the future, you must run the commands:
      cd $LOCAL_REPO
