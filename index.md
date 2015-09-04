@@ -1,7 +1,7 @@
 ---
 ---
 
-# Overview
+# Shibboleth IdP Installer
 
 The Shibboleth IdP Installer is designed to create a fully functional Shibboleth IdP instance as rapidly as possible.
 
