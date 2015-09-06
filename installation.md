@@ -116,7 +116,7 @@ The structure of this directory will look like the following:
 As the directory structure suggests, you may customise your IdP here. You may customise:
 
 - Apache certificates and config
-- IdP configuration (xml / properies)
+- IdP configuration (xml / properties)
 - IdP branding (velocity templates, css and and images).
 
 As a *bare* minimum, you will need to configure `/opt/shibboleth-idp-installer/repository/assets/<HOST_NAME>/idp/conf/attribute-resolver.xml` to get your IdP functional.
