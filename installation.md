@@ -3,9 +3,7 @@
 
 # Requirements
 
-Currently the installer requires an unconfigured CentOS 7 installation target machine. Typically the adminstrator would manage this environment as a virtual machine.
-
-The installer requires an enviromnent exclusivley for the purpose of running the Shibboleth IdP instance. Installations that fail to adhere to this requirement are unsupported. The installer provides full management of the machine the and its components.
+The installer requires an unconfigured CentOS 7 target machine. Typically the adminstrator would manage this environment as a virtual machine. This environment must be exclusivley for the purpose of running the Shibboleth IdP instance. Installations that fail to adhere to this requirement are unsupported. The installer provides full management of the machine the and its components.
 
 Recommended machine specifications are:
 
@@ -23,7 +21,7 @@ This machine must be configured with:
 # Running the installer
 
 1.  The installer has been designed get you up and running with an IdP as rapidly as possible.
-    To get started, run this single command from your target machine (as root):
+    To get started, run this command from your target machine (as root):
 
     ```
     curl https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/\
@@ -48,14 +46,14 @@ This machine must be configured with:
     The bootstrap process will:
     - Perform a `yum -y update` (system wide package upgrade). Please note that the installer uses `yum` for the installation of all system components (except Jetty and Shibboleth IdP).
     - Install all required dependencies via `yum` (`git`, `ansible` etc). With the previous step in mind, bootstrap will always use the latest versions of these packages.
-    - Create self signed keys for apache to get started. Replacing these keys is documented [here](#configuring-your-idp).
+    - Create self signed keys for apache. These are just for the initial testing of your IdP and must be replaced. Replacing these keys is documented [here](#configuring-your-idp).
     - Install Apache.
     - Install Jetty with Shibboleth IdP. Jetty runs on port `8080` and creates the Shibboleth IdP web app context `/idp`. Apache is configured to serve this address as `443` through a reverse proxy. Jetty also allows direct access to port `8443` for ECP.
     - Install a MariaDB instance. A database is created (name: `idp_db`, user: `idp_admin`) with [these schemas](https://github.com/ausaccessfed/shibboleth-idp-installer/tree/master/templates/db) populated.
     - Install NTP for time syncronisation.
     - Open firewall ports `80`, `443` and `8443`.
 
-    **IMPORTANT**: After bootstrap finishes you will be given instructions to register your IdP in Federation Registry. You must follow these steps to make your IdP functional in the federation. Also note that bootstrap automatically generates passwords (for MariaDB, Shibboleth IdP etc). Theseare stored locally in:
+    **IMPORTANT**: After bootstrap finishes you will be given instructions to register your IdP in Federation Registry. You must follow these steps to make your IdP functional in the federation. Also note that bootstrap automatically generates passwords (for MariaDB, Shibboleth IdP etc). These are stored in:
 
     ```
     /opt/shibboleth-idp-installer/repository/passwords/<HOST_NAME>
@@ -67,7 +65,7 @@ Bootstrap makes assumptions to start you off however typically you’d need to c
 
 # Configuring your IdP
 
-**IMPORTANT**: Your IdP only has a single source of configuration, and this is in the directory
+**IMPORTANT: Your IdP only has a single source of configuration**. It exists in the directory:
 
 ```
 /opt/shibboleth-idp-installer/repository/assets/<HOST_NAME>
@@ -115,29 +113,32 @@ The structure of this directory will look like the following:
         └── jetty-profile
 
 ```
-As the directory structure suggests, you may customise your IdP here. This includes:
+As the directory structure suggests, you may customise your IdP here. You may customise:
 
 - Apache certificates and config
 - IdP configuration (xml / properies)
 - IdP branding (velocity templates, css and and images).
 
+As a *bare* minimum, you will need to configure `/opt/shibboleth-idp-installer/repository/assets/<HOST_NAME>/idp/conf/attribute-resolver.xml` to get your IdP functional.
+
 After any changes are made you must run the command:
 
 ```
 cd /opt/shibboleth-idp-installer/repository
-./update_idp
+./update_idp.sh
 ```
 
 This will apply all changes and restart Shibboleth IdP and Apache.
 
 # Common commands
 ```
-./update_idp              # Used to apply any configuration change to the IdP
-                          # Call while inside /opt/shibboleth-idp-installer/repository
+./update_idp                # Used to apply any configuration change to the IdP
+                            # Call while inside /opt/shibboleth-idp-installer/repository
 
-systemctl restart idp     # Restarts the IdP (jetty)
-systemctl restart httpd   # Restarts apache
-systemctl restart ntpd    # Restarts ntpd
+systemctl restart idp       # Restarts the IdP (jetty)
+systemctl restart httpd     # Restarts apache
+systemctl restart ntpd      # Restarts ntpd
+systemctl restart firewalld # Restarts firewall
 ```
 
 # Filesystem structure
@@ -160,7 +161,9 @@ The stucture of the filesystem after a successful install is as follows:
 │       ├── install-3.1.1.exp
 │       ├── install-3.1.1.sh
 │       └── shibboleth-identity-provider-3.1.1
-└── shibboleth-idp-installer                    # Working directory
+└── shibboleth-idp-installer
+    ├── repository                              # Holds configuration and source code
+    └── build                                   # Working directory for installer
 
 /var
 └── log
