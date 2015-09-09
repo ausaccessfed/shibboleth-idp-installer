@@ -264,16 +264,8 @@ To make your IdP functional follow these steps:
    After completing this form, you will receive an email from the federation
    indicating your IdP is pending.
 
-   Following approval by the AAF, for which you'll receive a second email, it
-   may take up to 4 hours for your IdP to successfully access services.
-
-2. Configure your IdP:
-   IdP settings, branding, etc in the directory: $ASSETS
-   Properties (Federation URLs etc) in the file: $ANSIBLE_HOST_VARS
-
-   After making **any** changes now or in the future, you must run the commands:
-     cd $LOCAL_REPO
-     ./update_idp.sh
+   You should now continue with the installation steps documented at
+   http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html
 
 EOF
 }
