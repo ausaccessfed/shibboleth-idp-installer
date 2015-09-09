@@ -18,26 +18,32 @@
   <header>
     <strong>Shibboleth IdP Installer</strong>
 
-    <ul>
+    <ol>
       <li>
-        <a href="{{site.baseurl}}/index.html">Overview</a>
-        {% if page.url == "/index.html" %} <div id="toc"></div> {% endif %}
+        <a href="{{site.baseurl}}/">Home</a>
+      </li>
+      <li>
+        <a href="{{site.baseurl}}/requirements-checklist.html">Requirements Checklist</a>
       </li>
       <li>
         <a href="{{site.baseurl}}/installation.html">Installation</a>
-        {% if page.url == "/installation.html" %} <div id="toc"></div> {% endif %}
       </li>
-    </ul>
+      <li>
+        <a href="{{site.baseurl}}/customisation.html">Customisation</a>
+      </li>
+      <li>
+        <a href="{{site.baseurl}}/operation.html">Operation</a>
+      </li>
+    </ol>
     <br/>
-    <br/>
-    <p>This project is maintained by <a href="https://github.com/ausaccessfed">ausaccessfed</a>
-    </p>
 
-    <p class="view"><a href="https://github.com/ausaccessfed/shibboleth-idp-installer">View the
-      Project on GitHub
-      <small>ausaccessfed/shibboleth-idp-installer</small>
-    </a>
-    </p>
+    Developed at
+    <a href="https://www.aaf.edu.au"><img src="aaf.png" alt="AAF Logo"></a>
+
+    <br><br>
+
+    Open Source code hosted at
+    <a href="https://github.com/ausaccessfed/shibboleth-idp-installer"><img src="github_logo.jpg" alt="Github Logo"></a>
 
   </header>
   <section>
@@ -46,15 +52,6 @@
 </div>
 <script src="{{site.baseurl}}/javascripts/scale.fix.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="{{site.baseurl}}/javascripts/toc.js"></script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#toc').toc({ listType: 'ul',
-                    headers: 'h1, h2',
-                    showEffect: 'slideDown',
-                    minimumHeaders: 2 });
-  });
-</script>
 
 </body>
 </html>

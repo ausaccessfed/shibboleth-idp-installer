@@ -16,15 +16,14 @@ p, ul, ol, table, pre, dl {
   margin:0 0 10px;
 }
 
-h1, h2, h3 {
-  line-height:1.1;
-}
+
 
 h1 {
   font-size:28px;
 }
 
 h2 {
+  font-size: 22px;
   color:#393939;
 }
 
@@ -46,7 +45,7 @@ a small {
 }
 
 .wrapper {
-  width:1360px;
+  width: 100%;
   margin:0 auto;
 }
 
@@ -65,7 +64,7 @@ code, pre {
 
 pre {
   padding:8px 15px;
-  background: #f8f8f8;  
+  background: #f8f8f8;
   border-radius:5px;
   border:1px solid #e5e5e5;
   overflow-x: auto;
@@ -78,7 +77,7 @@ table {
 
 th, td {
   text-align:left;
-  padding:5px 10px;
+  padding:2px 2px;
   border-bottom:1px solid #e5e5e5;
 }
 
@@ -96,7 +95,7 @@ img {
 }
 
 header {
-  width:270px;
+  width:240px;
   float:left;
   position:fixed;
 }
@@ -107,10 +106,9 @@ strong {
 }
 
 section {
-  width:800px;
   float:left;
   padding-bottom:50px;
-  padding-left:400px;
+  padding-left:300px;
 }
 
 small {
@@ -145,13 +143,13 @@ footer {
   }
 
   header {
-    padding-right:320px;
+    padding-right:300px;
   }
 
   section {
     border:1px solid #e5e5e5;
     border-width:1px 0;
-    padding:20px 0;
+    padding:6px 0;
     margin:0 0 20px;
   }
 
@@ -161,7 +159,7 @@ footer {
 
   header ul {
     position:absolute;
-    right:50px;
+    right:6px;
     top:52px;
   }
 }
