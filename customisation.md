@@ -26,8 +26,6 @@ Follow the flow to login, ensuring you choose your new Shibboleth IdP when promo
 /opt/shibboleth-idp-installer/repository/assets/<HOST_NAME>
 ```
 
-If you make configuration changes directly within `/opt/shibboleth/shibboleth-idp`, `/etc/httpd` or elsewhere outside of the below structure your installation will become unsupported and you may have difficulties when upgrading.
-
 The structure of your configuration directory will look like the following:
 
 ```
@@ -71,9 +69,11 @@ The structure of your configuration directory will look like the following:
 
 ```
 
+If you make configuration changes directly within `/opt/shibboleth/shibboleth-idp`, `/etc/httpd` or elsewhere your installation will become unsupported and you may have difficulties when upgrading.
+
 ## Customising your Shibboleth IdP
 
-From this directory you can make changes to customise the following areas as appropriate for your environment:
+From the configuration directory you can make changes to customise the following areas as appropriate for your environment:
 
 - Apache certificates and config
 - IdP configuration (xml / properties)
