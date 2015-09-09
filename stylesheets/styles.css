@@ -98,6 +98,9 @@ header {
   width:240px;
   float:left;
   position:fixed;
+  padding: 0;
+  margin: 0;
+  padding-top: 4px;
 }
 
 strong {
@@ -107,6 +110,8 @@ strong {
 
 section {
   float:left;
+  padding: 0;
+  margin: 0;
   padding-bottom:50px;
   padding-left:300px;
 }
