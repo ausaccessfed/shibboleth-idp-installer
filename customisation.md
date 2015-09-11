@@ -84,7 +84,7 @@ Here are some of the areas you should customise when preparing a Shibboleth IdP 
 
 * The Shibboleth IdP MUST use valid certificates, verified by a well known public CA for your Apache webserver
 
-    The use of EV certificates are RECOMMENDED.
+    The use of EV certificates is RECOMMENDED
 
 * Ensure all attributes on the AAF Attribute Validator are shown with green ticks to indicate successful release
 * Branding should be consistent with your organisations corporate branding, images, logos, colour schems, etc
