@@ -272,8 +272,25 @@ To make your IdP functional follow these steps:
 EOF
 }
 
+function prevent_duplicate_execution {
+  if [ -e "/root/.lock-idp-bootstrap" ]
+  then
+    echo -e "\n\n-----"
+    echo "The bootstrap process has already been executed and could be destructive if run again."
+    echo "It is likely you want to run an update instead."
+    echo "Please see http://ausaccessfed.github.io/shibboleth-idp-installer/customisation.html for further details."
+    echo -e "\n\nIn certain cases you may need to re-run the bootstrap process if you've made an error during initial installation."
+    echo "Please see http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html to disable this warning."
+    echo -e "-----\n\n"
+    exit 0
+  else
+    touch "/root/.lock-idp-bootstrap"
+  fi
+}
+
 function bootstrap {
   ensure_mandatory_variables_set
+  prevent_duplicate_execution
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
