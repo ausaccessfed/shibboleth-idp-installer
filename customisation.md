@@ -83,7 +83,7 @@ From the configuration directory you can make changes to customise the following
 
 ### Actions undertaken during an update
 
-The update process will merge the changes you've made as required and reload the Shibboleth IdP to apply them.
+The update process will merge the changes you've made as required.
 
 This includes running an update of all OS packages and **restarting** all dependant processes.
 
