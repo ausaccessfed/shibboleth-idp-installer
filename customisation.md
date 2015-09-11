@@ -79,6 +79,24 @@ From the configuration directory you can make changes to customise the following
 - IdP configuration (xml / properties)
 - IdP branding (velocity templates, css and images).
 
+### Customisations recommended by the AAF for operating a production Shibboleth IdP
+Here are some of the areas you should customise when preparing a Shibboleth IdP for a production environment:
+
+* The Shibboleth IdP MUST use valid certificates, verified by a well known public CA for your Apache webserver
+
+    The use of EV certificates are RECOMMENDED.
+
+* Ensure all attributes on the AAF Attribute Validator are shown with green ticks to indicate successful release
+* Branding should be consistent with your organisations corporate branding, images, logos, colour schems, etc
+* Corporate links, eg Accessibility, Copyright, Disclaimers, Privacy, etc should be consistent with the corporate site
+* The name known by your users for their username / password should be consistently used on the IdP login page
+* Links to a corporate terms of use or similar page
+* Link provided to recover lost password, manage passwords or other credentials, etc
+* Display of the AAF logo and links to the AAF information such as the service catalogue
+* Guidance for users about effectively logging out, particularly when using publicly accessible computers
+* Minimise and preferably eliminate the use of technical jargon
+* Showing the name of the service the user is logging into, possibly the logo as well if it is available
+
 ## Applying customisations to the Shibboleth IdP
 
 ### Actions undertaken during an update
