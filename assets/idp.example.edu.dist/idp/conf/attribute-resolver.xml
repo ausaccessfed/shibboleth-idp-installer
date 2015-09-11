@@ -64,7 +64,7 @@
   </resolver:DataConnector>
 
   <resolver:AttributeDefinition xsi:type="ad:SAML2NameID" id="eduPersonTargetedID"
-    nameIdFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" sourceAttributeID="computedID">
+    nameIdFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" sourceAttributeID="eptidStoredID">
     <resolver:Dependency ref="StoredIDConnector" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" friendlyName="eduPersonTargetedID" />
@@ -169,7 +169,7 @@
     xsi:type="dc:StoredId"
     sourceAttributeID="YOUR_SOURCE_ATTRIBUTE_HERE"
     salt="{{ shib_idp.targeted_id_salt }}"
-    generatedAttributeID="computedID">
+    generatedAttributeID="eptidStoredID">
 
     <resolver:Dependency ref="ldap" />
 
