@@ -27,8 +27,7 @@ The installation process will:
 
 ## Running the installer
 
-To run the installer please undertake the following steps in order. Errors SHOULD be solved before continuing
-the process.
+To run the installer please undertake the following steps in order.
 
 The following commands MUST be executed as the **root** user. Start the process from `/root`.
 
@@ -47,7 +46,7 @@ The following commands MUST be executed as the **root** user. Start the process 
     - You MUST review, configure and uncomment each field listed in the "`MANDATORY SECTION`"
     - If you have LDAP details you SHOULD also configure the "`OPTIONAL SECTION`".
 
-        Currently only non TLS LDAP connections are supported in the bootstrap process. You can further configure LDAP connection details, including TLS, after bootstrap has completed.
+        You MAY further configure LDAP connection details, including TLS if required, after bootstrap has completed.
 
 3.  Run the command:
 
@@ -56,6 +55,38 @@ The following commands MUST be executed as the **root** user. Start the process 
     ```
 
     The bootstrap process will now configure your server to operate as a Shibboleth IdP.
+
+## Errors during installation
+Generally the installer **SHOULD only be executed once**.
+
+After the initial execution you'll recieve an error if you try to run `bootstrap.sh` again.
+
+You MUST NOT re-run `bootstrap.sh` if the installation process completed successfully but you made a simple mistake. e.g.
+
+* Mistyped config in the *MANDATORY SECTION*
+* Mistyped config in the *OPTIONAL SECTION*
+
+If you force `bootstrap.sh` to run again once initial installation has completed the action MAY be *destructive*.
+
+In this scenario you should continue with federation registration as documented below and then make any configuration
+changes necessary as documented within the **configuration stage** following completion of the installation stage.
+
+### Reasons to re-run the installer
+The only time `bootstrap.sh` should be re-run is if:
+
+* The script indicates you did not provide all required configuration options before your initial execution
+* The underpinning Ansible based installation process fails during installation
+
+If the latter scenario occurs you MUST correct the root cause of the error before attempting to continue.
+
+### Allowing the installer to run again
+If you're certain all conditions have been met to run the installer again undertake the following commands:
+
+```
+rm /root/.lock-idp-bootstrap && ./bootstrap.sh
+```
+
+The bootstrap process will now start over and attempt to configure your server to operate as a Shibboleth IdP.
 
 ## Registration with the federation
 

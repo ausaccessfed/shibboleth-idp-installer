@@ -81,13 +81,20 @@ From the configuration directory you can make changes to customise the following
 
 ## Applying customisations to the Shibboleth IdP
 
-After any changes are made you must run the command:
+### Actions undertaken during an update
+
+The update process will merge the changes you've made as required and reload the Shibboleth IdP to apply them.
+
+This includes running an update of all OS packages and **restarting** all dependant processes.
+
+You MUST have a tested rollback plan in place before running an update to ensure any unanticipated changes can be reversed.
+
+### Executing the update
+To update your Shibboleth IdP run the command:
 
 ```
 /opt/shibboleth-idp-installer/repository/update_idp.sh
 ```
-
-This will merge the changes you've made as required and reload the Shibboleth IdP to apply them.
 
 ## Next Step
 
