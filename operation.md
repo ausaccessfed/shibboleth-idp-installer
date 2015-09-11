@@ -8,13 +8,20 @@ Administrators should be aware of the following concerns for the ongoing operati
 
 ## Common commands
 ```
-./update_idp                # Used to apply any configuration change to the IdP
-                            # Call while inside /opt/shibboleth-idp-installer/repository
+# Apply configuration changes to the IdP
+/opt/shibboleth-idp-installer/repository/update_idp
 
-systemctl restart idp       # Restarts the IdP (jetty)
-systemctl restart httpd     # Restarts apache
-systemctl restart ntpd      # Restarts ntpd
-systemctl restart firewalld # Restarts firewall
+# Restart the IdP (Jetty)
+systemctl restart idp
+
+# Restart apache
+systemctl restart httpd
+
+# Restart ntpd
+systemctl restart ntpd
+
+# Restart firewall
+systemctl restart firewalld
 ```
 
 ## Filesystem structure
@@ -68,4 +75,4 @@ Deployers SHOULD:
 
 ## Future Customisations
 
-You can safely return to the [customisation](customisation.html) stage in the future to make additional modifications.
+You can safely return to the [customisation](customisation.html) stage in the future to make additional changes.
