@@ -2,7 +2,7 @@
 
 echo -e "\n\n-----"
 echo "This script will update the Shibboleth IdP installed on this host."
-echo -e "This includes running an update of all OS packages.\n"
+echo -e "This includes running an update of all OS packages and **restarting** all dependant processes.\n"
 echo "You MUST have a tested rollback plan in place before continuing."
 echo -e "-----\n\n"
 
