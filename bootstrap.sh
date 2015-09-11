@@ -260,6 +260,8 @@ To make your IdP functional follow these steps:
        * organizationName
        * surname
        * givenName
+       * homeOrganization
+       * homeOrganizationType
 
    After completing this form, you will receive an email from the federation
    indicating your IdP is pending.
