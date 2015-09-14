@@ -290,7 +290,6 @@ function prevent_duplicate_execution {
 
 function bootstrap {
   ensure_mandatory_variables_set
-  prevent_duplicate_execution
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
@@ -305,6 +304,7 @@ function bootstrap {
   run_ansible
   backup_shibboleth_credentials
   display_completion_message
+  prevent_duplicate_execution
 }
 
 bootstrap
