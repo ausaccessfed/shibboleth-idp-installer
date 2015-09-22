@@ -75,4 +75,4 @@ Deployers SHOULD:
 
 ## Future Customisations
 
-You can safely return to the [customisation](customisation.html) stage in the future to make additional changes.
+You can return to the [customisation](customisation.html) stage in the future to make further changes.

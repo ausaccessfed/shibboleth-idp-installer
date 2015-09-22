@@ -13,11 +13,11 @@ The installation process will:
 
 * Install all required dependencies via `yum` (`git`, `ansible`, `mariadb`, `apache` etc). With the previous step in mind, bootstrap will always use the latest versions of these packages.
 
-* Create self signed keys for Apache. These are just for the initial testing of your IdP and will be replaced when we later customise the Shibboleth IdP.
+* Create self signed keys for Apache. These are for initial testing of the IdP and are replaced when further customising the Shibboleth IdP.
 
 * Install Apache.
 
-* Install Jetty with Shibboleth IdP. Jetty runs on port `8080` and creates the Shibboleth IdP web app context `/idp`. Apache is configured to serve this address as `443` through a reverse proxy. Jetty also allows direct access to port `8443` for ECP.
+* Install Jetty with Shibboleth IdP. Jetty runs on port `8080` and creates the Shibboleth IdP web app context `/idp`. Apache configuration serves this on port `443` through a reverse proxy. Jetty also listens on port `8443` to support ECP.
 
 * Install a MariaDB instance. A database is created (name: `idp_db`, user: `idp_admin`) with [these schemas](https://github.com/ausaccessfed/shibboleth-idp-installer/tree/master/templates/db) populated.
 
@@ -25,10 +25,14 @@ The installation process will:
 
 * Opens local firewall ports `80`, `443` and `8443`.
 
+## Event logging
+The installer provides a detailed set of information indicating the steps it has undertaken on your server. You MAY disregard this output if the process completes successfully.
+
+For future review all installer output is logged to:
+
+    /opt/shibboleth-idp-installer/activity.log
+
 ## Running the installer
-
-To run the installer please undertake the following steps in order.
-
 The following commands MUST be executed as the **root** user. Start the process from `/root`.
 
 1.  Run the command:
@@ -57,22 +61,24 @@ The following commands MUST be executed as the **root** user. Start the process 
     The bootstrap process will now configure your server to operate as a Shibboleth IdP.
 
 ## Errors during installation
-Generally the installer **SHOULD only be executed once**.
+If an error occurs, the logs prior to installer termination MUST be reviewed to understand the underpinning cause.
+
+Generally the installer **SHOULD be executed once**.
 
 After the initial execution you'll recieve an error if you try to run `bootstrap.sh` again.
 
-You MUST NOT re-run `bootstrap.sh` if the installation process completed successfully but you made a simple mistake. e.g.
+You MUST NOT re-run `bootstrap.sh` if the installation process completed but you made a simple mistake. e.g.
 
-* Mistyped config in the *MANDATORY SECTION*
-* Mistyped config in the *OPTIONAL SECTION*
+* Mistyped config in the MANDATORY SECTION
+* Mistyped config in the OPTIONAL SECTION
 
 If you force `bootstrap.sh` to run again once initial installation has completed the action MAY be *destructive*.
 
 In this scenario you should continue with federation registration as documented below and then make any configuration
-changes necessary as documented within the **configuration stage** following completion of the installation stage.
+changes necessary as documented within the customisation stage following completion of the installation stage as documented below.
 
 ### Reasons to re-run the installer
-The only time `bootstrap.sh` should be re-run is if:
+You MUST NOT re-run `bootstrap.sh`, unless:
 
 * The script indicates you did not provide all required configuration options before your initial execution
 * The underpinning Ansible based installation process fails during installation
@@ -80,7 +86,7 @@ The only time `bootstrap.sh` should be re-run is if:
 If the latter scenario occurs you MUST correct the root cause of the error before attempting to continue.
 
 ### Allowing the installer to run again
-If you're certain all conditions have been met to run the installer again undertake the following commands:
+If you've met all conditions run the installer again:
 
 ```
 rm /root/.lock-idp-bootstrap && ./bootstrap.sh
@@ -98,7 +104,14 @@ After completing the registration process, you will receive an email from the fe
 
 ### 1. Configure LDAP connectivity
 
-If you provided LDAP details to the bootstrap process and you're NOT using TLS connections you MAY skip this section.
+If you provided basic LDAP details to the bootstrap process you MAY skip this section.
+
+If you:
+
+* Wish to use TLS connections; or
+* Have an advanced deployment scenario for your directory infrastructure:
+
+Undertake the following steps:
 
 1. **Locate local configuration files**
 
@@ -110,15 +123,17 @@ If you provided LDAP details to the bootstrap process and you're NOT using TLS c
 
     `/opt/shibboleth-idp/conf`
 
-    which is the default path documented in external resources. All specific config files however, e.g. `ldap.properties`, remain the same.
+    which is the default path documented in external resources. All specific config file names, e.g. `ldap.properties`, remain the same.
 
 2. **Configure LDAP options**
 
     Please see the [Shibboleth IdP LDAP](https://wiki.shibboleth.net/confluence/display/IDP30/LDAPAuthnConfiguration) documentation for a description of all available LDAP options.
 
+    Undertake configuration changes or certificate additions to the server as necessary.
+
 3. **Apply Changes**
 
-    After any changes are made for your LDAP configuration you MUST run the command:
+    After changing LDAP configuration you MUST run the command:
 
     ```
     /opt/shibboleth-idp-installer/repository/update_idp.sh
@@ -134,12 +149,12 @@ Please wait for at least 4 hours after recieving this email, so backend processe
 
 ### 3. Add Backchannel certificates
 
-The final installation step simply involves providing your backchannel certificates to the AAF management tool, Federation Registry.
+The final installation step involves providing your backchannel certificates to the AAF management tool, Federation Registry.
 
-Access your Shibboleth IdP record within Federation Registry, you did this in step 2 above or it is available as a link on your Federation Registry dashboard page, and navigate to *SAML -> Certificates*
+Access your Shibboleth IdP record within Federation Registry and navigate to *SAML -> Certificates*
 
-1. Paste the contents of `/opt/shibboleth/shibboleth-idp/current/credentials/idp-backchannel.crt` as an additional certificate for signing.
-2. Paste the contents of `/opt/shibboleth/shibboleth-idp/current/credentials/idp-encryption.crt` as an encryption certificate.
+1. Add the contents of `/opt/shibboleth/shibboleth-idp/current/credentials/idp-backchannel.crt` as a certificate for signing.
+2. Add the contents of `/opt/shibboleth/shibboleth-idp/current/credentials/idp-encryption.crt` as an encryption certificate.
 
 ## Next Step
 

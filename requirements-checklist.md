@@ -17,8 +17,7 @@ You MUST NOT continue to installation until you've worked through the checklists
 2. You MUST have SSH access to the server
 3. You MUST be able to execute commands as `root` on the system without limitation
 4. The server MUST be routable from the public internet with a static IP. Often this means configuring the IP on a local network interface directly but advanced environments may handle this differently.
-
-5. The static IP MUST be provided with a publicly resolvable DNS entry. Typically of the form `idp.example.edu`
+5. The static IP MUST have a publicly resolvable DNS entry. Typically of the form `idp.example.edu`
 6. The server MUST be able to communicate with the wider internet without blockage due to firewall rules. All publicly routable servers MUST be accessible for:
 
     | Port | Purpose |
@@ -39,7 +38,7 @@ You MUST NOT continue to installation until you've worked through the checklists
     | 443  | Inbound HTTPS connections used within SAML flows  |
     | 8443 | Backchannel, client verified TLS connections, used within SAML flows |
 
-9. Environmental data pertaining to your IdP
+9. Environmental data for your IdP
 
     1. A determination of the AAF federation you wish to register your IdP within, being test or production. AAF Support can assist you in determining this
     1. Organisation Name
@@ -55,7 +54,13 @@ You MUST NOT continue to installation until you've worked through the checklists
     4. The password for the above account
     5. An LDAP filter attribute, often `uid`
 
-    Without LDAP details available you'll need to undertake additional customisation post installation to configure an identity source.
+If you:
+
+* Don't have LDAP details available;
+* Wish to use TLS connections; or
+* Have an advanced deployment scenario for your directory infrastructure.
+
+You'll need to undertake further customisation during the installation process when prompted. Each of these scenarios are outside of the installers scope.
 
 ## Next Step
 
