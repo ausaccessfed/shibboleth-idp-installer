@@ -7,13 +7,25 @@ You MUST NOT continue to installation until you've worked through the checklists
 
 ## Required Checklist
 
-1. A **dedicated** CentOS 7 server, likely a Virtual Machine, with the following minimum specifications:
+1. A **dedicated** CentOS 7 or Redhat 7 server (virtual or physical), with the following minimum specifications:
 
     1. 2 CPU
     1. 2GB RAM
     1. 10GB+ partition for OS
 
     This server MUST NOT be used for any other purpose in the future.
+
+    #### Additional requirements for CentOS 7 servers
+    As **root** install [EPEL](https://fedoraproject.org/wiki/EPEL) with the following command
+
+            $> yum -y install epel-release
+
+    #### Additional requirements for Redhat 7 servers
+    Redhat systems also require EPEL in order to continue and the above is one option you MAY use to achieve this.
+
+    In some commercial environments you may need to have the server enabled for these packages via Satellite.
+    In this case please speak to your system administrators and have this configured before continuing.
+
 2. You MUST have SSH access to the server
 3. You MUST be able to execute commands as `root` on the system without limitation
 4. The server MUST be routable from the public internet with a static IP. Often this means configuring the IP on a local network interface directly but advanced environments may handle this differently.
