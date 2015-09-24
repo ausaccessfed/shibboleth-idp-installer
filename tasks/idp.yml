@@ -372,6 +372,30 @@
     mode: 0640
     backup: yes
 
+- name: 'Copy bilateral attribute filters'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/filters/'
+    dest: '{{ shib_idp.home }}/conf'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral metadata'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/metadata/'
+    dest: '{{ shib_idp.home }}/metadata'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral credentials'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/credentials/'
+    dest: '{{ shib_idp.home }}/credentials'
+    owner: root
+    group: jetty
+    mode: 640
+
 - name: 'Fix IdP file permissions'
   file:
     name: '{{ shib_idp.home }}/{{ item }}'
