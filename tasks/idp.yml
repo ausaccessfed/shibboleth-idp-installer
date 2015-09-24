@@ -365,8 +365,8 @@
 
 - name: 'Set Shibboleth logback configuration'
   template:
-    dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'assets/{{inventory_hostname}}/idp/logging/logback.xml'
+    dest: '{{ shib_idp.home }}/conf/logback.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/logback.xml'
     owner: root
     group: jetty
     mode: 0640
