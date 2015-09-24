@@ -90,7 +90,6 @@ function ensure_mandatory_variables_set {
 
 function install_yum_dependencies {
   yum -y update
-  yum -y install epel-release
   yum -y install git
   yum -y install ansible
 }
