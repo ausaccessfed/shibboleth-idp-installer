@@ -13,6 +13,8 @@ function git_update_details {
   echo -e "    * Jetty\n\n"
 }
 
+cd /opt/shibboleth-idp-installer/repository
+
 upgrade=false
 while getopts ":u" opt; do
   case $opt in
@@ -42,8 +44,6 @@ response=${response,,}
 
 if [[ $response =~ ^(yes|y)$ ]]
 then
-  cd /opt/shibboleth-idp-installer/repository/
-
   if [[ $upgrade = true ]]
   then
     git pull
