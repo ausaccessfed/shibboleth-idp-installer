@@ -396,6 +396,13 @@
     group: jetty
     mode: 640
 
+- stat:
+    path: 'assets/{{inventory_hostname}}/idp/credentials'
+  register: idp_credentials_dir
+
+- include: idp-credentials.yml
+  when: idp_credentials_dir.stat.exists
+
 - name: 'Fix IdP file permissions'
   file:
     name: '{{ shib_idp.home }}/{{ item }}'
@@ -416,8 +423,6 @@
   - conf/access-control.xml
   - conf/relying-party.xml
   - conf/credentials.xml
-  - credentials/idp-encryption.key
-  - credentials/idp-signing.key
   - conf/saml-nameid.xml
   - conf/audit.xml
   - conf/ldap.properties
@@ -430,7 +435,6 @@
   - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
-  - credentials/idp-backchannel.p12
 
 - name: 'Install IdP systemd unit'
   template:
