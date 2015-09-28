@@ -90,7 +90,6 @@ function ensure_mandatory_variables_set {
 
 function install_yum_dependencies {
   yum -y update
-  yum -y install epel-release
   yum -y install git
   yum -y install ansible
 }
@@ -260,6 +259,8 @@ To make your IdP functional follow these steps:
        * organizationName
        * surname
        * givenName
+       * homeOrganization
+       * homeOrganizationType
 
    After completing this form, you will receive an email from the federation
    indicating your IdP is pending.
@@ -268,6 +269,22 @@ To make your IdP functional follow these steps:
    http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html
 
 EOF
+}
+
+function prevent_duplicate_execution {
+  if [ -e "/root/.lock-idp-bootstrap" ]
+  then
+    echo -e "\n\n-----"
+    echo "The bootstrap process has already been executed and could be destructive if run again."
+    echo "It is likely you want to run an update instead."
+    echo "Please see http://ausaccessfed.github.io/shibboleth-idp-installer/customisation.html for further details."
+    echo -e "\n\nIn certain cases you may need to re-run the bootstrap process if you've made an error during initial installation."
+    echo "Please see http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html to disable this warning."
+    echo -e "-----\n\n"
+    exit 0
+  else
+    touch "/root/.lock-idp-bootstrap"
+  fi
 }
 
 function bootstrap {
@@ -286,6 +303,7 @@ function bootstrap {
   run_ansible
   backup_shibboleth_credentials
   display_completion_message
+  prevent_duplicate_execution
 }
 
 bootstrap

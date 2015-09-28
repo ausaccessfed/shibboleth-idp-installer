@@ -365,12 +365,36 @@
 
 - name: 'Set Shibboleth logback configuration'
   template:
-    dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'assets/{{inventory_hostname}}/idp/logging/logback.xml'
+    dest: '{{ shib_idp.home }}/conf/logback.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/logback.xml'
     owner: root
     group: jetty
     mode: 0640
     backup: yes
+
+- name: 'Copy bilateral attribute filters'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/filters/'
+    dest: '{{ shib_idp.home }}/conf'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral metadata'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/metadata/'
+    dest: '{{ shib_idp.home }}/metadata'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral credentials'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/credentials/'
+    dest: '{{ shib_idp.home }}/credentials'
+    owner: root
+    group: jetty
+    mode: 640
 
 - name: 'Fix IdP file permissions'
   file:
