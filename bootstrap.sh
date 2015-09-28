@@ -71,6 +71,7 @@ LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
 APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
+GIT_BRANCH=master
 
 SSH_RSA_KEY=/root/.ssh/id_rsa
 SSH_AUTHORIZED_KEYS=/root/.ssh/authorized_keys
@@ -106,7 +107,7 @@ function setup_repo {
     pull_repo
   else
     mkdir -p $LOCAL_REPO
-    git clone -b develop $GIT_REPO $LOCAL_REPO
+    git clone -b $GIT_BRANCH $GIT_REPO $LOCAL_REPO
   fi
 }
 
