@@ -244,8 +244,11 @@ To make your IdP functional follow these steps:
 
    - For 'Step 4. Attribute Scope' use '$ORGANISATION_BASE_DOMAIN'.
 
-   - For 'Step 5. Public Key Certificate', paste the contents of
-     $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt
+   - For 'Step 5. Cryptography'
+
+       * For the 'Signing Certificate' paste the contents of $SHIBBOLETH_IDP_INSTANCE/credentials/idp-signing.crt
+       * For the 'Backchannel Certificate' paste the contents of $SHIBBOLETH_IDP_INSTANCE/credentials/idp-backchannel.crt
+       * For the 'Encryption Certificate' paste the contents of $SHIBBOLETH_IDP_INSTANCE/credentials/idp-encryption.crt
 
    - For 'Step 6. Supported Attributes' select the following:
        * auEduPersonSharedToken
