@@ -299,8 +299,13 @@ function bootstrap {
   create_ansible_assets
   set_ansible_host_vars
   set_source_attribute_in_attribute_resolver
-  set_ldap_properties
-  set_apache_ecp_ldap_properties
+
+  if [ ${LDAP_HOST} ];
+  then
+    set_ldap_properties
+    set_apache_ecp_ldap_properties
+  fi
+
   create_host_ssh_keys
   add_self_as_authorized_key
   create_apache_self_signed_certs
