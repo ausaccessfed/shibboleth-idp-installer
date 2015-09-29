@@ -437,6 +437,9 @@
   - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
+  - credentials/idp-encryption.key
+  - credentials/idp-signing.key
+  - credentials/idp-backchannel.p12
 
 - name: 'Install IdP systemd unit'
   template:
