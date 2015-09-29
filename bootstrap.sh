@@ -73,9 +73,6 @@ APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 GIT_BRANCH=master
 
-SSH_RSA_KEY=/root/.ssh/id_rsa
-SSH_AUTHORIZED_KEYS=/root/.ssh/authorized_keys
-
 FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
 FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
@@ -175,22 +172,6 @@ function set_apache_ecp_ldap_properties {
 function create_ansible_assets {
   cd $LOCAL_REPO
   sh create_assets.sh $HOST_NAME $ENVIRONMENT
-}
-
-function add_self_as_authorized_key {
-  if ! grep -Fxq -f $SSH_RSA_KEY.pub $SSH_AUTHORIZED_KEYS; then
-    cat $SSH_RSA_KEY.pub >> $SSH_AUTHORIZED_KEYS
-  else
-    echo "$SSH_AUTHORIZED_KEYS already contains localhost key, skipping"
-  fi
-}
-
-function create_host_ssh_keys {
-  if [ ! -f $SSH_RSA_KEY ]; then
-    ssh-keygen -t rsa -f ssh-keygen -t rsa -f $SSH_RSA_KEY -N ''
-  else
-    echo "$SSH_RSA_KEY already exists, skipping"
-  fi
 }
 
 function create_apache_self_signed_certs {
@@ -304,8 +285,6 @@ function bootstrap {
     set_apache_ecp_ldap_properties
   fi
 
-  create_host_ssh_keys
-  add_self_as_authorized_key
   create_apache_self_signed_certs
   run_ansible
   backup_shibboleth_credentials
