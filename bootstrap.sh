@@ -217,9 +217,7 @@ function backup_shibboleth_credentials {
     mkdir $CREDENTIAL_BACKUP_PATH
   fi
 
-  local backup_dir=$CREDENTIAL_BACKUP_PATH/$(date -d "today" +"%Y%m%d%H%M")
-  mkdir $backup_dir
-  cp -R $SHIBBOLETH_IDP_INSTANCE/credentials/* $backup_dir
+  cp -R $SHIBBOLETH_IDP_INSTANCE/credentials/* $CREDENTIAL_BACKUP_PATH
 }
 
 function display_fr_idp_registration_link {
