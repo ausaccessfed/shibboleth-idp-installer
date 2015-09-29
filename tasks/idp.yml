@@ -396,12 +396,14 @@
     group: jetty
     mode: 640
 
-- stat:
-    path: 'assets/{{inventory_hostname}}/idp/credentials'
-  register: idp_credentials_dir
+- name: 'Determine if credentials from previous install exist'
+  local_action:
+    module: stat
+    path: 'assets/{{ inventory_hostname }}/idp/credentials'
+  register: idp_credentials
 
 - include: idp-credentials.yml
-  when: idp_credentials_dir.stat.exists
+  when: idp_credentials.stat.exists
 
 - name: 'Fix IdP file permissions'
   file:
