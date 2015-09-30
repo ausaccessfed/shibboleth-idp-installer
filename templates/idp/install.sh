@@ -2,6 +2,7 @@
 set -e
 export ANT_OPTS=" \
       -Didp.noprompt=true \
+      -Didp.no.tidy=true \
       -Didp.merge.properties={{ shib_idp.src_root }}/install-{{ shib_idp.version }}.properties \
       -Didp.src.dir={{ shib_idp.src }} \
       -Didp.target.dir={{ shib_idp.home }} \
