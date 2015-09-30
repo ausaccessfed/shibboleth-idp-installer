@@ -102,17 +102,18 @@
     group: root
     mode: 0700
 
-# Interacts with install.sh'
-- name: 'Create expect script'
+- name: 'Create installer properties'
   template:
-    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp'
-    src: 'templates/idp/install.exp'
+    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.properties'
+    src: 'templates/idp/install.properties'
     owner: root
     group: root
     mode: 0700
 
-- name: 'Run IdP install.exp'
-  command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp creates='{{ shib_idp.home }}'
+- name: 'Run IdP install'
+  command: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.sh'
+  args:
+    creates: '{{ shib_idp.home }}'
 
 - name: 'Install aaf-shib-ext library'
   get_url:
@@ -365,12 +366,45 @@
 
 - name: 'Set Shibboleth logback configuration'
   template:
-    dest: '{{ jetty.base }}/etc/logback.xml'
-    src: 'assets/{{inventory_hostname}}/idp/logging/logback.xml'
+    dest: '{{ shib_idp.home }}/conf/logback.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/logback.xml'
     owner: root
     group: jetty
     mode: 0640
     backup: yes
+
+- name: 'Copy bilateral attribute filters'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/filters/'
+    dest: '{{ shib_idp.home }}/conf'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral metadata'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/metadata/'
+    dest: '{{ shib_idp.home }}/metadata'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Copy bilateral credentials'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/bilateral/credentials/'
+    dest: '{{ shib_idp.home }}/credentials'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Determine if credentials from previous install exist'
+  local_action:
+    module: stat
+    path: 'assets/{{ inventory_hostname }}/idp/credentials'
+  register: idp_credentials
+
+- include: idp-credentials.yml
+  when: idp_credentials.stat.exists
 
 - name: 'Fix IdP file permissions'
   file:
@@ -392,8 +426,6 @@
   - conf/access-control.xml
   - conf/relying-party.xml
   - conf/credentials.xml
-  - credentials/idp-encryption.key
-  - credentials/idp-signing.key
   - conf/saml-nameid.xml
   - conf/audit.xml
   - conf/ldap.properties
@@ -406,7 +438,6 @@
   - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
-  - credentials/idp-backchannel.p12
 
 - name: 'Install IdP systemd unit'
   template:
