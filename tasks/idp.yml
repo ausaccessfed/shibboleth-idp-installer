@@ -102,17 +102,18 @@
     group: root
     mode: 0700
 
-# Interacts with install.sh'
-- name: 'Create expect script'
+- name: 'Create installer properties'
   template:
-    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp'
-    src: 'templates/idp/install.exp'
+    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.properties'
+    src: 'templates/idp/install.properties'
     owner: root
     group: root
     mode: 0700
 
-- name: 'Run IdP install.exp'
-  command: expect {{ shib_idp.src_root }}/install-{{ shib_idp.version }}.exp creates='{{ shib_idp.home }}'
+- name: 'Run IdP install'
+  command: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.sh'
+  args:
+    creates: '{{ shib_idp.home }}'
 
 - name: 'Install aaf-shib-ext library'
   get_url:

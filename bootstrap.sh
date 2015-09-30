@@ -189,7 +189,7 @@ function create_apache_self_signed_certs {
 
 function run_ansible {
   pushd $LOCAL_REPO > /dev/null
-  sh update_idp.sh
+  ansible-playbook -i ansible_hosts site.yml --force-handlers
   popd > /dev/null
 }
 
