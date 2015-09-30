@@ -255,6 +255,10 @@ EOF
 }
 
 function prevent_duplicate_execution {
+  touch "/root/.lock-idp-bootstrap"
+}
+
+function duplicate_execution_warning {
   if [ -e "/root/.lock-idp-bootstrap" ]
   then
     echo -e "\n\n-----"
@@ -265,13 +269,12 @@ function prevent_duplicate_execution {
     echo "Please see http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html to disable this warning."
     echo -e "-----\n\n"
     exit 0
-  else
-    touch "/root/.lock-idp-bootstrap"
   fi
 }
 
 function bootstrap {
   ensure_mandatory_variables_set
+  duplicate_execution_warning
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
