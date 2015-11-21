@@ -24,7 +24,7 @@
 
       <MetadataFilter xsi:type="SignatureValidation"
         certificateFile="{{ shib_idp.home }}/credentials/federation-metadata-cert.pem"
-        requireSignedMetadata="true">
+        requireSignedRoot="true">
       </MetadataFilter>
     </MetadataFilter>
 
