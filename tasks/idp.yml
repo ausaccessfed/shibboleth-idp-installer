@@ -413,34 +413,34 @@
     group: jetty
     mode: 0640
   with_items:
-  - conf/logback.xml
-  - conf/errors.xml
-  - conf/authn/authn-comparison.xml
-  - conf/authn/general-authn.xml
-  - conf/session-manager.xml
-  - system/conf/services-system.xml
-  - conf/c14n/subject-c14n.xml
-  - conf/intercept/profile-intercept.xml
-  - conf/cas-protocol.xml
-  - conf/services.properties
   - conf/access-control.xml
-  - conf/relying-party.xml
-  - conf/credentials.xml
-  - conf/saml-nameid.xml
   - conf/audit.xml
+  - conf/cas-protocol.xml
+  - conf/credentials.xml
+  - conf/errors.xml
   - conf/ldap.properties
+  - conf/logback.xml
+  - conf/mvc-beans.xml
+  - conf/relying-party.xml
   - conf/saml-nameid.properties
-  - conf/intercept/intercept-events-flow.xml
+  - conf/saml-nameid.xml
+  - conf/services.properties
+  - conf/session-manager.xml
+  - conf/authn/authn-comparison.xml
   - conf/authn/authn-events-flow.xml
+  - conf/authn/general-authn.xml
   - conf/authn/password-authn-config.xml
   - conf/authn/ldap-authn-config.xml
-  - conf/authn/password-authn-config.xml
-  - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
+  - conf/c14n/subject-c14n-events-flow.xml
+  - conf/c14n/subject-c14n.xml
   - conf/intercept/consent-intercept-config.xml
+  - conf/intercept/profile-intercept.xml
+  - conf/intercept/intercept-events-flow.xml
+  - credentials/idp-backchannel.p12
   - credentials/idp-encryption.key
   - credentials/idp-signing.key
-  - credentials/idp-backchannel.p12
+  - system/conf/services-system.xml
 
 - name: 'Install IdP systemd unit'
   template:
