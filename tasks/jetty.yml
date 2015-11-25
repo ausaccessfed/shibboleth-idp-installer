@@ -16,7 +16,7 @@
 
 - name: 'Download jetty distribution'
   get_url:
-    url: 'https://olex-secure.openlogic.com/content/private/5e6a6f0815e830bba705e79e4a0470fbee8a5880//olex-secure.openlogic.com/jetty-distribution-9.2.10.v20150310.tar.gz'
+    url: '{{ jetty.url }}'
     dest: '{{ jetty_dist_archive_path }}'
     sha256sum: '{{ jetty.sha256sum }}'
 

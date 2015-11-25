@@ -2,6 +2,10 @@
 - hosts: idp-servers
   vars:
     software:
+      jetty:
+        baseurl: http://download.eclipse.org/jetty
+        version: 9.3.5.v20151012
+        sha256sum: 24e80e350fcc9749aa4a29913c34917ad238a0fa3abdb7d7c9b42dc40bdf0f9b
       shib_idp:
         version: 3.2.0
         sha256sum: 302c45a4e0814e97a1c01950137d328e0a8630638b35bdd6ae50af9510bcea84
@@ -9,10 +13,11 @@
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
     jetty:
-      version: 9.2.10.v20150310
-      sha256sum: 0034587a3dcfdab23fca28291e5e22ae7ff6e80f9f4c7a67f5b2b7777a84b40e
+      version: "{{ software.jetty.version }}"
+      sha256sum: "{{ software.jetty.sha256sum }}"
       root: /opt/jetty
-      home: /opt/jetty/jetty-distribution-9.2.10.v20150310
+      url: "{{ software.jetty.baseurl }}/{{ software.jetty.version }}}}/dist/jetty-distribution-{{ software.jetty.version }}.tar.gz"
+      home: /opt/jetty/jetty-distribution-{{ software.jetty.version }}
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
       state_directory: /tmp/jetty
