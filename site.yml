@@ -16,7 +16,7 @@
       version: "{{ software.jetty.version }}"
       sha256sum: "{{ software.jetty.sha256sum }}"
       root: /opt/jetty
-      url: "{{ software.jetty.baseurl }}/{{ software.jetty.version }}}}/dist/jetty-distribution-{{ software.jetty.version }}.tar.gz"
+      url: "{{ software.jetty.baseurl }}/{{ software.jetty.version }}/dist/jetty-distribution-{{ software.jetty.version }}.tar.gz"
       home: /opt/jetty/jetty-distribution-{{ software.jetty.version }}
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
