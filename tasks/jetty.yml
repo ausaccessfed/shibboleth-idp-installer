@@ -56,6 +56,89 @@
     - '{{ jetty.base }}/lib'
     - '{{ jetty.base }}/lib/ext'
     - '{{ jetty.base }}/resources'
+    - '{{ jetty.base }}/start.d'
+
+- name: 'Set backchannel.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/backchannel.mod'
+    src: 'templates/jetty/backchannel.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set http.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/http.mod'
+    src: 'templates/jetty/http.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set https.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/https.mod'
+    src: 'templates/jetty/https.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set ssl.mod'
+  template:
+    dest: '{{ jetty.base }}/modules/ssl.mod'
+    src: 'templates/jetty/ssl.mod'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set backchannel.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/backchannel.ini'
+    src: 'templates/jetty/backchannel.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set http.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/http.ini'
+    src: 'templates/jetty/http.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set https.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/https.ini'
+    src: 'templates/jetty/https.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set ssl.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/ssl.ini'
+    src: 'templates/jetty/ssl.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+
+- name: 'Set jetty-backchannel.xml'
+  template:
+    dest: '{{ jetty.base }}/etc/jetty-backchannel.xml'
+    src: 'templates/jetty/jetty-backchannel.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
 
 - name: 'Set jetty.xml'
   template:

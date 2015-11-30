@@ -14,7 +14,7 @@ http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/
 [ini-template]
 ### SSL Keystore Configuration
 # define the port to use for secure redirection
-jetty.secure.port=8443
+#AAF jetty.secure.port=8443
 
 ## Setup a demonstration keystore and truststore
 jetty.keystore=etc/keystore
@@ -38,8 +38,4 @@ jetty.ssl.needClientAuth=true
 # ssl.acceptors=1
 # ssl.selectorPriorityDelta=0
 # ssl.acceptorPriorityDelta=0
-
-jetty.backchannel.keystore={{ shib_idp.home }}/credentials/idp-backchannel.p12
-jetty.backchannel.keystore.type=PKCS12
-jetty.backchannel.keystore.password={{ shib_idp.keystore_password }}
 
