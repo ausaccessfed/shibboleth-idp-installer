@@ -82,7 +82,7 @@ From the configuration directory you can make changes to customise the following
 ### Customisations recommended by the AAF for operating a production Shibboleth IdP
 Here are some of the areas you should customise when preparing a Shibboleth IdP for a production environment:
 
-* The Shibboleth IdP MUST use valid certificates, verified by a well known public CA for your Apache webserver
+* The Shibboleth IdP MUST use valid certificates, verified by a widely trusted CA, for your Apache webserver
 
     The use of EV certificates is RECOMMENDED
 
@@ -97,13 +97,17 @@ Here are some of the areas you should customise when preparing a Shibboleth IdP 
 * Minimise and preferably eliminate the use of technical jargon
 * Showing the name of the service the user is logging into, possibly the logo as well if it is available
 
-## Applying customisations to the Shibboleth IdP
+## Updating the Shibboleth IdP with customisations
 
 ### Actions undertaken during an update
+The update process will perform the following:
 
-The update process will merge the changes you've made as required.
-
-This includes running an update of all OS packages and **restarting** all dependant processes.
+  1. Update underlying operating system packages to ensure any security issues are addressed
+  2. Apply any configuration changes made within the assets directory for:
+    * Shibboleth IdP
+    * Jetty
+    * Apache HTTPD
+  3. RESTART all dependant processes.
 
 You MUST have a tested rollback plan in place before running an update to ensure any unanticipated changes can be reversed.
 
@@ -113,6 +117,23 @@ To update your Shibboleth IdP run the command:
 ```
 /opt/shibboleth-idp-installer/repository/update_idp.sh
 ```
+
+## Upgrading your Shibboleth IdP version
+In order to upgrade your versions to the latest vetted releases you need to add the `-u` switch to the update_idp.sh command:
+
+```
+/opt/shibboleth-idp-installer/repository/update_idp.sh -u
+```
+
+By supplying the `-u` switch the following occurs **in addition** to the normal update process:
+
+1. Upgrade to the most recent version of the installer:
+    * The update will be retrieved from: https://github.com/ausaccessfed/shibboleth-idp-installer.git
+    * It will be based on the most recent production release
+
+2. Upgrade, if necessary, to the most recently vetted versions of:
+    * Shibboleth IdP
+    * Jetty
 
 ## Next Step
 
