@@ -6,7 +6,7 @@ layout: about
 
 
 
-- [**1.1.0-beta.2+idp-3.2.0**](#1.1.0-beta)
+- [**1.1.0-beta.1+idp-3.2.0**](#1.1.0-beta)
   - [Important Notes for Upgraders](#1.1.0-beta-notes)
   - [Software upgrades](#1.1.0-beta-software)
 - [**1.0.1-alpha.2+idp-3.1.2**](1.0.1-alpha.2)
@@ -14,8 +14,9 @@ layout: about
   - [Software upgrades](#1.0.0-alpha.2-software)
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
- 
-## <a name="1.1.0-beta"></a>1.1.0-beta.2+idp-3.2.0 ##
+----------
+
+## <a name="1.1.0-beta"></a>1.1.0-beta.1+idp-3.2.0 ##
 
 December TBA, 2015
 

@@ -7,7 +7,6 @@ layout: about
 - [**1.0.0-alpha.2+idp-3.1.2**](1.0.0-alpha.2)
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
-
 ----------
 
 ## <a name="1.0.0-alpha.2"></a>1.0.0-alpha.2_idp-3.1.2
@@ -23,8 +22,6 @@ September 30, 2015
 | Apache Web server  | **#** |
 | MariaDB database engine  | **#** |
 | OpenJDK | **#** |
-
-----------
 
 ## <a name="1.0.0-alpha.1"></a>1.0.0-alpha.1
 
