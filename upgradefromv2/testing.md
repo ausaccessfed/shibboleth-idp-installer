@@ -1,4 +1,5 @@
 ---
+layout: upgrade
 ---
 
 # Install the IdP #
