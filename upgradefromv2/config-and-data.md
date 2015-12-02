@@ -1,3 +1,6 @@
+---
+---
+
 # Upgrade Overview #
 
 When the upgrade is completed you will have two functioning IdPs. Your existing IdP and the new v3 IdP. The approach is to build the new IdP in parallel with the old and use DNS to change from old to new. This approach has the advantage of being able to rollback to old IdP quickly if some unforeseen issue occurs.

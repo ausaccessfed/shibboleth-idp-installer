@@ -1,3 +1,6 @@
+---
+---
+
 # Upgrading from Shibboleth IdP v2 #
 
 Upgrading your Shibboleth IdP v2 to version 3 is not a trivial task and will require planning to ensure your users are not adversly affected. The AAF has been working to reduce the risk and effort involved in installing the new  Shibboleth version 3 as well as developing and testing an upgrade path to assist in the smooth transition from your current version. 

@@ -1,3 +1,6 @@
+---
+---
+
 # Server Setup #
 The server on which you will be installing your new IdP v3 and migrating your v2 configuration to MUST meet the requirements set out in the [Install Guide - Requirement Checklist](http://ausaccessfed.github.io/shibboleth-idp-installer/requirements-checklist.html "Requirements Checklist").
 
