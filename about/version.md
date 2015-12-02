@@ -4,7 +4,9 @@ layout: about
 
 # Current versions
 
-## AAF IdP Installer Release: **1.0.1-alpha.2+idp-3.1.2**
+## Version: 1.0.1-alpha.2+idp-3.1.2
+
+### Release date: 8 October 2015
 
 This version is an Alpha release of the Installer. The AAF recommends this version should only be used for testing
 and to assist in planning for upgrades from version 2.
