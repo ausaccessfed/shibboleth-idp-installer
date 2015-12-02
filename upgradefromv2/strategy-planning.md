@@ -1,4 +1,5 @@
 ---
+layout: upgrade
 ---
 
 # Upgrading from Shibboleth IdP v2 #

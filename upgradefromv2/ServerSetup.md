@@ -1,4 +1,5 @@
 ---
+layout: upgrade
 ---
 
 # Server Setup #
