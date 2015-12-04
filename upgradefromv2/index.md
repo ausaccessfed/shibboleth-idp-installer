@@ -5,7 +5,7 @@ layout: upgrade
 
 The AAF recommended testing upgrade in the test environment first to minimise any production down time. A switchover to V3 should only take place after thoroughly testing the new system.
 
-The AAF team welcome all feedback and comment from IDP administrators with their experience with their IdPv2 to IdPv3 migration. This all helps improve the software and instructions in the guide making it a more useful tool for the entire community. [Feedback](about/feedback.html)
+The AAF team welcome all feedback and comment from IDP administrators with their experience with their IdPv2 to IdPv3 migration. This all helps improve the software and instructions in the guide making it a more useful tool for the entire community. [Feedback](../about/feedback.html)
 
 ## Upgrade Goals
 
