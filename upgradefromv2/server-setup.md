@@ -32,7 +32,7 @@ When editing the bootstrap.sh script use the values for the following variables:
 | LDAP_USER_FILTER_ATTRIBUTE | The name of the attribute that is in *userFilter* in *login.conf* |
 
 
-Execute the bootstrap.sh script.
+Execute the bootstrap.sh script. The script should announce that it is finished "**Bootstrap finished!**" and inform you of steps required to complete the install. Do **NOT** follow these steps.
 
 Your server now has a functioning Shibboleth IdP v3 running. It's now time to move onto [configuration and data](config-and-data.html) migration.
  

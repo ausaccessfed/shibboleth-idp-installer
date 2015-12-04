@@ -81,4 +81,6 @@ In addition there are stakeholders and users that may need to be informed about 
 - The AAF - We can put an upgrade notice on the AAF status page
  
 The main goal of planning is to map out what you are going to do before you begin doing it. It is recommended that you read and understand all of the steps of installing and upgrading your IdP as part of your planning. This will let you know what to expect as you work through the upgrade.
+
+When you are ready you can begin [preparing your new IdP server](server-setup.html).
   
