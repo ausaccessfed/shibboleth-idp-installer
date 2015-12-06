@@ -73,6 +73,6 @@
     <bean id="MyPersistentIdStore" parent="shibboleth.JDBCPersistentIdStore"
         p:dataSource-ref="MyDataSource"
         p:queryTimeout="PT2S"
-        p:retryableErrors="#{{'23000'}}" />
+        p:retryableErrors="#{ {'23000'} }" />
      
 </beans>
