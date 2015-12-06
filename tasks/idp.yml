@@ -117,6 +117,34 @@
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
     dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
 
+- name: 'Install Jars - commons-dbcp2'
+  get_url:
+    url: 'http://apache.mirror.digitalpacific.com.au//commons/dbcp/binaries/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    dest: '{{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+
+- name: 'Extract commons-dbcp2 distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    creates={{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar
+
+- name: 'Copy over commons-dbcp2 lib'
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar' 
+
+
+- name: 'Install Jars - commons-pool2'
+  get_url:
+    url: 'http://apache.uberglobalmirror.com//commons/pool/binaries/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    dest: '{{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+
+- name: 'Extract commons-pool2 distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    creates={{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar
+
+- name: 'Copy over commons-pool2 lib'  command: 'cp {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool-{{ additional_jars.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar' 
+
 - name: 'Set customised error-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/error-messages.properties'
@@ -297,6 +325,24 @@
     mode: 0640
     backup: yes
 
+- name: 'Set saml-nameid.properties'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/saml-nameid.properties'
+    dest: '{{ shib_idp.home }}/conf/saml-nameid.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set saml-nameid.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/saml-nameid.xml'
+    dest: '{{ shib_idp.home }}/conf/saml-nameid.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Get metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
@@ -415,6 +461,8 @@
   - conf/mvc-beans.xml
   - conf/relying-party.xml
   - conf/saml-nameid.properties
+  - conf/saml-nameid.xml
+  = conf/saml-nameid.properties
   - conf/saml-nameid.xml
   - conf/services.properties
   - conf/session-manager.xml

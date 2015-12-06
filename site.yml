@@ -44,7 +44,11 @@
         sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
     aaf_shib_ext:
       version: 1.0.0
-
+    additional_jars:
+      commons_dbcp2:
+        version: 2.1.1
+      commons_pool2:
+        version: 2.4.2
   tasks:
     - name: 'Create required directories for installer setup'
       file:
