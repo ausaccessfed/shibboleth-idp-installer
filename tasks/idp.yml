@@ -125,7 +125,7 @@
 - name: 'Extract commons-dbcp2 distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz
     creates={{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
@@ -139,11 +139,11 @@
 - name: 'Extract commons-pool2 distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz
     creates={{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib' 
-  command: 'cp {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool-{{ additional_jars.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar"' 
+  command: 'cp {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar"' 
 
 - name: 'Set customised error-messages.properties'
   template:
