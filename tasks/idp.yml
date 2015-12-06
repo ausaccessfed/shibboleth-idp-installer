@@ -462,7 +462,7 @@
   - conf/relying-party.xml
   - conf/saml-nameid.properties
   - conf/saml-nameid.xml
-  = conf/saml-nameid.properties
+  - conf/saml-nameid.properties
   - conf/saml-nameid.xml
   - conf/services.properties
   - conf/session-manager.xml
