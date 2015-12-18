@@ -70,14 +70,11 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML2XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" friendlyName="eduPersonTargetedID" />
   </resolver:AttributeDefinition>
 
-<!-- AAF Temporarly commented out until issue with pluging resolved -->
-<!--
   <resolver:AttributeDefinition id="auEduPersonSharedToken" xsi:type="ad:Simple" sourceAttributeID="auEduPersonSharedToken">
     <resolver:Dependency ref="sharedToken" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:federation.org.au:attribute:auEduPersonSharedToken" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.27856.1.2.5" friendlyName="auEduPersonSharedToken" />
   </resolver:AttributeDefinition>
--->
 
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationName" sourceAttributeID="o">
     <resolver:Dependency ref="staticAttributes" />
@@ -160,8 +157,6 @@
   </resolver:DataConnector>
 
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
-<!-- AAF Temporarly commented out until issue with pluging resolved -->
-<!--
   <resolver:DataConnector xsi:type="SharedToken" xmlns="urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc"
     id="sharedToken"
     sourceAttributeId="YOUR_SOURCE_ATTRIBUTE_HERE"
@@ -169,7 +164,6 @@
     dataSource="jdbc/shib_idp">
     <resolver:Dependency ref="ldap" />
   </resolver:DataConnector>
--->
 
   <resolver:DataConnector id="StoredIDConnector"
     xsi:type="dc:StoredId"
