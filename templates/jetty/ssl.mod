@@ -13,8 +13,6 @@ http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/
 
 [ini-template]
 ### SSL Keystore Configuration
-# define the port to use for secure redirection
-#AAF jetty.secure.port=8443
 
 ## Setup a demonstration keystore and truststore
 jetty.keystore=etc/keystore

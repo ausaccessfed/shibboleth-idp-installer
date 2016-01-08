@@ -24,6 +24,7 @@
       state_directory: /tmp/jetty
       dta_ssl:
         version: 1.0.0
+        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
     shib_idp:
       version: "{{ software.shib_idp.version }}"
       sha256sum: "{{ software.shib_idp.sha256sum }}"
@@ -47,8 +48,10 @@
     additional_jars:
       commons_dbcp2:
         version: 2.1.1
+        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
       commons_pool2:
         version: 2.4.2
+        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
   tasks:
     - name: 'Create required directories for installer setup'
       file:

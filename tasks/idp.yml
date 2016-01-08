@@ -116,11 +116,13 @@
   get_url:
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
     dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
+    sha256sum: '{{ jetty.dta_ssl.sha256sum }}'
 
 - name: 'Install Jars - commons-dbcp2'
   get_url:
-    url: 'http://apache.mirror.digitalpacific.com.au//commons/dbcp/binaries/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    url: 'http://apache.mirror.digitalpacific.com.au/commons/dbcp/binaries/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
     dest: '{{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    sha256sum: '{{ additional_jars.commons_dbcp2.sha256sum }}'
 
 - name: 'Extract commons-dbcp2 distribution'
   shell: >
@@ -135,6 +137,7 @@
   get_url:
     url: 'http://apache.uberglobalmirror.com//commons/pool/binaries/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
     dest: '{{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    sha256sum: '{{ additional_jars.commons_pool2.sha256sum }}'
 
 - name: 'Extract commons-pool2 distribution'
   shell: >
