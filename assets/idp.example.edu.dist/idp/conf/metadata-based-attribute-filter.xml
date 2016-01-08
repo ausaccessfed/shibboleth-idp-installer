@@ -7,7 +7,7 @@
   <AttributeFilterPolicy id="aaf.edu.au">
 
       <PolicyRequirementRule xsi:type="InEntityGroup"
-                                 groupID="aaf.edu.au" />
+                                 groupID="{{ federation_group_id }}" />
 
       <AttributeRule attributeID="persistentID">
         <PermitValueRule xsi:type="ANY"/>
