@@ -72,7 +72,6 @@ APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 GIT_BRANCH=master
-#GIT_BRANCH=feature/idp3.2.0
 
 FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
 FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
