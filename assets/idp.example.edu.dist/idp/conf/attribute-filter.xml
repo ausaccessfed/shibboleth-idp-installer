@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<afp:AttributeFilterPolicyGroup id="ShibbolethFilterPolicy"
-        xmlns:afp="urn:mace:shibboleth:2.0:afp"
-        xmlns:basic="urn:mace:shibboleth:2.0:afp:mf:basic"
-        xmlns:saml="urn:mace:shibboleth:2.0:afp:mf:saml"
+<AttributeFilterPolicyGroup id="ShibbolethFilterPolicy"
+        xmlns="urn:mace:shibboleth:2.0:afp"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="urn:mace:shibboleth:2.0:afp http://shibboleth.net/schema/idp/shibboleth-afp.xsd
-                            urn:mace:shibboleth:2.0:afp:mf:basic http://shibboleth.net/schema/idp/shibboleth-afp-mf-basic.xsd
-                            urn:mace:shibboleth:2.0:afp:mf:saml http://shibboleth.net/schema/idp/shibboleth-afp-mf-saml.xsd">
+        xsi:schemaLocation="urn:mace:shibboleth:2.0:afp http://shibboleth.net/schema/idp/shibboleth-afp.xsd">
 
-</afp:AttributeFilterPolicyGroup>
+</AttributeFilterPolicyGroup>

@@ -1,40 +1,57 @@
 ---
 - hosts: idp-servers
   vars:
+    software:
+      jetty:
+        baseurl: http://download.eclipse.org/jetty
+        version: 9.3.5.v20151012
+        sha256sum: 24e80e350fcc9749aa4a29913c34917ad238a0fa3abdb7d7c9b42dc40bdf0f9b
+      shib_idp:
+        version: 3.2.0
+        sha256sum: 302c45a4e0814e97a1c01950137d328e0a8630638b35bdd6ae50af9510bcea84
     installer:
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
+      repository: /opt/shibboleth-idp-installer/repository
     jetty:
-      version: 9.2.10.v20150310
-      sha256sum: 0034587a3dcfdab23fca28291e5e22ae7ff6e80f9f4c7a67f5b2b7777a84b40e
+      version: "{{ software.jetty.version }}"
+      sha256sum: "{{ software.jetty.sha256sum }}"
       root: /opt/jetty
-      home: /opt/jetty/jetty-distribution-9.2.10.v20150310
+      url: "{{ software.jetty.baseurl }}/{{ software.jetty.version }}/dist/jetty-distribution-{{ software.jetty.version }}.tar.gz"
+      home: /opt/jetty/jetty-distribution-{{ software.jetty.version }}
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
       state_directory: /tmp/jetty
       dta_ssl:
         version: 1.0.0
+        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
     shib_idp:
-      version: 3.1.2
-      sha256sum: 2519918257f77a80816de3bdb56b940a9f59325b6aa550aad53800291c1dec04
+      version: "{{ software.shib_idp.version }}"
+      sha256sum: "{{ software.shib_idp.sha256sum }}"
       home_root: /opt/shibboleth/shibboleth-idp
-      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-3.1.2
+      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ software.shib_idp.version }}
       src_root: /opt/shibboleth/shibboleth-src
-      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-3.1.2
-      keystore_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
-      cookie_enc_key_password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/cookie_enc_key chars=letters,digits length=64') }}"
-      aepst_salt: "{{ lookup('password', 'passwords/' + inventory_hostname + '/aespt_salt chars=letters,digits length=64') }}"
-      targeted_id_salt: "{{ lookup('password', 'passwords/' + inventory_hostname + '/targeted_id_salt chars=letters,digits length=64') }}"
+      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ software.shib_idp.version }}
+      keystore_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
+      cookie_enc_key_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/cookie_enc_key chars=letters,digits length=64') }}"
+      aepst_salt: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/aespt_salt chars=letters,digits length=64') }}"
+      targeted_id_salt: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/targeted_id_salt chars=letters,digits length=64') }}"
     db:
       name: idp_db
       username: idp_admin
-      password: "{{ lookup('password', 'passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
+      password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
       mysql_connector:
         version: 5.1.35
         sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
     aaf_shib_ext:
-      version: 1.0.0
-
+      version: 1.0.1
+    additional_jars:
+      commons_dbcp2:
+        version: 2.1.1
+        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+      commons_pool2:
+        version: 2.4.2
+        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
   tasks:
     - name: 'Create required directories for installer setup'
       file:

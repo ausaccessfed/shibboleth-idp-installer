@@ -50,10 +50,10 @@
     mode: 0640
     backup: yes
 
-- name: 'Create ssl.mod'
+- name: 'Set backchannel.ini'
   template:
-    dest: '{{ jetty.base }}/modules/ssl.mod'
-    src: 'templates/idp/ssl.mod'
+    dest: '{{ jetty.base }}/start.d/backchannel.ini'
+    src: 'templates/idp/backchannel.ini'
     owner: root
     group: jetty
     mode: 0640
@@ -81,14 +81,6 @@
   template:
     dest: '{{ jetty.base }}/webapps/idp.xml'
     src: 'templates/idp/idp.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-
-- name: 'Set http.mod'
-  template:
-    dest: '{{ jetty.base }}/modules/http.mod'
-    src: 'templates/idp/http.mod'
     owner: root
     group: jetty
     mode: 0640
@@ -124,6 +116,37 @@
   get_url:
     url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
     dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
+    sha256sum: '{{ jetty.dta_ssl.sha256sum }}'
+
+- name: 'Install Jars - commons-dbcp2'
+  get_url:
+    url: 'http://apache.mirror.digitalpacific.com.au/commons/dbcp/binaries/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    dest: '{{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    sha256sum: '{{ additional_jars.commons_dbcp2.sha256sum }}'
+
+- name: 'Extract commons-dbcp2 distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz
+    creates={{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar
+
+- name: 'Copy over commons-dbcp2 lib'
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar"' 
+
+- name: 'Install Jars - commons-pool2'
+  get_url:
+    url: 'http://apache.uberglobalmirror.com//commons/pool/binaries/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    dest: '{{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    sha256sum: '{{ additional_jars.commons_pool2.sha256sum }}'
+
+- name: 'Extract commons-pool2 distribution'
+  shell: >
+    umask 0027;
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz
+    creates={{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar
+
+- name: 'Copy over commons-pool2 lib' 
+  command: 'cp {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar"' 
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -305,6 +328,24 @@
     mode: 0640
     backup: yes
 
+- name: 'Set saml-nameid.properties'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/saml-nameid.properties'
+    dest: '{{ shib_idp.home }}/conf/saml-nameid.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set saml-nameid.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/saml-nameid.xml'
+    dest: '{{ shib_idp.home }}/conf/saml-nameid.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Get metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
@@ -413,31 +454,36 @@
     group: jetty
     mode: 0640
   with_items:
-  - conf/logback.xml
-  - conf/errors.xml
-  - conf/authn/authn-comparison.xml
-  - conf/authn/general-authn.xml
-  - conf/session-manager.xml
-  - system/conf/services-system.xml
-  - conf/c14n/subject-c14n.xml
-  - conf/intercept/profile-intercept.xml
-  - conf/cas-protocol.xml
-  - conf/services.properties
   - conf/access-control.xml
-  - conf/relying-party.xml
-  - conf/credentials.xml
-  - conf/saml-nameid.xml
   - conf/audit.xml
+  - conf/cas-protocol.xml
+  - conf/credentials.xml
+  - conf/errors.xml
   - conf/ldap.properties
+  - conf/logback.xml
+  - conf/mvc-beans.xml
+  - conf/relying-party.xml
   - conf/saml-nameid.properties
-  - conf/intercept/intercept-events-flow.xml
+  - conf/saml-nameid.xml
+  - conf/saml-nameid.properties
+  - conf/saml-nameid.xml
+  - conf/services.properties
+  - conf/session-manager.xml
+  - conf/authn/authn-comparison.xml
   - conf/authn/authn-events-flow.xml
+  - conf/authn/general-authn.xml
   - conf/authn/password-authn-config.xml
   - conf/authn/ldap-authn-config.xml
-  - conf/authn/password-authn-config.xml
-  - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/simple-subject-c14n-config.xml
+  - conf/c14n/subject-c14n-events-flow.xml
+  - conf/c14n/subject-c14n.xml
   - conf/intercept/consent-intercept-config.xml
+  - conf/intercept/profile-intercept.xml
+  - conf/intercept/intercept-events-flow.xml
+  - credentials/idp-backchannel.p12
+  - credentials/idp-encryption.key
+  - credentials/idp-signing.key
+  - system/conf/services-system.xml
 
 - name: 'Install IdP systemd unit'
   template:
