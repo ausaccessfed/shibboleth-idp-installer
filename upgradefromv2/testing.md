@@ -2,10 +2,15 @@
 layout: upgrade
 ---
 
-# Install the IdP #
-Follow in the installation instructions [Running the installer](http://ausaccessfed.github.io/shibboleth-idp-installer/installation.html "Running the installer").
+# Testing Your IdP [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
-The information required populating the bootstrap.sh file will be taken from your check list Information Gathering section.
+###Testing from your desktop
 
-The resultant IdP will be nearly be operational but will be lacking any corporate branding and other localization.
+###Attribute Validator
+
+###Other Federation Services
+
+###INSIDE And OUTSIDE your firewall
+
+###ECP Testing
 
