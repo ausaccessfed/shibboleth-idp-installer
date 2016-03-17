@@ -1,7 +1,7 @@
 ---
 layout: upgrade
 ---
-# Overview
+# Overview [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/_-n06WWEgME)
 
 The AAF recommended testing upgrade in the test environment first to minimise any production down time. A switchover to V3 should only take place after thoroughly testing the new system.
 
