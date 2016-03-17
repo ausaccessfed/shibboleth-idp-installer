@@ -3,7 +3,11 @@ layout: upgrade
 ---
 # Overview [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/_-n06WWEgME)
 
-The AAF recommended testing upgrade in the test environment first to minimise any production down time. A switchover to V3 should only take place after thoroughly testing the new system.
+The AAF have developed this set of documentation together with a set of recorded presentations that will guide you through the process of upgrading from version 2.x to version 3.x of the [Shibboleth](https://shibboleth.net/) IdP. Most sections will have a video guide which can be identified by the YouTube play icon ![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/small-youtube.png). This guides will talk you through the content in the documentation showing how it applies to an actual IdP that is being upgraded.
+
+## Upgrade overview
+
+The AAF recommended testing your upgrade in the test environment first to minimize any production down time. A switch-over to V3 should only take place after thoroughly testing the new system.
 
 The AAF team welcome all feedback and comment from IDP administrators with their experience with their IdPv2 to IdPv3 migration. This all helps improve the software and instructions in the guide making it a more useful tool for the entire community. [Feedback](../about/feedback.html)
 
