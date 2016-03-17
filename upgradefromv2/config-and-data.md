@@ -2,11 +2,23 @@
 layout: upgrade
 ---
 
-# Configuration Migration
+# Configuration Migration [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/_PGu0hlcQ-k)
 
 This section details which configuration setting need to be migrated from your old IdP to your new IdP to ensure the new IdP will continue to respond and perform as the old IdP did.
 
-## The entityID
+The following content will be covered
+
+
+- The Entity ID
+- Salt values
+- Certificates
+- Migrating user data
+- Attribute Resolution
+- Attribute Filters
+- Bi-Lateral Services
+- Branding
+
+## The entityID [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/api6i6h07ac)
 
 The *entityID* is a string that uniquely identifies your IdP within the federation. It is a [Uniform Resource Identifier (URI)](https://www.ietf.org/rfc/rfc3986.txt). Most IdPs will have an entityID that looks like a web URL something like: 
 
@@ -32,7 +44,7 @@ with the identifier of **idp_entity_id:**
 
 If the entityIds do not match proceed to [make entityIds match](make_entityids_match.html) before continuing.
 
-## Copy Salt values
+## Copy Salt values [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/dEMo-HTanrE)
 
 Two SALT values are used in your old IdP to generate unique identifier attributes for your users. The attributes are:
 
@@ -53,7 +65,7 @@ The *salt* value will be in  the sharedToken data connector.
 
 Replace the value in the file ***passwords/your.server.edu.au/aespt_salt*** with the value from your old IdP.
 
-## Certificates
+## Certificates [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/XzZI7gGgxLE)
 
 Shibboleth IdPs use a number of certificates. With IdP v3 the number of certificates has increased with each now have its own individual role. See [Shibboleth IdP Security and Networking](https://wiki.shibboleth.net/confluence/display/IDP30/SecurityAndNetworking) for more details. 
 
@@ -97,7 +109,7 @@ To added these key to the Federation Registry
 
 This is new to IdPv3. No action is required.
 
-## Migrating Data
+## Migrating User Data [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/kIm6xAsL2xU)
 
 To ensure users do not obtain new identities with service providers in the federation when logging using the new IdP it is essential to migrate identity information created by the old IdP. This will generally be held in the database connected to the IdP. Data from the following tables should be exported from the old and imported into the new.
 
@@ -108,7 +120,7 @@ You will find the Database connection information in the conf/attribute-resolver
 
 The password for the MySQL database on the new IdP can be found in the file */opt/shibboleth-idp-installer/repository/passwords/your.idp.edu.au/mariadb* and the username is *idp_db*
 
-## Attribute Resolution
+## Attribute Resolution [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
 The following table describes the location of where or how attributes are resolved in the IdP created using the default installer. You will need to check to see if you need to make modifications and determine if there are any attributes missing.
 
@@ -138,39 +150,50 @@ For scripted attributes there have been changes to the scripting language. Most 
 
 When modifying the *attribute-resolver.xml* edit the one in the directory */opt/shibboleth-idp-installer/repository/assets/idpme.trsau.gq/idp/*. Rerun the *update_idp.sh* script to deploy.**
 
-## Attribute Filters
+## Attribute Filters [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/SKjWsnpWH-8)
 
 The method of attribute filtering is changing as has been aligned with migration to version 3 of the IdP. Attribute release rules are now being published in the AAF Federation metadata. A generic attribute filter is provided by the AAF IdP installer.
 
-## Entity Categories
+## Bi-Lateral Services [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
-Entity categories are identifiers applied to Service Providers and Identity providers. An entity category can define a set of attributes that are required or requested by services that have been assigned the entity category. In most cases an Entity categories is assigned by the federation operator to service providers. Entity categories are also applied to Identity Provides and generally assert that the Identity Provider is able and willing to release attributes required by the Entity Category.
+Stuff here...
 
-Entity Categories will be progressively introduced into the AAF as we move forward to joining eduGAIN.
+## Branding [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
-## Branding
+###What the user sees
 
-The following pages of your IdP need to be branded appropriate for your organization  .
+###The Out-of-the-box Login page
 
-- Login page
-- Terms of Use page
-- Attribute release page
-- Error pages
+###The Login page
 
-You also need to ensure the default page of your IdP web server takes the user to an appropriate location.
+###Sections
 
-**Login page**
+###The Organisation logo
+
+###The service provider
+
+###Text and Links
+
+###Style – Colours and Fonts
+
+###Page options
+
+###The Consent page
+
+###Changing attribute names
+
+###Consent page wording
+
+###The Reject message
+
+###Error pages - Shibboleth
 
 
-**Terms of Use page**
 
 
-** Attribute release page **
 
 
-** Error pages **
 
 
-** Default Server page **
 
-In addition to your IdP 
+
