@@ -36,4 +36,4 @@ This guide provides step by step instructions on upgrading, please complete and 
 
 In some instances your current IdP installation may have some functionality or option that are not covered in this guide. The Shibboleth Wiki [Identity Provider 3](https://wiki.shibboleth.net/confluence/display/IDP30/Home) is a great resource. Please let [AAF Support](mailto:support@aaf.edu.au) know if there are any gaps so we can try and fill them.
 
-Once you’re ready to get started please continue to the [Strategy and Planning](upgradefromv2/strategy-planning.html) section.
+Once you’re ready to get started please continue to the [Strategy and Planning](strategy-planning.html) section.
