@@ -2,7 +2,7 @@
 layout: upgrade
 ---
 
-# Server Setup #
+# Server Setup # [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/y5hRz3DAhB4)
 The server on which you will be installing your new IdP v3 and migrating your v2 configuration to MUST meet the requirements set out in the [Install Guide - Requirement Checklist](http://ausaccessfed.github.io/shibboleth-idp-installer/requirements-checklist.html "Requirements Checklist").
 
 ## Additional Requirements ##
