@@ -3,7 +3,11 @@ layout: upgrade
 ---
 
 #Upgrading and Maintenance [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
+Now that you are at version 3 of the Shibboleth IdP maintaining it should be much simpler.
 
+You have run the ***upgrade_idp.sh*** script numerous time through the migration. This has run Ansible over the same configuration base with the changes you have made to the assets area. The script can also be run in upgrade mode. In this mode it updates the configuration base. This will be all of the changes we have made such as upgrading the IdP or Jetty versions, add new features, etc. It will continue to apply your changes.
+
+We will notify you via the idp-installer@aaf.edu.au email group of these changes.
 ###Joining the mailing list
 The email group ***idp-installer@aaf.edu.au*** has been created which we encourage you to join. 
 
@@ -17,11 +21,7 @@ Your can also send your ideas, feedback and questions to this list.
 
 To Join ***[CLICK HERE](https://groups.google.com/a/aaf.edu.au/d/forum/idp-installer)***.
 
-Now that you are at version 3 of the Shibboleth IdP maintaining it should be much simpler.
 
-You have run the ***upgrade_idp.sh*** script numerous time through the migration. This has run Ansible over the same configuration base with the changes you have made to the assets area. The script can also be run in upgrade mode. In this mode it updates the configuration base. This will be all of the changes we have made such as upgrading the IdP or Jetty versions, add new features, etc. It will continue to apply your changes.
-
-We will notify you via the idp-installer@aaf.edu.au email group of these changes.
 
 ###The next upgrade
 When you receive a notification about an upgrade you should read the change logs and release note carefully - They may contain actions that you need to perform in preparation of the upgrade.
