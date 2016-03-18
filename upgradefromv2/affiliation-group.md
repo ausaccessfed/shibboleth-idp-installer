@@ -2,7 +2,8 @@
 layout: upgrade
 ---
 
-#eduPersonAffiliation based on group membership
+#eduPersonAffiliation 
+###based on group membership
 
 Some text
 

@@ -177,8 +177,7 @@ Bi-lateral services are any services that are not provided by the AAF, this incl
 ###Additional files
 You may need to add some additional files to your IdP’s  configuration.
 
-- Metadata files - 
-  The metadata of non federation services.
+- Metadata files - The metadata of non federation services.
 - Verification certificates - Used to verify the metadata of the service or other federations
 - Attribute filters - Attribute release files for your non federation service.
 
@@ -228,7 +227,7 @@ Example:
 
 Reference the attribute-filter that you previously added to the bilateral/filters area, *your-attribute-filter.xml*
 
-###Informing your bilateral SP
+###Informing your bilateral SPs
 Your new IdP will have new certificates and possibly other modifications to its Metadata.
 
 To ensure these services will continue to function you must send the a new version of your Metadata.
@@ -244,36 +243,159 @@ You can obtain a copy of your current Metadata from the AAF Federation Registry.
 ## Branding [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
 ###What the user sees
+Your IdP is just a Web application. What the user sees will be influenced by
+The style
+
+- Logos and images
+- Links
+- Content
+
+The content is fairly simple, it’s just a form that asks for the Username and Password.
+The rest of the page it there to make the user feel comfortable providing this information.
+
+This presentation is a check list of common elements that we recommend appear on your IdP to help your users feel confident that they are giving their username and password to their organisations federation login page.
 
 ###The Out-of-the-box Login page
+The installer provides functioning login page out-of-the-box (shown right)
+
+- Velocity Template
+  - Simple HTML
+  - Access to configuration
+  - Access to internal information
+- Page split into sections
+  - **\<div class=“…”\>**
+
+To edit:
+
+    /opt/shibboleth-idp-installer/repository/assets/YOUR.SERVER.DOMAIN.NAME/idp/branding/views/login.vm
+
 
 ###The Login page
+The title applied to your IdP can be found in the file ***error-messages.properties*** and defaults to
+***{{ organisation_name }} Login Service***
+
+To change the title modify the ***idp.title*** text. This will change the page title changes for all IdP pages.
+
+\* *To apply this and other branding changes run the update_idp.sh script*
 
 ###Sections
+The login page is divided into a number of sections allowing individual styling to be applied. The sections are;
+
+| -------------- | ---- |
+|wrapper | The entire page |
+|container | An area in which all of the page content is held |
+|header | The page header - holds your organizations logo | 
+|content | The main content of the page. The is then divided into two columns |
+|column one | Form for the user to input their username and password | 
+|column two | support links |
+|footer | The page footer | 
+
 
 ###The Organisation logo
+The ***error-messages.properties*** file defines the location of the main logo image file.
+
+- Change the location
+= Or replace the file ***images/logo.png***
+
+The IdP main logo changes for all pages.
+
 
 ###The service provider
+The login page can display the name and icon of the service provider if they are available.
+
+- Data provided via Metadata
+- IdP already configured
+
+If available the logo and description will appear under the Login-in button in the “column one” section.
 
 ###Text and Links
+The ***auth-messages.properties*** file contains the labels for the links in the “column two” section.
+The link references can be found in the ***login.vm*** file.
+
+These links should be to user support pages within your organisation.
+
+- Forgot your password?
+- Need Help?
+
+Others can easily be added
 
 ###Style – Colours and Fonts
+There are two .css style sheets provided with the IdP.
+
+- ***main.css*** – applies to most pages
+- ***consent.css*** – only applies to the Consent page
+
+Applies colours, fonts and spacing to the pages. Modify to match your organisations style.
+
+You may need the assistance of your web team!
 
 ###Page options
+The ***auth-messages.properties*** file contains the labels for the check boxes in the “column one” section.
+
+Don't Remember Login
+
+- Tells the browser not to cache the users input.
+
+Clear prior granting of permission for release of your information to this service.
+
+- removes previous consent decisions
+
 
 ###The Consent page
+Lists the user’s attributes that are to be released to the SP the user is attempting to login to.
+
+Options provided on how to deal with page in future. User select from…
+
+- Ask every time
+- Ask only if something changes
+- Never ask again
+
+If the user Rejects they will be blocked from Accessing the service.
+
+File:   ***views/attribute-release.vm***
 
 ###Changing attribute names
+The name of each attribute can changed. To do so you need to edit the ***attribue-resolver.xml*** file which can be found in the ***idp/conf*** area.
+
+For each Attribute add a ***DisplayName*** element. It must be added after the ***resolver:Dependency***
+
+    <resolver:AttributeDefinition xsi:type="ad:Simple" id="givenName" sourceAttributeID="givenName">
+    <resolver:Dependency ref="ldap" />
+    <resolver:DisplayName xml:lang="en">First Names</resolver:DisplayName>
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" encodeType="false" />
+    </resolver:AttributeDefinition>
+    
+This example we change givenName to First Names for the purpose of displaying on the consent page.
 
 ###Consent page wording
+Most of the wording on the consent page can be modified in the ***branding/consent-messages.properties*** file.
+
 
 ###The Reject message
+The message shown to the user if they select “Reject” can be found in the file ***branding/error-messages.properties***
+
 
 ###Error pages - Shibboleth
+The Text for the IdP errors can be found in the file ***branding/error-messages.properties***
+
+The layout of the error page can be found in the file ***views/error.vm***
+
+You should consider adding local information to this page, for instance, contact information to your support desk.
+
+###Addition files
+If you have additional file, for example
+
+- Images
+- Style sheets
+- Font files
+
+They can be added to the ***branding/css*** or ***branding/images*** directories and will be copied over to the running IdP when you run the ***upgrade-idp.sh*** script.
 
 
+##Next step
 
-
+Your new IdP is fully configured and branded, almost ready to go. It's now time to thoroughly [test your IdP](testing). 
 
 
 

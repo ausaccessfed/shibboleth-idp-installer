@@ -2,7 +2,8 @@
 layout: upgrade
 ---
 
-#eduPersonAffiliation based on distinguishing attributes
+#eduPersonAffiliation
+### based on distinguishing attributes
 
 Some text
 
