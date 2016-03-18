@@ -134,13 +134,20 @@ The following table describes the location of where or how attributes are resolv
 | Organisation Name | AAF Core | Statically defined - Same value for all users |
 | Entitlements | AAF Core | Directory (eduPersonEntitlement) | 
 | Assurance | AAF Core | Directory (eduPersonAssurance) |
-| Affiliation | AAF Core | Directory (eduPersonAffiliation) | 
-| Scoped Affiliation | AAF Core | Affiliation attribute |
+| Affiliation* | AAF Core | Directory (eduPersonAffiliation) and script the helps ensure the correct values are sent | 
+| Scoped Affiliation | AAF Core | Affiliation attribute with the IdPs scope appended |
 | UID | Optional | Directory (uid) |
+| eduPersonPrincipalName | Oprional | Directory (uid) with the IdPs scope appended | 
 | Given Name | Optional | Directory (givenName) |
 | Surname | Optional | Directory (sn) |
 | Home Organisation Type | Optional | Statically defined - Same value for all users |
 | Home Organisation | Optional | Statically defined - Same value for all users |
+
+\* The Affiliation can be created in many different way, follow the links to see example scripts
+
+- [Group membership](affiliation-group)
+- [Distinguishing attribute values](affiliation-attribute)
+- [LDAP Hierarchy](affiliation-hierarchy)
 
 There may be other attributes the need to be added to your attribute resolver.
 
@@ -156,7 +163,83 @@ The method of attribute filtering is changing as has been aligned with migration
 
 ## Bi-Lateral Services [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
-Stuff here...
+###What are Bi-Lateral Services?
+Bi-lateral services are any services that are not provided by the AAF, this includes
+
+- Services manually added to the IdP
+  - Local organisation only services
+- Software or Platform as a service 
+  - Google Apps
+  - Office 365
+- Part of another federation
+  - This is slightly different. Your IdP appears in multiple federations.
+
+###Additional files
+You may need to add some additional files to your IdP’s  configuration.
+
+- Metadata files - 
+  The metadata of non federation services.
+- Verification certificates - Used to verify the metadata of the service or other federations
+- Attribute filters - Attribute release files for your non federation service.
+
+
+In the directory shown below you will find three sub-directories that will hold each of the file types listed above
+
+    /opt/shibboleth-idp-installer/repository/assets/[YOUR.SERVER.DOMAIN]/idp/bilateral
+
+When you re-run the *update_idp.sh* script it will copy these files to the running IdPs configuration.
+
+### Metadata Configuration
+Adding Metadata to your IdP, use the file:
+
+    /opt/shibboleth-idp-installer/repository/assets/YOUR.SERVER.DOMAIN.NAME/idp/conf/metadata-providers.xml
+
+For each new Metadata source add a new section. For example to load metadata from a local file.
+
+    <MetadataProvider id="MyMetadata"
+    xsi:type="xsi:type="FilesystemMetadataProvider" 
+    metadataFile="%{idp.home}/metadata/myMetatdata.xml"/>
+
+Other options are available from the [Shibboleth Wiki](https://wiki.shibboleth.net/confluence/display/IDP30/MetadataConfiguration).
+
+###Verification certificates 
+
+You may need a Certificate to validate the authenticity of the Metadata file. For example – Loading Metadata from a third party site: The following is added to your MetadataProvider. 
+
+    <MetadataFilter xsi:type="SignatureValidation"
+        certificateFile="{{ shib_idp.home }}/credentials/your-metadata-cert.pem" 
+        requireSignedRoot="true">
+    </MetadataFilter>
+
+Reference the signing certificate that you previously added to the bilateral/credentials area, *your-metadata-cert.pem*.
+
+###Attribute filters
+To release attribute to bilateral services you will require additional attribute filters for each service. These files need to be added to the IdPs configuration.  Add a reference to to the file:
+
+    /opt/shibboleth-idp-installer/repository/assets/YOUR.SERVER.DOMAIN.NAME/idp/conf/services.xml
+
+Example:
+
+    <util:list id ="shibboleth.AttributeFilterResources">
+       <value>%{idp.home}/conf/metadata-based-attribute-filter.xml</value>
+       <value>%{idp.home}/conf/attribute-filter.xml</value>
+       <value>%{idp.home}/conf/your-attribute-filter.xml</value>
+    </util:list>
+
+Reference the attribute-filter that you previously added to the bilateral/filters area, *your-attribute-filter.xml*
+
+###Informing your bilateral SP
+Your new IdP will have new certificates and possibly other modifications to its Metadata.
+
+To ensure these services will continue to function you must send the a new version of your Metadata.
+
+- Before the transition – with both set of certificates (New and Old)
+- After the transition – with only the new certificates
+
+When every the SP loads the new Metadata you should verify the service still work correctly, otherwise you users will complain.
+
+You can obtain a copy of your current Metadata from the AAF Federation Registry.
+
 
 ## Branding [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
