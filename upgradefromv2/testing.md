@@ -59,5 +59,10 @@ https://YOUR.SERVER.DOMAIM.NAME/idp/profile/SAML2/SOAP/ECP
 
 If working correctly you will receive a Dialogue Login Box. If you now enter a valid username you will receive some xml with “An error occurred.” imbedded.
 
+###Restart the server
+The ultimate test is to restart the server. This will verify that all of the components restart correctly and connection to external services such as your LDAP server re-connect.
+
+You should re-run all of your testing after the system re-boots.
+
 ##Next Step
 Your new IdP is now fully tested, it's time to [go live](go-live). 
