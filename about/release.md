@@ -5,9 +5,9 @@ layout: about
 # Release notes
 
 
-
-- [**1.1.0-beta.1+idp-3.2.0**](#1.1.0-beta)
-  - [Important Notes for Upgraders](#1.1.0-beta-notes)
+- [**1.0.0-beta.2+idp-3.2.0**](#1.0.0=beta.2)
+- [**1.0.0-beta.1+idp-3.2.0**](#1.0.0-beta.1)
+  - [Important Notes for Upgraders](#1.0.0-beta-notes)
   - [Software upgrades](#1.1.0-beta-software)
 - [**1.0.1-alpha.2+idp-3.1.2**](1.0.1-alpha.2)
 - [**1.0.0-alpha.2+idp-3.1.2**](1.0.0-alpha.2)
@@ -15,14 +15,25 @@ layout: about
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
 ----------
+## <a name="1.0.0"></a>1.0.0+idp-3.2.1 ##
 
-## <a name="1.1.0-beta"></a>1.1.0-beta.1+idp-3.2.0 ##
+March TBA, 2016
 
-December TBA, 2015
+## <a name="1.0.0-beta.2"></a>1.0.0-beta.2+idp-3.2.0 ##
+
+February 11, 2016
+
+- Jetty binaries from AAF binaries. Eclipse site move older version of Jetty to an archive area.
+-  Change hard-coded groupID value 'aaf.edu.au' to the Ansible variable
+-  Minor bug fixes 
+
+## <a name="1.0.0-beta.1"></a>1.0.0-beta.1+idp-3.2.0 ##
+
+January 13, 2016
 
 This is the first beta release of the AAF IdP installer. It incorporates a number of software package upgrades bug fixes.
 
-<a name="1.1.0-beta-notes"></a>**Important Notes for Upgraders**
+<a name="1.0.0-beta-notes"></a>**Important Notes for Upgraders**
 
 This version installs Shibboleth IdP v3.2.0 of the IdP installer. This version of Shibboleth fixes a number bug and provides new features that make if a viable version for adding to the AAF Production federation.
 
