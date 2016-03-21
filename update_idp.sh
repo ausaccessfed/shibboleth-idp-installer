@@ -47,7 +47,10 @@ then
   if [[ $upgrade = true ]]
   then
     git pull
+    ansible-playbook -i ansible_hosts update.yml
   fi
+
+git branch 
 
   ansible-playbook -i ansible_hosts site.yml --force-handlers
 else
