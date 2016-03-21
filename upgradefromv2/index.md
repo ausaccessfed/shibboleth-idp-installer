@@ -1,7 +1,9 @@
 ---
 layout: upgrade
 ---
-# Overview [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/_-n06WWEgME)
+#IdP v2 to v3 upgrade
+
+## Overview [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/_-n06WWEgME)
 
 The AAF have developed this set of documentation together with a set of recorded presentations that will guide you through the process of upgrading from version 2.x to version 3.x of the [Shibboleth](https://shibboleth.net/) IdP. Most sections will have a video guide which can be identified by the YouTube play icon ![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/small-youtube.png). This guides will talk you through the content in the documentation showing how it applies to an actual IdP that is being upgraded.
 
