@@ -2,7 +2,7 @@
 layout: about
 ---
 
-# Current versions
+# Current version
 
 ## Version: 1.0.0-beta.2+idp-3.2.0
 
