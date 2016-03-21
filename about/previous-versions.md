@@ -4,10 +4,10 @@ layout: about
 
 ## Previous versions of the AAF Installer
 
-- [**1.0.0-beta.1+idp-3.2.0**](1.0.0-beta.1)
-- [**1.0.1-alpha.2+idp-3.1.2**](1.0.1-alpha.2)
-- [**1.0.0-alpha.2+idp-3.1.2**](1.0.0-alpha.2)
-- [**1.0.0-alpha.1**](1.0.0-alpha.1)
+- [**1.0.0-beta.1+idp-3.2.0**](previous-versions.html#1.0.0-beta.1)
+- [**1.0.1-alpha.2+idp-3.1.2**](previous-versions.html#1.0.1-alpha.2)
+- [**1.0.0-alpha.2+idp-3.1.2**](previous-versions.html#1.0.0-alpha.2)
+- [**1.0.0-alpha.1**](previous-versions.html#1.0.0-alpha.1)
 
 ----------
 ## <a name="1.0.0-beta.1"></a>1.0.0-beta.1_idp-3.1.2
