@@ -438,7 +438,7 @@
     dest: '{{ shib_idp.home }}/conf'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Copy bilateral metadata'
   copy:
@@ -446,7 +446,7 @@
     dest: '{{ shib_idp.home }}/metadata'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Copy bilateral credentials'
   copy:
@@ -454,7 +454,7 @@
     dest: '{{ shib_idp.home }}/credentials'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Determine if credentials from previous install exist'
   local_action:
