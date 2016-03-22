@@ -29,7 +29,8 @@ echo "  2. Apply any configuration changes made within the assets directory for:
 echo "    * Shibboleth IdP"
 echo "    * Jetty"
 echo "    * Apache HTTPD"
-echo -e "  3. RESTART all dependant processes.\n"
+echo "  3. May add additional files to your Assets area to allow for advanced configuration
+echo -e "  4. RESTART all dependant processes.\n"
 
 if [[ $upgrade = true ]]
 then
@@ -49,8 +50,6 @@ then
     git pull
     ansible-playbook -i ansible_hosts update.yml
   fi
-
-git branch 
 
   ansible-playbook -i ansible_hosts site.yml --force-handlers
 else
