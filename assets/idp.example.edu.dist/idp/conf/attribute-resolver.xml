@@ -94,10 +94,45 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" encodeType="false" />
   </resolver:AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonAffiliation" sourceAttributeID="eduPersonAffiliation">
+  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonAffiliation">
     <resolver:Dependency ref="ldap" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
+    <ad:Script><![CDATA[
+        var BasicAttribute = Java.type("edu.internet2.middleware.shibboleth.common.attribute.provider.BasicAttribute");
+        var newAffiliations = new BasicAttribute("eduPersonAffiliation");
+
+        if (typeof eduPersonAffiliation != "undefined" && eduPersonAffiliation.getValues().size() >= 1) {
+            for ( i = 0; i < eduPersonAffiliation.getValues().size(); i++){
+                value = eduPersonAffiliation.getValues().get(i).toLowerCase();
+                if (value.equals("student") ||
+                    value.equals("faculty") ||
+                    value.equals("staff") ||
+                    value.equals("employee") ||
+                    value.equals("affiliate") ||
+                    value.equals("alum") ||
+                    value.equals("member") ||
+                    value.equals("library-walk-in")) {
+                    newAffiliations.addValue(value);
+                }
+            }
+        }
+
+        add_member =  newAffiliations.getValues().contains("student") ||
+                      newAffiliations.getValues().contains("faculty") ||
+                      newAffiliations.getValues().contains("staff") ||
+                      newAffiliations.getValues().contains("employee");
+
+        if (add_member) { newAffiliations.addValue("member"); }
+
+        if (newAffiliations.getValues().size() < 1) {
+            newAffiliations.addValue("affiliate");
+        }
+
+        eduPersonAffiliation.getValues().clear();
+
+        eduPersonAffiliation.getValues().addAll(newAffiliations.getValues());
+    ]]></ad:Script>
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition xsi:type="ad:Scoped" id="eduPersonScopedAffiliation" scope="%{idp.scope}" sourceAttributeID="eduPersonAffiliation">

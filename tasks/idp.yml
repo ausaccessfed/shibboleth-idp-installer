@@ -157,6 +157,24 @@
     mode: 0640
     backup: yes
 
+- name: 'Set customised authn-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/authn-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/authn-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set customised consent-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/consent-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/consent-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Set customised IdP branding (css)'
   template:
     dest: '{{ shib_idp.home }}/edit-webapp/css/{{ item }}'
@@ -420,7 +438,7 @@
     dest: '{{ shib_idp.home }}/conf'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Copy bilateral metadata'
   copy:
@@ -428,7 +446,7 @@
     dest: '{{ shib_idp.home }}/metadata'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Copy bilateral credentials'
   copy:
@@ -436,7 +454,7 @@
     dest: '{{ shib_idp.home }}/credentials'
     owner: root
     group: jetty
-    mode: 640
+    mode: 0640
 
 - name: 'Determine if credentials from previous install exist'
   local_action:
