@@ -8,7 +8,8 @@ function git_update_details {
   echo "  1. Upgrade to the most recent version of the installer: "
   echo "    * The update will be retrieved from: ${remote}"
   echo "    * It will be based on the most recent release from: ${current_branch}"
-  echo "  2. Upgrade, if necessary, to the most recently vetted versions of: "
+  echo "  2. May add additional files to your Assets area to allow for advanced configuration"
+  echo "  3. Upgrade, if necessary, to the most recently vetted versions of: "
   echo "    * Shibboleth IdP"
   echo -e "    * Jetty\n\n"
 }
@@ -29,8 +30,7 @@ echo "  2. Apply any configuration changes made within the assets directory for:
 echo "    * Shibboleth IdP"
 echo "    * Jetty"
 echo "    * Apache HTTPD"
-echo "  3. May add additional files to your Assets area to allow for advanced configuration
-echo -e "  4. RESTART all dependant processes.\n"
+echo -e "  3. RESTART all dependant processes.\n"
 
 if [[ $upgrade = true ]]
 then
