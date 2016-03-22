@@ -114,7 +114,7 @@
 
 - name: 'Install jetty-dta-ssl'
   get_url:
-    url: 'https://build.shibboleth.net/nexus/content/repositories/releases/net/shibboleth/utilities/jetty9/jetty9-dta-ssl/{{ jetty.dta_ssl.version }}/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
+    url: '{{ jetty.dta_ssl.url }}'
     dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
     sha256sum: '{{ jetty.dta_ssl.sha256sum }}'
 
