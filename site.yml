@@ -9,8 +9,16 @@
         version: 9.3.5.v20151012
         sha256sum: 24e80e350fcc9749aa4a29913c34917ad238a0fa3abdb7d7c9b42dc40bdf0f9b
       shib_idp:
+        baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
         version: 3.2.0
         sha256sum: 302c45a4e0814e97a1c01950137d328e0a8630638b35bdd6ae50af9510bcea84
+      mysql_connector:
+        baseurl: "{{ aaf_binaries.baseurl }}/mysql_connector"
+        version: 5.1.35
+        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+
+
+
     installer:
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
@@ -30,6 +38,7 @@
     shib_idp:
       version: "{{ software.shib_idp.version }}"
       sha256sum: "{{ software.shib_idp.sha256sum }}"
+      url: "{{ software.shib_idp.baseurl }}/shibboleth-identity-provider-{{ software.shib_idp.version }}.tar.gz"
       home_root: /opt/shibboleth/shibboleth-idp
       home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ software.shib_idp.version }}
       src_root: /opt/shibboleth/shibboleth-src
@@ -43,8 +52,8 @@
       username: idp_admin
       password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
       mysql_connector:
-        version: 5.1.35
-        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+        version: "{{ software.mysql_connector.version }}"
+        url: "{{ software.mysql_connector.baseurl }}/Connector-J/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
     aaf_shib_ext:
       version: 1.0.1
     additional_jars:
