@@ -13,10 +13,24 @@
         version: 3.2.0
         sha256sum: 302c45a4e0814e97a1c01950137d328e0a8630638b35bdd6ae50af9510bcea84
       mysql_connector:
-        baseurl: "{{ aaf_binaries.baseurl }}/mysql_connector"
+        baseurl: "{{ aaf_binaries.baseurl }}/jar/mysql_connector"
         version: 5.1.35
         sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
-
+      dta_ssl:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty-dta-ssl"
+        version: 1.0.0
+        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
+      commons_dbcp2:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_dbcp2"
+        version: 2.1.1
+        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+      commons_pool2:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_pool2"
+        version: 2.4.2
+        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+      aaf_shib_ext:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
+        version: 1.0.1
 
 
     installer:
@@ -33,8 +47,9 @@
       current: /opt/jetty/current
       state_directory: /tmp/jetty
       dta_ssl:
-        version: 1.0.0
-        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
+        version: '{{ software.dta_ssl.version }}'
+        sha256sum: '{{ software.dta_ssl.sha256sum }}'
+        url: '{{ software.dta_ssl.baseurl }}/jetty9-dta-ssl-{{software.dta_ssl.version}}.jar'
     shib_idp:
       version: "{{ software.shib_idp.version }}"
       sha256sum: "{{ software.shib_idp.sha256sum }}"
@@ -55,14 +70,17 @@
         version: "{{ software.mysql_connector.version }}"
         url: "{{ software.mysql_connector.baseurl }}/Connector-J/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
     aaf_shib_ext:
-      version: 1.0.1
+      version: "{{ software.aaf_shib_ext.version }}"
+      url : "{{ software.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ software.aaf_shib_ext.version }}.jar"
     additional_jars:
       commons_dbcp2:
-        version: 2.1.1
-        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+        version: "{{ software.commons_dbcp2.version }}"
+        sha256sum: "{{software.commons_dbcp2.sha256sum }}"
+        url: '{{software.commons_dbcp2.baseurl }}/commons_dbcp2-{{ software.commons_dbcp2.version }}-bin.tar.gz"
       commons_pool2:
         version: 2.4.2
         sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+        url: '{{software.commons_pool2.baseurl }}/commons_pool2-{{ software.commons_pool2.version }}-bin.tar.gz"
   tasks:
     - name: 'Create required directories for installer setup'
       file:

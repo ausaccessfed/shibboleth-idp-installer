@@ -109,7 +109,7 @@
 
 - name: 'Install aaf-shib-ext library'
   get_url:
-    url: 'https://bintray.com/artifact/download/ausaccessfed/libs/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+    url: '{{ aaf_shib_ext.url }}'
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
 
 - name: 'Install jetty-dta-ssl'
@@ -120,7 +120,7 @@
 
 - name: 'Install Jars - commons-dbcp2'
   get_url:
-    url: 'http://apache.mirror.digitalpacific.com.au/commons/dbcp/binaries/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
+    url: '{{ additional_jars.commons_dbcp2.url }}'
     dest: '{{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
     sha256sum: '{{ additional_jars.commons_dbcp2.sha256sum }}'
 
@@ -135,7 +135,7 @@
 
 - name: 'Install Jars - commons-pool2'
   get_url:
-    url: 'http://apache.uberglobalmirror.com//commons/pool/binaries/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
+    url: '{{ additional_jars.commons_pool2.url }}'
     dest: '{{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
     sha256sum: '{{ additional_jars.commons_pool2.sha256sum }}'
 
