@@ -31,7 +31,7 @@
       aaf_shib_ext:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
         version: 1.0.1
-
+        sha256sum: 854314b1b8438ec993df71fe745f375f637dbc2ddd86f8cd5010d01dea6b5aa3
 
     installer:
       root: /opt/shibboleth-idp-installer
@@ -71,6 +71,7 @@
         url: "{{ software.mysql_connector.baseurl }}/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
     aaf_shib_ext:
       version: "{{ software.aaf_shib_ext.version }}"
+      sha256sum: "{{software.aaf_shib_ext.sha256sum }}"
       url : "{{ software.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ software.aaf_shib_ext.version }}.jar"
     additional_jars:
       commons_dbcp2:
@@ -79,7 +80,7 @@
         url: "{{software.commons_dbcp2.baseurl }}/commons-dbcp2-{{ software.commons_dbcp2.version }}-bin.tar.gz"
       commons_pool2:
         version: 2.4.2
-        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+        sha256sum: "{{software.commons_pool2.sha256sum }}"
         url: "{{software.commons_pool2.baseurl }}/commons-pool2-{{ software.commons_pool2.version }}-bin.tar.gz"
   tasks:
     - name: 'Create required directories for installer setup'

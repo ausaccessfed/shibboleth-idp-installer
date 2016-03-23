@@ -111,6 +111,7 @@
   get_url:
     url: '{{ aaf_shib_ext.url }}'
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
+    sha256sum: '{{ aaf_shib_ext.sha256sum }}'
 
 - name: 'Install jetty-dta-ssl'
   get_url:

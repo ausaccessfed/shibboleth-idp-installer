@@ -119,6 +119,16 @@
       </AttributeRule>
 
       <!-- Optional AAF Attributes -->
+      <AttributeRule attributeID="uid">
+          <PermitValueRule xsi:type="OR">
+                  <Rule xsi:type="AttributeInMetadata"
+                              onlyIfRequired="false"/>
+                  <Rule xsi:type="AttributeInMetadata"
+                              attributeName="urn:oid:0.9.2342.19200300.100.1.1"
+                              onlyIfRequired="false"/>
+          </PermitValueRule>
+      </AttributeRule>
+
       <AttributeRule attributeID="givenName">
           <PermitValueRule xsi:type="OR">
                   <Rule xsi:type="AttributeInMetadata"
