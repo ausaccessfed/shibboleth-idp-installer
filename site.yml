@@ -68,7 +68,7 @@
       password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
       mysql_connector:
         version: "{{ software.mysql_connector.version }}"
-        url: "{{ software.mysql_connector.baseurl }}/Connector-J/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
+        url: "{{ software.mysql_connector.baseurl }}/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
     aaf_shib_ext:
       version: "{{ software.aaf_shib_ext.version }}"
       url : "{{ software.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ software.aaf_shib_ext.version }}.jar"
