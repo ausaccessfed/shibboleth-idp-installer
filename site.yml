@@ -79,7 +79,7 @@
         sha256sum: "{{software.commons_dbcp2.sha256sum }}"
         url: "{{software.commons_dbcp2.baseurl }}/commons-dbcp2-{{ software.commons_dbcp2.version }}-bin.tar.gz"
       commons_pool2:
-        version: 2.4.2
+        version: "{{software.commons_pool2.version }}"
         sha256sum: "{{software.commons_pool2.sha256sum }}"
         url: "{{software.commons_pool2.baseurl }}/commons-pool2-{{ software.commons_pool2.version }}-bin.tar.gz"
   tasks:
