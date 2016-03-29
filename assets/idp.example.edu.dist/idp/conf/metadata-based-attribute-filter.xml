@@ -234,7 +234,7 @@
                   <Rule xsi:type="AttributeInMetadata"
                               onlyIfRequired="false"/>
                   <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.2.840.113556.1.4.261
+                              attributeName="urn:oid:1.2.840.113556.1.4.261"
                               onlyIfRequired="false"/>
           </PermitValueRule>
       </AttributeRule>
