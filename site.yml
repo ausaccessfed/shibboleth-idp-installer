@@ -36,7 +36,6 @@
         baseurl: "{{ aaf_binaries.baseurl }}/keystore"
         version: "Unknown"
         sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
-      
     urls:
       jetty:
         url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
@@ -52,7 +51,7 @@
         url: "{{ download.commons_pool2.baseurl }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz"
       aaf_shib_ext:
         url: "{{ download.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar"
-      keystore"
+      keystore:
         url: "http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore"
     installer:
       root: /opt/shibboleth-idp-installer
@@ -66,9 +65,9 @@
       state_directory: /tmp/jetty
     shib_idp:
       home_root: /opt/shibboleth/shibboleth-idp
-      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ software.shib_idp.version }}
+      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}
       src_root: /opt/shibboleth/shibboleth-src
-      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ software.shib_idp.version }}
+      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ download.shib_idp.version }}
       keystore_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
       cookie_enc_key_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/cookie_enc_key chars=letters,digits length=64') }}"
       aepst_salt: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/aespt_salt chars=letters,digits length=64') }}"

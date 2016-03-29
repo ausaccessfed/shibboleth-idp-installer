@@ -247,7 +247,7 @@
   get_url:
     url: '{{ urls.keystore.url }}'
     dest: '{{ jetty.base }}/etc/keystore'
-    sha256sum: '{{ downlaod.keystore.sha256sum }}'
+    sha256sum: '{{ download.keystore.sha256sum }}'
 
 - name: 'Set jetty.base file permissions'
   file:
