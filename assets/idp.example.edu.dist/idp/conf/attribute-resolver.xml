@@ -176,17 +176,22 @@
 
   <resolver:AttributeDefinition id="eduPersonOrcid" xsi:type="ad:Simple" sourceAttributeID="eduPersonOrcid">
     <resolver:Dependency ref="ldap" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" />    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" friendlyName="eduPersonOrcid"/>
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" friendlyName="eduPersonOrcid"/>
   </resolver:AttributeDefinition>
 
   <resolver:AttributeDefinition xsi:type="ad:Prescoped" id="eduPersonPrincipalName" sourceAttributeID="eduPersonPrincipalName">
-    <resolver:Dependency ref="ldap" />    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
   </resolver:AttributeDefinition>
 
   <!-- Alternate eduPersonPrincipalName based on the uid attribute -->
   <!--
   <resolver:AttributeDefinition xsi:type="ad:Scoped" id="eduPersonPrincipalName" scope="%{idp.scope}" sourceAttributeID="uid">
-    <resolver:Dependency ref="ldap" />    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
   </resolver:AttributeDefinition>
   -->
 
@@ -228,13 +233,17 @@
   </resolver:AttributeDefinition>  -->
 
   <!--  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonPrimaryAffiliation" sourceAttributeID="eduPersonPrimaryAffiliation">
-    <resolver:Dependency ref="ldap" />    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation" encodeType="false" />    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" friendlyName="eduPersonPrimaryAffiliation" encodeType="false" />
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" friendlyName="eduPersonPrimaryAffiliation" encodeType="false" />
   </resolver:AttributeDefinition>
   -->
 
   <!--
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="employeeNumber" sourceAttributeID="employeeNumber">
-    <resolver:Dependency ref="ldap" />    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:employeeNumber" encodeType="false" />    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.3" friendlyName="employeeNumber" encodeType="false" />
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:employeeNumber" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.3" friendlyName="employeeNumber" encodeType="false" />
   </resolver:AttributeDefinition>
   -->
   <!--
@@ -271,12 +280,15 @@
 
   <!--
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="telephoneNumber" sourceAttributeID="telephoneNumber">
-    <resolver:Dependency ref="ldap" />    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:telephoneNumber" encodeType="false" />    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" encodeType="false" />  </resolver:AttributeDefinition>
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:telephoneNumber" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" encodeType="false" />  </resolver:AttributeDefinition>
   -->
 
   <!-- ========================================== -->
   <!--            DATA Connectors                 -->
   <!-- ========================================== -->
+
 
   <resolver:DataConnector id="staticAttributes" xsi:type="dc:Static">
     <dc:Attribute id="eduPersonAssurance">
