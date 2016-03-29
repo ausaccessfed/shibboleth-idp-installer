@@ -52,7 +52,7 @@
       aaf_shib_ext:
         url: "{{ download.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar"
       keystore:
-        url: "http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore"
+        url: "{{ download.keystore.baseurl }}/keystore"
     installer:
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
