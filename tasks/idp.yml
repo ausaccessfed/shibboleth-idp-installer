@@ -1,7 +1,7 @@
 ---
 - name: 'Set shared facts'
   set_fact:
-    idp_dist_archive_path='{{ installer.path }}/shibboleth-identity-provider-{{ shib_idp.version }}.tar.gz'
+    idp_dist_archive_path='{{ installer.path }}/shibboleth-identity-provider-{{ download.shib_idp.version }}.tar.gz'
 
 - name: 'Create Shibboleth IdP source root directory'
   file:
@@ -13,9 +13,9 @@
 
 - name: 'Download Shibboleth IdP distribution'
   get_url:
-    url: '{{ shib_idp.url }}'
+    url: '{{ urls.shib_idp.url }}'
     dest: '{{ idp_dist_archive_path }}'
-    sha256sum: '{{ shib_idp.sha256sum }}'
+    sha256sum: '{{ download.shib_idp.sha256sum }}'
 
 - name: 'Extract Shibboleth IdP distribution'
   shell: >
@@ -88,7 +88,7 @@
 # Wraps the Shibboleth IdP installer
 - name: 'Create installer script'
   template:
-    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.sh'
+    dest: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version }}.sh'
     src: 'templates/idp/install.sh'
     owner: root
     group: root
@@ -96,58 +96,58 @@
 
 - name: 'Create installer properties'
   template:
-    dest: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.properties'
+    dest: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version }}.properties'
     src: 'templates/idp/install.properties'
     owner: root
     group: root
     mode: 0700
 
 - name: 'Run IdP install'
-  command: '{{ shib_idp.src_root }}/install-{{ shib_idp.version }}.sh'
+  command: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version }}.sh'
   args:
     creates: '{{ shib_idp.home }}'
 
 - name: 'Install aaf-shib-ext library'
   get_url:
-    url: '{{ aaf_shib_ext.url }}'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ aaf_shib_ext.version }}.jar'
-    sha256sum: '{{ aaf_shib_ext.sha256sum }}'
+    url: '{{ urls.aaf_shib_ext.url }}'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
+    sha256sum: '{{ download.aaf_shib_ext.sha256sum }}'
 
 - name: 'Install jetty-dta-ssl'
   get_url:
-    url: '{{ jetty.dta_ssl.url }}'
-    dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
-    sha256sum: '{{ jetty.dta_ssl.sha256sum }}'
+    url: '{{ urls.dta_ssl.url }}'
+    dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
+    sha256sum: '{{ download.dta_ssl.sha256sum }}'
 
 - name: 'Install Jars - commons-dbcp2'
   get_url:
-    url: '{{ additional_jars.commons_dbcp2.url }}'
-    dest: '{{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz'
-    sha256sum: '{{ additional_jars.commons_dbcp2.sha256sum }}'
+    url: '{{ urls.commons_dbcp2.url }}'
+    dest: '{{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz'
+    sha256sum: '{{ download.commons_dbcp2.sha256sum }}'
 
 - name: 'Extract commons-dbcp2 distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}-bin.tar.gz
-    creates={{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz
+    creates={{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
-  command: 'cp {{ installer.path }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ additional_jars.commons_dbcp2.version }}.jar"' 
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"' 
 
 - name: 'Install Jars - commons-pool2'
   get_url:
-    url: '{{ additional_jars.commons_pool2.url }}'
-    dest: '{{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz'
-    sha256sum: '{{ additional_jars.commons_pool2.sha256sum }}'
+    url: '{{ urls.commons_pool2.url }}'
+    dest: '{{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz'
+    sha256sum: '{{ download.commons_pool2.sha256sum }}'
 
 - name: 'Extract commons-pool2 distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}-bin.tar.gz
-    creates={{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz
+    creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib' 
-  command: 'cp {{ installer.path }}/commons-pool2-{{ additional_jars.commons_pool2.version }}/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ additional_jars.commons_pool2.version }}.jar"' 
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"' 
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -226,27 +226,28 @@
     - resolvertest.vm
 
 - name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
-  shell: '{{ shib_idp.src_root }}/install-{{ shib_idp.version}}.sh'
+  shell: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version}}.sh'
 
 - name: 'Install mysql connector library'
   get_url:
-    url: '{{ db.mysql_connector.url }}'
-    dest: '{{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz'
-    sha256sum: '{{ software.mysql_connector.sha256sum }}'
+    url: '{{ urls.mysql_connector.url }}'
+    dest: '{{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz'
+    sha256sum: '{{ download.mysql_connector.sha256sum }}'
 
 - name: 'Extract mysql connector library distribution'
   shell: >
     umask 0027;
-    tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}.tar.gz;
-    creates={{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar
+    tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz;
+    creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar
 
 - name: 'Copy over mysql connector lib'
-  command: 'cp {{ installer.path }}/mysql-connector-java-{{ db.mysql_connector.version }}/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar"'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar"'
 
 - name: 'Download placeholder keystore'
   get_url:
-    url: 'http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore'
+    url: '{{ urls.keystore.url }}'
     dest: '{{ jetty.base }}/etc/keystore'
+    sha256sum: '{{ downlaod.keystore.sha256sum }}'
 
 - name: 'Set jetty.base file permissions'
   file:
@@ -255,9 +256,9 @@
     group: jetty
     mode: 0640
   with_items:
-    - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ db.mysql_connector.version }}-bin.jar'
+    - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
-    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ jetty.dta_ssl.version }}.jar'
+    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
 
 - name: 'Create IdP log directory'
   file:

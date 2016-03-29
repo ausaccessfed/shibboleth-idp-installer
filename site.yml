@@ -8,10 +8,6 @@
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
         version: 9.3.5.v20151012
         sha256sum: 24e80e350fcc9749aa4a29913c34917ad238a0fa3abdb7d7c9b42dc40bdf0f9b
-    urls:
-      jetty:
-        url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
-    software:
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
         version: 3.2.0
@@ -36,7 +32,28 @@
         baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
         version: 1.0.1
         sha256sum: 854314b1b8438ec993df71fe745f375f637dbc2ddd86f8cd5010d01dea6b5aa3
-
+      keystore:
+        baseurl: "{{ aaf_binaries.baseurl }}/keystore"
+        version: "Unknown"
+        sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
+      
+    urls:
+      jetty:
+        url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
+      shib_idp:
+        url: "{{ download.shib_idp.baseurl }}/shibboleth-identity-provider-{{ download.shib_idp.version }}.tar.gz"
+      mysql_connector:
+        url: "{{ download.mysql_connector.baseurl }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz"
+      dta_ssl:
+        url: "{{ download.dta_ssl.baseurl }}/jetty9-dta-ssl-{{download.dta_ssl.version}}.jar"
+      commons_dbcp2:
+        url: "{{ download.commons_dbcp2.baseurl }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz"
+      commons_pool2:
+        url: "{{ download.commons_pool2.baseurl }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz"
+      aaf_shib_ext:
+        url: "{{ download.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar"
+      keystore"
+        url: "http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/plain/jetty-server/src/main/config/etc/keystore"
     installer:
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
@@ -47,14 +64,7 @@
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
       state_directory: /tmp/jetty
-      dta_ssl:
-        version: '{{ software.dta_ssl.version }}'
-        sha256sum: '{{ software.dta_ssl.sha256sum }}'
-        url: "{{ software.dta_ssl.baseurl }}/jetty9-dta-ssl-{{software.dta_ssl.version}}.jar"
     shib_idp:
-      version: "{{ software.shib_idp.version }}"
-      sha256sum: "{{ software.shib_idp.sha256sum }}"
-      url: "{{ software.shib_idp.baseurl }}/shibboleth-identity-provider-{{ software.shib_idp.version }}.tar.gz"
       home_root: /opt/shibboleth/shibboleth-idp
       home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ software.shib_idp.version }}
       src_root: /opt/shibboleth/shibboleth-src
@@ -67,22 +77,6 @@
       name: idp_db
       username: idp_admin
       password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
-      mysql_connector:
-        version: "{{ software.mysql_connector.version }}"
-        url: "{{ software.mysql_connector.baseurl }}/mysql-connector-java-{{ software.mysql_connector.version }}.tar.gz"
-    aaf_shib_ext:
-      version: "{{ software.aaf_shib_ext.version }}"
-      sha256sum: "{{software.aaf_shib_ext.sha256sum }}"
-      url : "{{ software.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ software.aaf_shib_ext.version }}.jar"
-    additional_jars:
-      commons_dbcp2:
-        version: "{{ software.commons_dbcp2.version }}"
-        sha256sum: "{{software.commons_dbcp2.sha256sum }}"
-        url: "{{software.commons_dbcp2.baseurl }}/commons-dbcp2-{{ software.commons_dbcp2.version }}-bin.tar.gz"
-      commons_pool2:
-        version: "{{software.commons_pool2.version }}"
-        sha256sum: "{{software.commons_pool2.sha256sum }}"
-        url: "{{software.commons_pool2.baseurl }}/commons-pool2-{{ software.commons_pool2.version }}-bin.tar.gz"
   tasks:
     - name: 'Create required directories for installer setup'
       file:
