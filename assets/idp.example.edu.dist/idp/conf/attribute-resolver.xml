@@ -94,7 +94,7 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" encodeType="false" />
   </resolver:AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonAffiliation">
+  <resolver:AttributeDefinition xsi:type="ad:Script" id="eduPersonAffiliation">
     <resolver:Dependency ref="ldap" />
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
