@@ -13,10 +13,7 @@ idp_entity_id: "https://idp.example.edu/idp/shibboleth"
 idp_attribute_scope: "example.edu"
 
 # Shared federation metadata
-metadata_url: "https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml"
-
-# Shared federation certificate
-metadata_cert_url: "https://ds.aaf.edu.au/distribution/metadata/metadata-cert.pem"
+metadata_url: "https://md.aaf.edu.au/aaf-metadata.xml"
 
 # Your organisation's name
 organisation_name: "The University of Example"

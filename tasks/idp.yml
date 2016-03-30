@@ -370,6 +370,7 @@
   get_url:
     url: '{{ metadata_cert_url }}'
     dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
+    sha256sum: '{{ metadata_cert_sha256sum }}'
 
 - name: 'Set attribute resolver'
   template:
