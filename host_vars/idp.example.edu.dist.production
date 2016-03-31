@@ -15,6 +15,11 @@ idp_attribute_scope: "example.edu"
 # Shared federation metadata
 metadata_url: "https://md.aaf.edu.au/aaf-metadata.xml"
 
+# Shared federation certificate
+metadata_cert_url: https://md.aaf.edu.au/aaf-metadata-certificate.pem"
+metadata_cert_sha256sum: 00ec963039ca877b7111db3188d3d646e071c4c84ab8201fc35ad62a77ffa1a1
+
+
 # Your organisation's name
 organisation_name: "The University of Example"
 
