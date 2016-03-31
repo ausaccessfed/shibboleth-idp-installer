@@ -366,11 +366,18 @@
     mode: 0640
     backup: yes
 
-- name: 'Get metadata certificate'
+- name: 'Get and verify metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
     dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
     sha256sum: '{{ metadata_cert_sha256sum }}'
+  when: metadata_cert_sha256sum is defined
+
+- name: 'Get metadata certificate without verification'
+  get_url:
+    url: '{{ metadata_cert_url }}'
+    dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
+  when: metadata_cert_sha256sum is not defined
 
 - name: 'Set attribute resolver'
   template:
