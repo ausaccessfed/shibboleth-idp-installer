@@ -34,5 +34,5 @@ home_organisation: "example.edu"
 home_organisation_type: "urn:mace:terena.org:schac:homeOrganizationType:au:university"
 
 # The federation's group id used for metadata-based attribute filtering
-federation_group_id: "urn:mace:aaf.edu.au:AAFProduction"
+federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 
