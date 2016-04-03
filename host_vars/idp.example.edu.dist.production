@@ -13,10 +13,12 @@ idp_entity_id: "https://idp.example.edu/idp/shibboleth"
 idp_attribute_scope: "example.edu"
 
 # Shared federation metadata
-metadata_url: "https://ds.aaf.edu.au/distribution/metadata/metadata.aaf.signed.complete.xml"
+metadata_url: "https://md.aaf.edu.au/aaf-metadata.xml"
 
 # Shared federation certificate
-metadata_cert_url: "https://ds.aaf.edu.au/distribution/metadata/metadata-cert.pem"
+metadata_cert_url: "https://md.aaf.edu.au/aaf-metadata-certificate.pem"
+metadata_cert_sha256sum: 00ec963039ca877b7111db3188d3d646e071c4c84ab8201fc35ad62a77ffa1a1
+
 
 # Your organisation's name
 organisation_name: "The University of Example"
@@ -32,5 +34,5 @@ home_organisation: "example.edu"
 home_organisation_type: "urn:mace:terena.org:schac:homeOrganizationType:au:university"
 
 # The federation's group id used for metadata-based attribute filtering
-federation_group_id: "urn:mace:aaf.edu.au:AAFProduction"
+federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 

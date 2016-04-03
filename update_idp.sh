@@ -8,7 +8,8 @@ function git_update_details {
   echo "  1. Upgrade to the most recent version of the installer: "
   echo "    * The update will be retrieved from: ${remote}"
   echo "    * It will be based on the most recent release from: ${current_branch}"
-  echo "  2. Upgrade, if necessary, to the most recently vetted versions of: "
+  echo "  2. May add additional files to your Assets area to allow for advanced configuration"
+  echo "  3. Upgrade, if necessary, to the most recently vetted versions of: "
   echo "    * Shibboleth IdP"
   echo -e "    * Jetty\n\n"
 }
@@ -47,6 +48,7 @@ then
   if [[ $upgrade = true ]]
   then
     git pull
+    ansible-playbook -i ansible_hosts update.yml
   fi
 
   ansible-playbook -i ansible_hosts site.yml --force-handlers

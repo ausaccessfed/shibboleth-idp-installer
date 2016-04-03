@@ -3,37 +3,71 @@
   vars:
     aaf_binaries:
       baseurl: https://aaf-binaries.s3-ap-southeast-2.amazonaws.com 
-    software:
+    download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
         version: 9.3.5.v20151012
         sha256sum: 24e80e350fcc9749aa4a29913c34917ad238a0fa3abdb7d7c9b42dc40bdf0f9b
       shib_idp:
+        baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
         version: 3.2.0
         sha256sum: 302c45a4e0814e97a1c01950137d328e0a8630638b35bdd6ae50af9510bcea84
+      mysql_connector:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
+        version: 5.1.35
+        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+      dta_ssl:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
+        version: 1.0.0
+        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
+      commons_dbcp2:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_dbcp2"
+        version: 2.1.1
+        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+      commons_pool2:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_pool2"
+        version: 2.4.2
+        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+      aaf_shib_ext:
+        baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
+        version: 1.0.1
+        sha256sum: 854314b1b8438ec993df71fe745f375f637dbc2ddd86f8cd5010d01dea6b5aa3
+      keystore:
+        baseurl: "{{ aaf_binaries.baseurl }}/keystore"
+        version: "Unknown"
+        sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
+    urls:
+      jetty:
+        url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
+      shib_idp:
+        url: "{{ download.shib_idp.baseurl }}/shibboleth-identity-provider-{{ download.shib_idp.version }}.tar.gz"
+      mysql_connector:
+        url: "{{ download.mysql_connector.baseurl }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz"
+      dta_ssl:
+        url: "{{ download.dta_ssl.baseurl }}/jetty9-dta-ssl-{{download.dta_ssl.version}}.jar"
+      commons_dbcp2:
+        url: "{{ download.commons_dbcp2.baseurl }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz"
+      commons_pool2:
+        url: "{{ download.commons_pool2.baseurl }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz"
+      aaf_shib_ext:
+        url: "{{ download.aaf_shib_ext.baseurl }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar"
+      keystore:
+        url: "{{ download.keystore.baseurl }}/keystore"
     installer:
       root: /opt/shibboleth-idp-installer
       path: /opt/shibboleth-idp-installer/build
       repository: /opt/shibboleth-idp-installer/repository
     jetty:
-      version: "{{ software.jetty.version }}"
-      sha256sum: "{{ software.jetty.sha256sum }}"
       root: /opt/jetty
-      url: "{{ software.jetty.baseurl }}/jetty-distribution-{{ software.jetty.version }}.tar.gz"
-      home: /opt/jetty/jetty-distribution-{{ software.jetty.version }}
+      home: /opt/jetty/jetty-distribution-{{ download.jetty.version }}
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
       state_directory: /tmp/jetty
-      dta_ssl:
-        version: 1.0.0
-        sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
     shib_idp:
-      version: "{{ software.shib_idp.version }}"
-      sha256sum: "{{ software.shib_idp.sha256sum }}"
       home_root: /opt/shibboleth/shibboleth-idp
-      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ software.shib_idp.version }}
+      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}
       src_root: /opt/shibboleth/shibboleth-src
-      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ software.shib_idp.version }}
+      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ download.shib_idp.version }}
       keystore_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
       cookie_enc_key_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/cookie_enc_key chars=letters,digits length=64') }}"
       aepst_salt: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/aespt_salt chars=letters,digits length=64') }}"
@@ -42,18 +76,6 @@
       name: idp_db
       username: idp_admin
       password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/mariadb chars=letters,digits length=64') }}"
-      mysql_connector:
-        version: 5.1.35
-        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
-    aaf_shib_ext:
-      version: 1.0.1
-    additional_jars:
-      commons_dbcp2:
-        version: 2.1.1
-        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
-      commons_pool2:
-        version: 2.4.2
-        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
   tasks:
     - name: 'Create required directories for installer setup'
       file:
