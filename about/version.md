@@ -23,5 +23,5 @@ This release installs the following software
 | commons_dbcp2 | 2.1.1 |
 | commons_pool2 | 2.4.2 |
 
-All other software is managed and maintained by YUM.
+All other software is managed by YUM.
 
