@@ -13,20 +13,21 @@ You MUST NOT continue to installation until you've worked through the checklists
     1. 2GB RAM
     1. 10GB+ partition for OS
 
-    This server MUST NOT be used for any other purpose in the future.
+This server MUST NOT be used for any other purpose in the future.
 
-    #### Additional requirements for CentOS 7 servers
+#### Additional requirements for CentOS 7 servers
 
-    As **root** install [EPEL](https://fedoraproject.org/wiki/EPEL) with the following command
+As **root** install [EPEL](https://fedoraproject.org/wiki/EPEL) with the following command
 
             $> yum -y install epel-release
 
-    #### Additional requirements for Redhat 7 servers
+#### Additional requirements for Redhat 7 servers
 
-    Redhat systems also require EPEL in order to continue and the above is one option you MAY use to achieve this.
+Redhat systems also require EPEL in order to continue and the above is one option you MAY use to achieve this.
 
-    In some commercial environments you may need to have the server enabled for these packages via Satellite.
-    In this case please speak to your system administrators and have this configured before continuing.
+In some commercial environments you may need to have the server enabled for these packages via Satellite.
+
+In this case please speak to your system administrators and have this configured before continuing.
 
 2. You MUST have SSH access to the server
 3. You MUST be able to execute commands as `root` on the system without limitation
