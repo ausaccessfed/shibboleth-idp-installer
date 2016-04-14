@@ -4,8 +4,8 @@ layout: about
 
 # Release notes
 
-
-- [**1.0.0-beta.2+idp-3.2.0**](#1.0.0=beta.2)
+- [**1.0.0-beta.3+idp-3.2.0**](#1.0.0-beta.3)
+- [**1.0.0-beta.2+idp-3.2.0**](#1.0.0-beta.2)
 - [**1.0.0-beta.1+idp-3.2.0**](#1.0.0-beta.1)
   - [Important Notes for Upgraders](#1.0.0-beta-notes)
   - [Software upgrades](#1.1.0-beta-software)
@@ -17,7 +17,20 @@ layout: about
 ----------
 ## <a name="1.0.0"></a>1.0.0+idp-3.2.1 ##
 
-March TBA, 2016
+April TBA, 2016
+
+## <a name="1.0.0-beta.3"></a>1.0.0-beta.3+idp-3.2.0 ##
+
+April 4, 2016
+
+- Fixed file protection settings for Bilateral files
+- Set Failed login message to be same for both incorrect username and incorrect password
+- Added additional configuration files to the branding area
+- Enable all attributes that are available in FR into the metadata based attribute release filter
+- Changed the source of the Metadata to md.[test.]aaf.edu.au 
+- Added basic attribute-definiations for all FR attributes to the attribute resolver - most are commented out. The eduPersonORCID is included.
+- Added a basic eduPersonAffiliation script to the attribute resolver.
+- Installer now downloads all external file from the AAF S3 URL
 
 ## <a name="1.0.0-beta.2"></a>1.0.0-beta.2+idp-3.2.0 ##
 
