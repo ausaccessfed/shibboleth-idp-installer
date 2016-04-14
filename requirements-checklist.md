@@ -15,12 +15,14 @@ You MUST NOT continue to installation until you've worked through the checklists
 
     This server MUST NOT be used for any other purpose in the future.
 
-    ### Additional requirements for CentOS 7 servers ##
+    #### Additional requirements for CentOS 7 servers
+
     As **root** install [EPEL](https://fedoraproject.org/wiki/EPEL) with the following command
 
             $> yum -y install epel-release
 
-    ### Additional requirements for Redhat 7 servers
+    #### Additional requirements for Redhat 7 servers
+
     Redhat systems also require EPEL in order to continue and the above is one option you MAY use to achieve this.
 
     In some commercial environments you may need to have the server enabled for these packages via Satellite.
