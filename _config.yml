@@ -8,9 +8,7 @@ baseurl: /shibboleth-idp-installer
 kramdown:
   input: GFM
 
-markdown: redcarpet
-redcarpet:
-    extensions: [with_toc_data, tables]
+markdown: kramdown
 
 defaults:
   -
