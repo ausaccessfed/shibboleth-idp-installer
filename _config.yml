@@ -1,6 +1,6 @@
 source: .
 encoding: utf-8
-highlighter: pygments
+highlighter: rogue
 safe: true
 lsi: false
 baseurl: /shibboleth-idp-installer
