@@ -78,3 +78,5 @@ September 9, 2015
 | AAF Shared Token Extension | 1.0.0 |
 | dta_ssl  | 1.0.0 |
 | MySQL Connector  | 5.1.35 |
+
+All other software is managed by YUM
