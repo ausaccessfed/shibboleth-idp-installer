@@ -116,7 +116,6 @@
 - name: 'Install cas-client-core library'
   get_url:
     url: '{{ urls.cas_client_core.url }}'
-    url: ''{{ urls.cas_client_core.url }}'
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-{{ download.cas_client_core.version }}.jar'
     sha256sum: '{{ download.cas_client_core.sha256sum }}'
 
