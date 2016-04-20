@@ -456,7 +456,7 @@
     mode: 0640
     backup: yes
 
--name: 'Set authn/general-authn.xml'
+- name: 'Set authn/general-authn.xml'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
     dest: '{{ shib_idp.home }}/conf/authn/general-authn.xml'
@@ -537,6 +537,7 @@
   - conf/authn/password-authn-config.xml
   - conf/authn/remoteuser-authn-config.xml
   - conf/authn/remoteuser-internal-authn-config.xml
+  - conf/authn/spnego-authn-config.xml
   - conf/authn/x509-authn-config.xml
   - conf/authn/x509-internal-authn-config.xml
   - conf/c14n/attribute-sourced-subject-c14n-config.xml
