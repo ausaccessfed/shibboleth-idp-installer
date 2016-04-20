@@ -458,7 +458,7 @@
 
 - name: 'Set Shibboleth relying-party.xml'
   copy:
-    src: assets/{{inventory_hostname}}/idp/conf/relying-party.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/relying-party.xml'
     dest: '{{ shib_idp.home }}/conf/relying-party.xml'
     owner: root
     group: jetty
