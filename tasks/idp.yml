@@ -144,7 +144,7 @@
     creates={{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
-  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"' 
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
 
 - name: 'Install Jars - commons-pool2'
   get_url:
@@ -158,8 +158,8 @@
     tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
-- name: 'Copy over commons-pool2 lib' 
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"' 
+- name: 'Copy over commons-pool2 lib'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -460,6 +460,22 @@
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
     dest: '{{ shib_idp.home }}/conf/authn/general-authn.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/consent-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/consent-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/consent-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/consent-intercept-config.xml'
     owner: root
     group: jetty
     mode: 0640
