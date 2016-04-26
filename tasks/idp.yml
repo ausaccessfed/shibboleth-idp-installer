@@ -113,6 +113,18 @@
     dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
     sha256sum: '{{ download.aaf_shib_ext.sha256sum }}'
 
+- name: 'Install cas-client-core library'
+  get_url:
+    url: '{{ urls.cas_client_core.url }}'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-{{ download.cas_client_core.version }}.jar'
+    sha256sum: '{{ download.cas_client_core.sha256sum }}'
+
+- name: 'Install shib-cas-authenticator library'
+  get_url:
+    url:  '{{ urls.shib_cas_authenticator.url }}'
+    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
+    sha256sum: '{{ download.shib_cas_authenticator.sha256sum }}'
+
 - name: 'Install jetty-dta-ssl'
   get_url:
     url: '{{ urls.dta_ssl.url }}'
@@ -132,7 +144,7 @@
     creates={{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
-  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"' 
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
 
 - name: 'Install Jars - commons-pool2'
   get_url:
@@ -146,8 +158,8 @@
     tar zx -C {{ installer.path }} -f {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
-- name: 'Copy over commons-pool2 lib' 
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"' 
+- name: 'Copy over commons-pool2 lib'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -437,12 +449,44 @@
 
 - name: 'Set Shibboleth logback configuration'
   template:
-    dest: '{{ shib_idp.home }}/conf/logback.xml'
     src: 'assets/{{inventory_hostname}}/idp/conf/logback.xml'
+    dest: '{{ shib_idp.home }}/conf/logback.xml'
     owner: root
     group: jetty
     mode: 0640
     backup: yes
+
+- name: 'Set Shibboleth relying-party.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/relying-party.xml'
+    dest: '{{ shib_idp.home }}/conf/relying-party.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
+
+- name: 'Set authn/general-authn.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/general-authn.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/consent-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/consent-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/consent-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/consent-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Copy bilateral attribute filters'
   copy:
@@ -485,31 +529,50 @@
     mode: 0640
   with_items:
   - conf/access-control.xml
+  - conf/attribute-filter.xml
+  - conf/attribute-resolver-full.xml
+  - conf/attribute-resolver-ldap.xml
+  - conf/attribute-resolver.xml
   - conf/audit.xml
   - conf/cas-protocol.xml
   - conf/credentials.xml
   - conf/errors.xml
+  - conf/global.xml
   - conf/ldap.properties
   - conf/logback.xml
+  - conf/metadata-based-attribute-filter.xml
+  - conf/metadata-providers.xml
   - conf/mvc-beans.xml
   - conf/relying-party.xml
   - conf/saml-nameid.properties
   - conf/saml-nameid.xml
-  - conf/saml-nameid.properties
-  - conf/saml-nameid.xml
   - conf/services.properties
+  - conf/services.xml
   - conf/session-manager.xml
   - conf/authn/authn-comparison.xml
   - conf/authn/authn-events-flow.xml
+  - conf/authn/external-authn-config.xml
   - conf/authn/general-authn.xml
-  - conf/authn/password-authn-config.xml
+  - conf/authn/ipaddress-authn-config.xml
+  - conf/authn/jaas-authn-config.xml
+  - conf/authn/jaas.config
+  - conf/authn/krb5-authn-config.xml
   - conf/authn/ldap-authn-config.xml
+  - conf/authn/password-authn-config.xml
+  - conf/authn/remoteuser-authn-config.xml
+  - conf/authn/remoteuser-internal-authn-config.xml
+  - conf/authn/spnego-authn-config.xml
+  - conf/authn/x509-authn-config.xml
+  - conf/authn/x509-internal-authn-config.xml
+  - conf/c14n/attribute-sourced-subject-c14n-config.xml
   - conf/c14n/simple-subject-c14n-config.xml
   - conf/c14n/subject-c14n-events-flow.xml
   - conf/c14n/subject-c14n.xml
+  - conf/c14n/x500-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
-  - conf/intercept/profile-intercept.xml
+  - conf/intercept/context-check-intercept-config.xml
   - conf/intercept/intercept-events-flow.xml
+  - conf/intercept/profile-intercept.xml
   - credentials/idp-backchannel.p12
   - credentials/idp-encryption.key
   - credentials/idp-signing.key
