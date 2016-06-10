@@ -15,9 +15,11 @@ You could try running: rpm -Va --nofiles –nodigest
 
 Resolution: If you are using Redhat Satellite for your package management, you need to install the Redhat server-extras and server-optional channels.
 
-You can find the list of installed packages by running the command 'rhn-channel --list'
+You can find the list of installed packages by running the command
+
 ```
-rhn-channel –list
+rhn-channel --list
+
 epel_rhel7_x86_64
 rhel-x86_64-server-7
 rhel-x86_64-server-optional-7
@@ -25,6 +27,8 @@ rhel-x86_64-server-supplementary-7
 rhel-x86_64-server-extras-7
 
 ```
+
+
 The AAF installer uses the ansible package. This package is available in the EPEL package library. It has a dependency of python-jinja2, which is in the server-optional package library as shown below.
 
 ```
