@@ -8,10 +8,12 @@ Following are the common errors identified by the users when installing the IdP3
 ### 1. Missing EPEL Packages and other Redhat libraries
 
 --> Finished Dependency Resolution
-*** Error: Package: ansible-1.9.2-1.el7.noarch (epel)
+
+*** Error:*** Package: ansible-1.9.2-1.el7.noarch (epel)
+
 Requires: python-jinja2
 You could try using --skip-broken to work around the problem
-You could try running: rpm -Va --nofiles –nodigest ***
+You could try running: rpm -Va --nofiles –nodigest 
 
 ***Resolution:*** If you are using Redhat Satellite for your package management, you need to install the Redhat server-extras and server-optional channels.
 
