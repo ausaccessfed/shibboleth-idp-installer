@@ -9,7 +9,7 @@ Following are the common errors identified by the users when installing the IdP3
 
 --> Finished Dependency Resolution
 
-*** Error*** Package: ansible-1.9.2-1.el7.noarch (epel) 
+***Error*** Package: ansible-1.9.2-1.el7.noarch (epel) 
 
 Requires: python-jinja2
 You could try using --skip-broken to work around the problem
@@ -71,7 +71,6 @@ A number of things to check first,
 
 ####To check the status of the firewalld process
 
-
 systemcl status firewalld
 
 ###If not loaded, try to enable the firewalld manually by running
@@ -101,9 +100,7 @@ Warning:
 To resolve the above error, use the “nogpgcheck” option to your bootstrap file for ansible package and re-run the bootstrap script agin.
 
 ```
-
 yum -y --nogpgcheck install ansible
-
 
 ```
 
