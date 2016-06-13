@@ -9,7 +9,7 @@ Following are the common errors identified by the users when installing the IdP3
 
 --> Finished Dependency Resolution
 
-***Error*** Package: ansible-1.9.2-1.el7.noarch (epel) 
+***Error:*** Package: ansible-1.9.2-1.el7.noarch (epel) 
 
 Requires: python-jinja2
 You could try using --skip-broken to work around the problem
