@@ -9,15 +9,15 @@ Following are the common errors identified by the users when installing the IdP3
 
 --> Finished Dependency Resolution
 
-*** Error:*** Package: ansible-1.9.2-1.el7.noarch (epel)
+*** Error*** Package: ansible-1.9.2-1.el7.noarch (epel) 
 
 Requires: python-jinja2
 You could try using --skip-broken to work around the problem
 You could try running: rpm -Va --nofiles –nodigest 
 
-***Resolution:*** If you are using Redhat Satellite for your package management, you need to install the Redhat server-extras and server-optional channels.
+***Resolution:*** If you are using Red hat Satellite for your package management, you need to install the Red hat server-extras and server-optional channels.
 
-You can find the list of installed packages by running the command
+You can find the list of installed packages by running the following command
 
 ```
 rhn-channel --list
@@ -56,7 +56,7 @@ to retry, use: --limit @site.retry
 
 PLAY RECAP 
 
-*********************************************************************: 
+*********************************************************************
 
 ok=127  changed=25   unreachable=0    failed=1
 
@@ -74,20 +74,49 @@ A number of things to check first,
 
 systemcl status firewalld
 
-
-If not loaded, try to enable the firewalld manually by running
-
+###If not loaded, try to enable the firewalld manually by running
 
 systemctl enable firewalld
 
-
-
-If the firewalld is not installed, try to install it manually by running
+###If the firewalld is not installed, try to install it manually by running
 
 yum install firewalld
 
 systemctl enable firewalld
 
+```
+
+
+
+### 3. RPM missing certificate for ansible package
+
+Warning:
+
+********************************************************
+
+/var/cache/yum/x86_64/7Server/epel_rhel7_x86_64/packages/ansible-1.9.4-1.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 352c64e5: NOKEY
+
+***Public key for ansible-1.9.4-1.el7.noarch.rpm is not installed***
+
+To resolve the above error, use the “nogpgcheck” option to your bootstrap file for ansible package and re-run the bootstrap script agin.
 
 ```
+
+yum -y --nogpgcheck install ansible
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
