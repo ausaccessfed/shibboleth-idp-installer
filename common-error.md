@@ -42,3 +42,52 @@ ansible.noarch         1.9.4-1.el7       @epel7-x86_64
 python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
 
 ```
+
+### 2. Firewalld Error
+
+TASK [Enable firewalld]
+
+********************************************************
+fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg": 
+
+***Error when trying to enable firewalld: rc=1 Failed to execute operation: No such file or directory\n”}***
+
+to retry, use: --limit @site.retry
+
+PLAY RECAP 
+
+*********************************************************************: 
+
+ok=127  changed=25   unreachable=0    failed=1
+
+
+
+The task is trying to enable the firewalld to start at system boot time. 
+
+A number of things to check first,
+
+
+```
+
+####To check the status of the firewalld process
+
+
+systemcl status firewalld
+
+
+If not loaded, try to enable the firewalld manually by running
+
+
+systemctl enable firewalld
+
+
+
+If the firewalld is not installed, try to install it manually by running
+
+yum install firewalld
+
+systemctl enable firewalld
+
+
+```
+
