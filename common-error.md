@@ -111,7 +111,7 @@ yum -y --nogpgcheck install ansible
 ### 4. LDAP authentication module missing (mod_ldap)
 
 
-*** Error:*** No Package matching 'mod_ldap' found available, installed or updated 
+***Error:*** No Package matching 'mod_ldap' found available, installed or updated 
 
 TASK [Install required packages] 
 
@@ -140,11 +140,11 @@ In the Red hat system, the LDAP authentication modules are available in the Red 
 
 ### 5. Define the LDAP server with ldap:// in the bootstrap.sh file throw a sed error
 
-*** Error:*** sed: -e expression #1, char 72: unknown option to `s’ 
+***Error:*** sed: -e expression #1, char 72: unknown option to `s’ 
 
 The error is caused by using the “ldap://” protocol with your LDAP server in the bootstrap file.
 
-You should only use the host name of your LDAP server and the port number.The installer will put the value in the correct place in the IdP configuration. 
+You should only use the host name of your LDAP server and the port number. The installer will put the value in the correct place in the IdP configuration. 
 
 In the bootstrap file under the optional section, set the LDAP settings as follows.
 
@@ -184,6 +184,7 @@ fatal: [idp-node1]: FAILED! => {"changed": false, "failed": true, "msg": "could 
 
 **********************************************************
 ok=103 changed=16 unreachable=0 failed=1
+
 
 If the installer failed to copy all the IdP configuration files, run the “update_idp.sh” with  -u switch, which will copy the missing files across.
 
