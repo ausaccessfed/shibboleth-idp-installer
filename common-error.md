@@ -49,6 +49,7 @@ python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
 ### 2. Firewalld Error
 
 TASK [Enable firewalld]
+
 ************************************************************
 
 fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg": 
@@ -108,7 +109,7 @@ yum -y --nogpgcheck install ansible
 ### 4. LDAP authentication module missing (mod_ldap)
 
 
-*** Error: No Package matching 'mod_ldap' found available, installed or updated ***
+*** Error:*** No Package matching 'mod_ldap' found available, installed or updated 
 
 TASK [Install required packages] 
 ********************************************************
