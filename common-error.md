@@ -12,10 +12,11 @@ Following are the common errors identified by the users when installing the IdP3
 ***Error:*** Package: ansible-1.9.2-1.el7.noarch (epel) 
 
 Requires: python-jinja2
-You could try using --skip-broken to work around the problem
+
+You could try using --skip-broken to work around the problem.
 You could try running: rpm -Va --nofiles –nodigest 
 
-***Resolution:*** If you are using Red hat Satellite for your package management, you need to install the Red hat server-extras and server-optional channels.
+***Resolution:*** If you are using Redhat satellite for your package management, you need to install the Redhat server-extras and server-optional channels.
 
 You can find the list of installed packages by running the following command
 
@@ -36,7 +37,7 @@ The AAF installer uses the ansible package. This package is available in the EPE
 ```
 yum list ansible python-jinja2
 
-This system is receiving updates from RHN Classic or Red Hat Satellite.
+This system is receiving updates from RHN Classic or Redhat Satellite.
 Installed Packages
 ansible.noarch         1.9.4-1.el7       @epel7-x86_64
 python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
@@ -46,8 +47,8 @@ python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
 ### 2. Firewalld Error
 
 TASK [Enable firewalld]
+************************************************************
 
-********************************************************
 fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg": 
 
 ***Error when trying to enable firewalld: rc=1 Failed to execute operation: No such file or directory\n”}***
@@ -55,8 +56,7 @@ fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg":
 to retry, use: --limit @site.retry
 
 PLAY RECAP 
-
-*********************************************************************
+*************************************************************
 
 ok=127  changed=25   unreachable=0    failed=1
 
@@ -69,7 +69,7 @@ A number of things to check first,
 
 ```
 
-####To check the status of the firewalld process
+###To check the status of the firewalld process
 
 systemcl status firewalld
 
@@ -90,7 +90,6 @@ systemctl enable firewalld
 ### 3. RPM missing certificate for ansible package
 
 Warning:
-
 ********************************************************
 
 /var/cache/yum/x86_64/7Server/epel_rhel7_x86_64/packages/ansible-1.9.4-1.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 352c64e5: NOKEY
@@ -100,20 +99,72 @@ Warning:
 To resolve the above error, use the “nogpgcheck” option to your bootstrap file for ansible package and re-run the bootstrap script agin.
 
 ```
+
 yum -y --nogpgcheck install ansible
+
 
 ```
 
 
+### 4. LDAP authentication module missing (mod_ldap)
+
+
+***Error: No Package matching 'mod_ldap' found available, installed or updated ***
+
+TASK [Install required packages] 
+****************************************************
+
+2016-05-25 17:32:21,518 p=29393 u=root |  skipping: [login-dev-node1] => 
+
+(item=[u'httpd', u'mod_ssl', u'mod_ldap', u'java-1.8.0-openjdk', u'java-1.8.0-openjdk-devel', u'mariadb-server', u'mariadb-devel', u'mariadb', u'MySQL-python', u'ntp', u'expect']) 
+
+
+NO MORE HOSTS LEFT
+*************************************************************
+
+to retry, use: --limit @site.retry
+
+PLAY RECAP 
+*********************************************************************
+ok=4    changed=2    unreachable=0    failed=1
+
+In the Red hat system, the LDAP authentication modules are available in the Red hat optional channel. The Redhat optional channel “ rhel-x86_64-server-optional-7” is required if you are using the RHN package management system.
 
 
 
 
+### 5. Define the LDAP server with ldap:// in the bootstrap.sh file throw a sed error
+
+*** Error: sed: -e expression #1, char 72: unknown option to `s’ ***
+
+The error is caused by using the “ldap://” protocol with your LDAP server in the bootstrap file.
+
+You should only use the host name of your LDAP server and the port number. 
+
+The installer will put the value in the correct place in the IdP configuration. 
+
+In the bootstrap file under the optional section, set the LDAP settings as follows.
+
+ 
+```
+
+###For LDAP
+
+LDAP_HOST="IP_ADDRESS:389”
+
+###For LDAPS
 
 
+LDAP_HOST="IP_ADDRESS:636”
 
 
+```
+The second thing to check is that the attribute used for the LDAP user search, the LDAP_USER_FILTER_ATTRIBUTE should only have the name of the attribute.
 
 
+```
 
+For eg: LDAP_USER_FILTER_ATTRIBUTE="sAMAccountName" 
+
+```
 
