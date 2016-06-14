@@ -14,11 +14,12 @@ Following are the common errors identified by the users when installing the IdP3
 Requires: python-jinja2
 
 You could try using --skip-broken to work around the problem.
+
 You could try running: rpm -Va --nofiles –nodigest 
 
 ***Resolution:*** If you are using Redhat satellite for your package management, you need to install the Redhat server-extras and server-optional channels.
 
-You can find the list of installed packages by running the following command
+You can find the list of installed packages by running the following command.
 
 ```
 rhn-channel --list
@@ -32,7 +33,7 @@ rhel-x86_64-server-extras-7
 ```
 
 
-The AAF installer uses the ansible package. This package is available in the EPEL package library. It has a dependency of python-jinja2, which is in the server-optional package library as shown below.
+The AAF installer uses the ansible package.This package is available in the EPEL package library.It has a dependency of python-jinja2, which is in the server-optional package library as shown below.
 
 ```
 yum list ansible python-jinja2
@@ -43,6 +44,7 @@ ansible.noarch         1.9.4-1.el7       @epel7-x86_64
 python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
 
 ```
+
 
 ### 2. Firewalld Error
 
@@ -66,9 +68,7 @@ The task is trying to enable the firewalld to start at system boot time.
 
 A number of things to check first,
 
-
 ```
-
 ###To check the status of the firewalld process
 
 systemcl status firewalld
@@ -87,6 +87,7 @@ systemctl enable firewalld
 
 
 
+
 ### 3. RPM missing certificate for ansible package
 
 Warning:
@@ -99,9 +100,7 @@ Warning:
 To resolve the above error, use the “nogpgcheck” option to your bootstrap file for ansible package and re-run the bootstrap script agin.
 
 ```
-
 yum -y --nogpgcheck install ansible
-
 
 ```
 
@@ -109,10 +108,10 @@ yum -y --nogpgcheck install ansible
 ### 4. LDAP authentication module missing (mod_ldap)
 
 
-***Error: No Package matching 'mod_ldap' found available, installed or updated ***
+*** Error: No Package matching 'mod_ldap' found available, installed or updated ***
 
 TASK [Install required packages] 
-****************************************************
+********************************************************
 
 2016-05-25 17:32:21,518 p=29393 u=root |  skipping: [login-dev-node1] => 
 
@@ -120,28 +119,25 @@ TASK [Install required packages]
 
 
 NO MORE HOSTS LEFT
-*************************************************************
+************************************************************
 
 to retry, use: --limit @site.retry
 
 PLAY RECAP 
-*********************************************************************
-ok=4    changed=2    unreachable=0    failed=1
-
-In the Red hat system, the LDAP authentication modules are available in the Red hat optional channel. The Redhat optional channel “ rhel-x86_64-server-optional-7” is required if you are using the RHN package management system.
+*************************************************************
+ok=4    changed=2    unreachable=0    failed=1
+In the Red hat system, the LDAP authentication modules are available in the Red hat optional channel.The Redhat optional channel “ rhel-x86_64-server-optional-7” is required if you are using the RHN package management system.
 
 
 
 
 ### 5. Define the LDAP server with ldap:// in the bootstrap.sh file throw a sed error
 
-*** Error: sed: -e expression #1, char 72: unknown option to `s’ ***
+*** Error:*** sed: -e expression #1, char 72: unknown option to `s’ 
 
 The error is caused by using the “ldap://” protocol with your LDAP server in the bootstrap file.
 
-You should only use the host name of your LDAP server and the port number. 
-
-The installer will put the value in the correct place in the IdP configuration. 
+You should only use the host name of your LDAP server and the port number.The installer will put the value in the correct place in the IdP configuration. 
 
 In the bootstrap file under the optional section, set the LDAP settings as follows.
 
@@ -154,17 +150,39 @@ LDAP_HOST="IP_ADDRESS:389”
 
 ###For LDAPS
 
-
 LDAP_HOST="IP_ADDRESS:636”
-
 
 ```
 The second thing to check is that the attribute used for the LDAP user search, the LDAP_USER_FILTER_ATTRIBUTE should only have the name of the attribute.
 
 
 ```
-
 For eg: LDAP_USER_FILTER_ATTRIBUTE="sAMAccountName" 
-
+
 ```
+
+
+
+### 6. Missing IdP configurations or Installer failed to copy all the IdP configuration files to the installer directory.
+
+
+TASK [Set Shibboleth relying-party.xml] 
+******************************************************
+
+fatal: [idp-node1]: FAILED! => {"changed": false, "failed": true, "msg": "could not find src=/opt/shibboleth-idp-installer/repository/assets/idp-node1/idp/conf/relying-party.xml"} 
+to retry, use: --limit @site.retry
+PLAY RECAP 
+**********************************************************
+ok=103 changed=16 unreachable=0 failed=1
+
+If the installer failed to copy all the IdP configuration files, run the “update_idp.sh” with  -u switch, which will copy the missing files across.
+
+```
+update_idp.sh -u
+
+```
+
+
+
+
 
