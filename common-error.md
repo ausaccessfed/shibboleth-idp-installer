@@ -58,7 +58,8 @@ fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg":
 
 to retry, use: --limit @site.retry
 
-PLAY RECAP 
+PLAY RECAP
+ 
 *************************************************************
 
 ok=127  changed=25   unreachable=0    failed=1
@@ -92,6 +93,7 @@ systemctl enable firewalld
 ### 3. RPM missing certificate for ansible package
 
 Warning:
+
 ********************************************************
 
 /var/cache/yum/x86_64/7Server/epel_rhel7_x86_64/packages/ansible-1.9.4-1.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 352c64e5: NOKEY
@@ -112,6 +114,7 @@ yum -y --nogpgcheck install ansible
 *** Error:*** No Package matching 'mod_ldap' found available, installed or updated 
 
 TASK [Install required packages] 
+
 ********************************************************
 
 2016-05-25 17:32:21,518 p=29393 u=root |  skipping: [login-dev-node1] => 
@@ -120,12 +123,15 @@ TASK [Install required packages]
 
 
 NO MORE HOSTS LEFT
+
 ************************************************************
 
 to retry, use: --limit @site.retry
 
 PLAY RECAP 
+
 *************************************************************
+
 ok=4    changed=2    unreachable=0    failed=1
 In the Red hat system, the LDAP authentication modules are available in the Red hat optional channel.The Redhat optional channel “ rhel-x86_64-server-optional-7” is required if you are using the RHN package management system.
 
@@ -168,11 +174,14 @@ For eg: LDAP_USER_FILTER_ATTRIBUTE="sAMAccountName"
 
 
 TASK [Set Shibboleth relying-party.xml] 
+
 ******************************************************
 
 fatal: [idp-node1]: FAILED! => {"changed": false, "failed": true, "msg": "could not find src=/opt/shibboleth-idp-installer/repository/assets/idp-node1/idp/conf/relying-party.xml"} 
 to retry, use: --limit @site.retry
+
 PLAY RECAP 
+
 **********************************************************
 ok=103 changed=16 unreachable=0 failed=1
 

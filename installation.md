@@ -141,11 +141,11 @@ Undertake the following steps:
 
     This will merge the changes as required and reload the Shibboleth IdP to apply them.
 
-### 2. Recieve Shibboleth IdP Approval
+### 2. Receive Shibboleth IdP Approval
 
 Following approval by the AAF you'll **receive a second email**.
 
-Please wait for at least 4 hours after recieving this email, so backend processes and data sync is definetly completed, before undertaking the instructions it contains to gain administrative rights over your Shibboleth IdP within AAF management tools.
+Please wait for at least 4 hours after receiving this email, so backend processes and data sync is definetly completed, before undertaking the instructions it contains to gain administrative rights over your Shibboleth IdP within AAF management tools.
 
 ### 3. Add Backchannel certificates
 
