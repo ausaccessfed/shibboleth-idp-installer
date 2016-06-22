@@ -49,6 +49,7 @@ python-jinja2.noarch   2.7.2-2.el7       @rhel-x86_64-server-optional-7
 ### 2. Firewalld Error
 
 TASK [Enable firewalld]
+
 ************************************************************
 
 fatal: [idp.node1]: FAILED! => {"changed": false, "failed": true, "msg": 
@@ -198,6 +199,7 @@ When user first logged in it will create an entry in the table tb_st. This value
 
 
 
+
 ### 8. Bootstrap script failed with error
 
 ***fatal:*** [idp-test.edu.au]: UNREACHABLE! => 
@@ -206,7 +208,7 @@ The bootstrap.sh script is designed to run once to setup the installer. It creat
 
 
 
-*** Note:*** If you make any changes to the configuration, please run update_idp.sh script not the bootstrap script.
+*** Note:*** If you make any changes to the configuration, you need to run the ***update_idp.sh*** script not the bootstrap script.
 
 
 
