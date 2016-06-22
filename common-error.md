@@ -208,7 +208,7 @@ The bootstrap.sh script is designed to run once to setup the installer. It creat
 
 
 
-*** Note:*** If you make any changes to the configuration, you need to run the ***update_idp.sh*** script not the bootstrap script.
+***Note:*** If you make any changes to the configuration, you need to run the ***update_idp.sh*** script not the bootstrap script.
 
 
 
