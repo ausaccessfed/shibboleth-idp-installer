@@ -30,7 +30,7 @@ To export existing values from the database on the old IdP and import into the n
 
 The data from the shibpid and tb_st tables needs to be copied across from your old IdP. These tables may be in the same schema or may be in separate schemas depending on how your IdP was originally setup.
 
-*** Export Data***
+***Export Data***
 
 ```
 If in the same schema (uApprove schema in this example)
@@ -57,6 +57,7 @@ mysql -u root idp_db < idp_dump.sql
 
 ```
 To minimise the data duplication, check the count again and ensure that number of records in the V3 table matches with your V2 records.
+
 ```
 SELECT COUNT(*) FROM shibpid;
 
