@@ -120,6 +120,8 @@ You will find the Database connection information in the conf/attribute-resolver
 
 The password for the MySQL database on the new IdP can be found in the file */opt/shibboleth-idp-installer/repository/passwords/your.idp.edu.au/mariadb* and the username is *idp_db*
 
+For more detail on data migration click here [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/moreinfo.png)](data_migration)
+
 ## Attribute Resolution [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
 The following table describes the location of where or how attributes are resolved in the IdP created using the default installer. You will need to check to see if you need to make modifications and determine if there are any attributes missing.
