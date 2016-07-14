@@ -2,11 +2,7 @@
 layout: upgrade
 ---
 
-# Data Migration
-
-Migrating user's identity information from your old IdP to your new IdP will involve the exporting of the old data from what data store it is in, possibly converting the data format, then importing the data into the IdPv3 database.
-
-Two user identity attributes need to be migrated, 1. the Targeted Ids and 2 the shared token.
+# Data Migration the eduPersonTargetedID
 
 ## Migrating Targeted IDs ##
 
@@ -107,4 +103,4 @@ Ensure that the data has loaded into the correct columns
 
 In some situations the persistentID, prinicalName and localId can be mixed up.
 
-# Migrating auEduPersonSharedTokens
+

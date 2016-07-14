@@ -111,16 +111,14 @@ This is new to IdPv3. No action is required.
 
 ## Migrating User Data [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/kIm6xAsL2xU)
 
-To ensure users do not obtain new identities with service providers in the federation when logging using the new IdP it is essential to migrate identity information created by the old IdP. This will generally be held in the database connected to the IdP. Data from the following tables should be exported from the old and imported into the new.
+To ensure users do not obtain new identities with service providers in the federation when logging using the new IdP it is essential to migrate identity information created by the old IdP. This will generally be held in the database connected to the IdP. Data from the following tables should be exported from the old and imported into the new. For detailed instructions click on the links below;
 
-- shibpid (User's targeted Id values) 
-- tb_st (User's Shared Tokens)
+- [shibpid (User's targeted Id values)](eduPersonTargetedID_migration)
+- [tb_st (User's Shared Tokens)](auEduPersonSharedToken_migration)
 
 You will find the Database connection information in the conf/attribute-resolver.xml file on your old IdP.
 
 The password for the MySQL database on the new IdP can be found in the file */opt/shibboleth-idp-installer/repository/passwords/your.idp.edu.au/mariadb* and the username is *idp_db*
-
-For more detail on data migration click here [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/moreinfo.png)](data_migration)
 
 ## Attribute Resolution [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](#)
 
