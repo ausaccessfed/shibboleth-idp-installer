@@ -167,7 +167,7 @@ function set_ldap_properties {
 
 function set_apache_ecp_ldap_properties {
   replace_property 'AuthLDAPURL' \
-    "ldap:\/\/$LDAP_HOST\/$LDAP_BASE_DN?$LDAP_USER_FILTER_ATTRIBUTE" \
+    "\"ldap:\/\/$LDAP_HOST\/$LDAP_BASE_DN?$LDAP_USER_FILTER_ATTRIBUTE\"" \
     $APACHE_IDP_CONFIG
   replace_property 'AuthLDAPBindDN' "\"$LDAP_BIND_DN\"" $APACHE_IDP_CONFIG
   replace_property 'AuthLDAPBindPassword' "\"$LDAP_BIND_DN_PASSWORD\"" \
