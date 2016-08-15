@@ -201,6 +201,14 @@
     state: directory
     mode: 0700
 
+- name: 'Create a tmp directory for jetty'
+  file:
+    path: '{{ jetty.tmp_directory }}'
+    owner: jetty
+    group: jetty
+    start: directory
+    mode: 0700
+
 - name: 'Set permissions on jetty files'
   file:
     path: '{{ item }}'
@@ -215,6 +223,7 @@
   - '{{ jetty.home }}/VERSION.txt'
   - '{{ jetty.home }}/README.TXT'
 
+  
 - name: 'Set permissions on jetty directory'
   file:
     path: '{{ item }}'
