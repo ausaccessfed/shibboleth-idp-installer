@@ -214,7 +214,7 @@ The bootstrap.sh script is designed to run once to setup the installer. It creat
 
 ### 9. MySQL database error after importing the old data from V2 server
 
-***ERROR*** [net.shibboleth.idp.saml.nameid.impl.JDBCPersistentIdStoreEx:498] - Stored Id Store: Exception verifying database
+***Error:*** [net.shibboleth.idp.saml.nameid.impl.JDBCPersistentIdStoreEx:498] - Stored Id Store: Exception verifying database
 java.sql.SQLException: Duplicate insertion succeeded, primary key missing from table at net.shibboleth.idp.saml.nameid.impl.JDBCPersistentIdStoreEx.verifyDatabase(JDBCPersistentIdStoreEx.java:827.
 The database was not reachable or was not defined with an appropriate table + primary key
 
@@ -251,7 +251,7 @@ RENAME TABLE shibpid TO shibpid_old;
 
 CREATE TABLE shibpid (localEntity VARCHAR(255) NOT NULL,peerEntity VARCHAR(255) NOT NULL,persistentId VARCHAR(50) NOT NULL,principalName VARCHAR(50) NOT NULL,localId VARCHAR(50) NOT NULL,peerProvidedId VARCHAR(50) NULL,creationDate TIMESTAMP NOT NULL,deactivationDate TIMESTAMP NULL,PRIMARY KEY (localEntity, peerEntity, persistentId)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-Run the following command to dump your original shibpid table.
+*** Run the following command to dump your original shibpid table.
 
 mysqldump -u idp -p -h mysql-server idp --max_allowed_packet=512M --complete-insert > new_dump.sql
 
