@@ -299,7 +299,7 @@
   <resolver:AttributeDefinition xsi:type="ad:Simple" id="sAMAccountName" sourceAttributeID="sAMAccountName">
     <resolver:Dependency ref="ldap" />
   </resolver:AttributeDefinition>
-  ->
+  -->
 
   <!-- ========================================== -->
   <!--            DATA Connectors                 -->
