@@ -203,7 +203,7 @@
 
 - name: 'Create a tmp directory for jetty'
   file:
-    path: ''
+    path: '{{ jetty.tmp_directory }}'
     owner: jetty
     group: jetty
     start: directory
