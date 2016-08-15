@@ -258,3 +258,17 @@ mysqldump -u idp -p -h mysql-server idp --max_allowed_packet=512M --complete-ins
 ```
 
 Once you successfully import the data , restart the IdP  and verify the logs for any errors.
+
+### 10. Can’t get Shared Token generation working against Active Directory, getting a ResolutionException error regarding sAMAccountName.
+
+If the SharedToken DataConnector defines the SOURCE_ATTRIBUTE_ID=sAMAccountName but does not define an AttributeDefinition for the sAMAccountName then it will fail complaining that it could not resolve a value for the sAMAccountName.
+
+The workaround is adding an AttributeDefinition for the sAMAccountName in the attribute-reslover.xml.
+
+```
+
+<resolver:AttributeDefinition xsi:type="ad:Simple" id="sAMAccountName" sourceAttributeID="sAMAccountName">
+    <resolver:Dependency ref="ldap" />
+</resolver:AttributeDefinition>
+
+```
