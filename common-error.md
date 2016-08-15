@@ -212,4 +212,55 @@ The bootstrap.sh script is designed to run once to setup the installer. It creat
 
 
 
+### 9. MySQL database error after importing the old data from V2 server
+
+***ERROR*** [net.shibboleth.idp.saml.nameid.impl.JDBCPersistentIdStoreEx:498] - Stored Id Store: Exception verifying database
+java.sql.SQLException: Duplicate insertion succeeded, primary key missing from table at net.shibboleth.idp.saml.nameid.impl.JDBCPersistentIdStoreEx.verifyDatabase(JDBCPersistentIdStoreEx.java:827.
+The database was not reachable or was not defined with an appropriate table + primary key
+
+
+The above error is indicating that you have copied the old database structure from V2 server. The shibpid table structure has changed from V.2.x to V.3.2.1 which requires modification to your current database structure.^M^M
+To check the current table structure, run following commands.
+
+
+```
+DESCRIBE shibpid; 
+
+SHOW INDEX FROM shibpid; 
+
+SELECT COUNT(*) FROM shibpid;
+
+```
+
+If you need to update your database structure to meet with V3 requirement, follow the below instructions.
+
+1.Create a full backup of the current database.
+
+2.Shutdown all IdP instances. 
+ 
+3. Login to MySQL console. 
+
+4.Run the following commands to rename the current table, create a valid new table and migrate existing data.
+
+```
+
+RENAME TABLE shibpid TO shibpid_old;
+
+```
+CREATE TABLE shibpid (localEntity VARCHAR(255) NOT NULL,peerEntity VARCHAR(255) NOT NULL,persistentId VARCHAR(50) NOT NULL,principalName VARCHAR(50) NOT NULL,localId VARCHAR(50) NOT NULL,peerProvidedId VARCHAR(50) NULL,creationDate TIMESTAMP NOT NULL,deactivationDate TIMESTAMP NULL,PRIMARY KEY (localEntity, peerEntity, persistentId)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+Run the following command to dump your original shibpid table.
+
+
+mysqldump -u idp -p -h mysql-server idp --max_allowed_packet=512M --complete-insert > new_dump.sql
+
+
+```
+
+Once you successfully import the data , restart the IdP  and verify the logs for any errors.
+
+
+
+
+
 
