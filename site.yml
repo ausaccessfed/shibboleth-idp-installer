@@ -103,7 +103,7 @@
     - name: 'Update yum packages (yum -y update)'
       yum: name=* state=latest
 
-    - name: 'Disable SELinux'
+    - name: 'Set SELinux to permissive mode'
       selinux:
         policy: targeted
         state: permissive
