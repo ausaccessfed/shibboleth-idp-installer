@@ -490,7 +490,7 @@
 
 - name: 'Create directory flows/authn/Shibcas'
   file:
-    name: '{{ shib_idp.src_root }}/flows/authn/Shibcas'
+    name: '{{ shib_idp.home }}/flows/authn/Shibcas'
     state: directory
     owner: root
     group: jetty
