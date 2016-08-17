@@ -489,7 +489,7 @@
     mode: 0640
 
 - name: 'Create directory flows/authn/Shibcas'
-  file:'
+  file:
     name: '{{ shib_idp.src_root }}/flows/authn/Shibcas'
     state: directory
     owner: root
