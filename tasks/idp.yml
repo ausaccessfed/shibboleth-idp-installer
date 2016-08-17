@@ -488,6 +488,30 @@
     group: jetty
     mode: 0640
 
+- name: 'Create directory flows/authn/Shibcas'
+  file:'
+    name: '{{ shib_idp.src_root }}/flows/authn/Shibcas'
+    state: directory
+    owner: root
+    group: jetty
+    mode: 0750
+
+- name: 'Set flows/authn/Shibcas/shibcas-authn-beans.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/flows/authn/Shibcas/shibcas-authn-beans.xml'
+    dest: '{{ shib_idp.home }}/flows/authn/Shibcas/shibcas-authn-beans.xml'
+    owner: root
+    group: jetty
+    mode: 640
+
+- name: 'Set flows/authn/Shibcas/shibcas-authn-flow.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/flows/authn/Shibcas/shibcas-authn-flow.xml'
+    dest: '{{ shib_idp.home }}/flows/authn/Shibcas/shibcas-authn-flow.xml'
+    owner: root
+    group: jetty
+    mode: 640
+
 - name: 'Copy bilateral attribute filters'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/bilateral/filters/'
@@ -577,6 +601,8 @@
   - credentials/idp-encryption.key
   - credentials/idp-signing.key
   - system/conf/services-system.xml
+  - flows/authn/Shibcas/shibcas-authn-beans.xml
+  - flows/authn/Shibcas/shibcas-authn-flow.xml
 
 - name: 'Install IdP systemd unit'
   template:
