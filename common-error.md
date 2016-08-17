@@ -240,11 +240,9 @@ If you need to update your database structure to meet with V3 requirement, follo
 
 2.Shutdown all IdP instances.
 
-3. Login to MySQL console.
+3.Login to MySQL console.
 
 4.Run the following commands to rename the current table, create a valid new table and migrate existing data.
-
-
 
 ```
 RENAME TABLE shibpid TO shibpid_old;
