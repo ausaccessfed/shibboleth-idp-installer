@@ -206,7 +206,7 @@
     path: '{{ jetty.tmp_directory }}'
     owner: jetty
     group: jetty
-    start: directory
+    state: directory
     mode: 0700
 
 - name: 'Set permissions on jetty files'
