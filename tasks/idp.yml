@@ -521,6 +521,15 @@
 - include: idp-credentials.yml
   when: idp_credentials.stat.exists
 
+- name: 'Fix IdP dir permissions'
+  file:
+    name: '{{ shib_idp.home }}/{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0770
+  with_items:
+   - metadata
+
 - name: 'Fix IdP file permissions'
   file:
     name: '{{ shib_idp.home }}/{{ item }}'
