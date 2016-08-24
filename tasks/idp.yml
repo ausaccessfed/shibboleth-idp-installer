@@ -526,7 +526,7 @@
     name: '{{ shib_idp.home }}/{{ item }}'
     owner: root
     group: jetty
-    mode: 0770
+    mode: 0775
   with_items:
    - metadata
 
