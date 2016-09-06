@@ -74,7 +74,8 @@
       home: /opt/jetty/jetty-distribution-{{ download.jetty.version }}
       base: /opt/shibboleth/jetty
       current: /opt/jetty/current
-      state_directory: /tmp/jetty
+      tmp_directory: /opt/jetty/tmp
+      state_directory: /opt/jetty/tmp
     shib_idp:
       home_root: /opt/shibboleth/shibboleth-idp
       home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}
@@ -103,7 +104,7 @@
     - name: 'Update yum packages (yum -y update)'
       yum: name=* state=latest
 
-    - name: 'Disable SELinux'
+    - name: 'Set SELinux to permissive mode'
       selinux:
         policy: targeted
         state: permissive

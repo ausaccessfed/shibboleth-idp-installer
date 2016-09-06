@@ -292,6 +292,15 @@
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" encodeType="false" />  </resolver:AttributeDefinition>
   -->
 
+  <!-- Note: Microsoft Active Directory users, If you use the sAMAccountName as the sourceAttributeId -->
+  <!--       in the sharedToken DataConnector below you must uncomment the following AttributeDefinition for -->
+  <!--       the sAMAccountName attributue. -->
+  <!--
+  <resolver:AttributeDefinition xsi:type="ad:Simple" id="sAMAccountName" sourceAttributeID="sAMAccountName">
+    <resolver:Dependency ref="ldap" />
+  </resolver:AttributeDefinition>
+  -->
+
   <!-- ========================================== -->
   <!--            DATA Connectors                 -->
   <!-- ========================================== -->
@@ -315,6 +324,9 @@
   </resolver:DataConnector>
 
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
+  <!-- Note: Microsoft Active Directory users, If you use the sAMAccountName as the sourceAttributeId -->
+  <!--       you must uncomment the AttributeDefinition for the sAMAccountName attribute in the -->
+  <!--       configuration above. -->
   <resolver:DataConnector xsi:type="SharedToken" xmlns="urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc"
     id="sharedToken"
     sourceAttributeId="YOUR_SOURCE_ATTRIBUTE_HERE"
