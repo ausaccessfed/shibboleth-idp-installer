@@ -39,6 +39,11 @@ set -e
 #  specify an attribute that will never change.
 #SOURCE_ATTRIBUTE_ID=uid
 
+# Perform a yum update as part of the bootstrap and every time you run
+# the update-idp script to ensure all of your operating system software is
+# patched and upto date. Setting this value to TRUE is recommended.
+# Valid values are either TRUE or FALSE.
+#YUM_UPDATE=FALSE
 
 #                             OPTIONAL SECTION
 #                             ~~~~~~~~~~~~~~~~
@@ -78,16 +83,49 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID YUM_UPDATE; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
     fi
   done
+
+  if [ $YUM_UPDATE != "TRUE" ] && [ $YUM_UPDATE != FALSE ]
+  then
+     echo "Variable YUM_UPDATE must be either TRUE or FALSE"
+     exit 1
+  fi
 }
 
 function install_yum_dependencies {
-  yum -y update
+  if [ $YUM_UPDATE == "TRUE" ]
+  then
+    yum -y update
+  else
+    count_updates=`yum check-update --quiet | grep '^[a-Z0-9]' | wc -l`
+   
+    echo "WARNING: Automatic server software updates performed by this"
+    echo "         installer have been disabled!"
+    echo ""
+    if (( $count_updates == 0 ))
+    then
+        echo "There are no patches or updates that are currently outstanding" \
+             "for this server,"
+        echo "however we recommend that you patch your server software" \
+             "regularly!"
+    else
+        echo "There are currently `update_count` patches or update that are" \
+             "outstanding on this server"
+        echo "Use 'yum update' to update to following software!"
+	echo ""
+
+        yum list updates --quiet
+
+        echo ""
+        echo "We recommend that you patch your server software regularly!"
+    fi
+  fi
+  exit 1
   yum -y install git
   yum -y install ansible
 }
