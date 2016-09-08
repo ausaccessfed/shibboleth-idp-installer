@@ -35,11 +35,11 @@ function setup_assets {
   create_assets
 }
 
-if [ "$#" -eq 2 ]
+if [ "$#" -eq 3 ]
 then
   setup_assets
 else
-  echo "Usage: `basename $0` <hostname> <environment>"
+  echo "Usage: `basename $0` <hostname> <environment> <yum_update>"
   exit 1
 fi
 
