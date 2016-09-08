@@ -24,7 +24,7 @@ function create_host_var {
     echo "" >> $HOST_VAR
     echo "# Flag indicating if the server software should or should not be" \
          "patched" >> $HOST_VAR
-    echo "server_patch: $YUM_UPDATE" >> $HOST_VAR
+    echo "server_patch: \"$YUM_UPDATE\"" >> $HOST_VAR
   else
     echo "$HOST_VAR already exists, skipping"
   fi
