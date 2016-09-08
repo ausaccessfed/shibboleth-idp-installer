@@ -3,6 +3,7 @@ set -e
 
 HOST_NAME=$1
 ENVIRONMENT=$2
+YUM_UPDATE=$3
 TEMPLATE_HOST=idp.example.edu.dist
 HOST_VAR="host_vars/$HOST_NAME"
 ASSETS="assets/$HOST_NAME"
@@ -19,6 +20,11 @@ function create_assets {
 function create_host_var {
   if [ ! -f $HOST_VAR ]; then
     cp host_vars/$TEMPLATE_HOST.$ENVIRONMENT $HOST_VAR
+
+    echo "" >> $HOST_VAR
+    echo "# Flag indicating if the server software should or should not be" \
+         "patched" >> $HOST_VAR
+    echo "server_patch: $YUM_UPDATE" >> $HOST_VAR
   else
     echo "$HOST_VAR already exists, skipping"
   fi

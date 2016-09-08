@@ -41,9 +41,9 @@ set -e
 
 # Perform a yum update as part of the bootstrap and every time you run
 # the update-idp script to ensure all of your operating system software is
-# patched and upto date. Setting this value to TRUE is recommended.
-# Valid values are either TRUE or FALSE.
-#YUM_UPDATE=FALSE
+# patched and up to date. Setting this value to "true" is recommended.
+# Valid values are either "true" or "false".
+#YUM_UPDATE=true
 
 #                             OPTIONAL SECTION
 #                             ~~~~~~~~~~~~~~~~
@@ -90,15 +90,15 @@ function ensure_mandatory_variables_set {
     fi
   done
 
-  if [ $YUM_UPDATE != "TRUE" ] && [ $YUM_UPDATE != FALSE ]
+  if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != false ]
   then
-     echo "Variable YUM_UPDATE must be either TRUE or FALSE"
+     echo "Variable YUM_UPDATE must be either true or false"
      exit 1
   fi
 }
 
 function install_yum_dependencies {
-  if [ $YUM_UPDATE == "TRUE" ]
+  if [ $YUM_UPDATE == "true" ]
   then
     yum -y update
   else
@@ -214,7 +214,7 @@ function set_apache_ecp_ldap_properties {
 
 function create_ansible_assets {
   cd $LOCAL_REPO
-  sh create_assets.sh $HOST_NAME $ENVIRONMENT
+  sh create_assets.sh $HOST_NAME $ENVIRONMENT $YUM_UPDATE
 }
 
 function create_apache_self_signed_certs {
