@@ -125,7 +125,6 @@ function install_yum_dependencies {
         echo "We recommend that you patch your server software regularly!"
     fi
   fi
-  exit 1
   yum -y install git
   yum -y install ansible
 }
