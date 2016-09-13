@@ -86,12 +86,20 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
     fi
   done
+}
+
+function ensure_install_base_exists {
+  if [ ! -d "$INSTALL_BASE" ]; then
+    echo "The directory $INSTALL_BASE where you have requested the install"
+    echo "to occur does not exist."
+    exit 1
+  fi
 }
 
 function install_yum_dependencies {
@@ -148,7 +156,7 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
     $ANSIBLE_HOST_VARS
-  replace_property 'install_base:' "\"$INSTALL_BASE\"" \
+  replace_property 'install_base:' "\""${INSTALL_BASE////\\/}"\"" \
     $ANSIBLE_HOST_VARS
 }
 
@@ -289,6 +297,7 @@ function duplicate_execution_warning {
 
 function bootstrap {
   ensure_mandatory_variables_set
+  ensure_install_base_exists
   duplicate_execution_warning
   install_yum_dependencies
   setup_repo
