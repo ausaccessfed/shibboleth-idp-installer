@@ -66,21 +66,21 @@
       shib_cas_authenticator:
          url: "{{ download.shib_cas_authenticator.baseurl }}/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar"
     installer:
-      root: /opt/shibboleth-idp-installer
-      path: /opt/shibboleth-idp-installer/build
-      repository: /opt/shibboleth-idp-installer/repository
+      root: "{{ install_base }}/shibboleth-idp-installer"
+      path: "{{ install_base }}/shibboleth-idp-installer/build"
+      repository: "{{ install_base }}/shibboleth-idp-installer/repository"
     jetty:
-      root: /opt/jetty
-      home: /opt/jetty/jetty-distribution-{{ download.jetty.version }}
-      base: /opt/shibboleth/jetty
-      current: /opt/jetty/current
-      tmp_directory: /opt/jetty/tmp
-      state_directory: /opt/jetty/tmp
+      root: "{{ install_base }}/jetty"
+      home: "{{ install_base }}/jetty/jetty-distribution-{{ download.jetty.version }}"
+      base: "{{ install_base }}/shibboleth/jetty"
+      current: "{{ install_base }}/jetty/current"
+      tmp_directory: "{{ install_base }}/jetty/tmp"
+      state_directory: "{{ install_base }}/jetty/tmp"
     shib_idp:
-      home_root: /opt/shibboleth/shibboleth-idp
-      home: /opt/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}
-      src_root: /opt/shibboleth/shibboleth-src
-      src: /opt/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ download.shib_idp.version }}
+      home_root: "{{ install_base }}/shibboleth/shibboleth-idp"
+      home: "{{ install_base }}/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}"
+      src_root: "{{ install_base }}/shibboleth/shibboleth-src
+      src: "{{ install_base }}/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ download.shib_idp.version }}"
       keystore_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
       cookie_enc_key_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/cookie_enc_key chars=letters,digits length=64') }}"
       aepst_salt: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/aespt_salt chars=letters,digits length=64') }}"
