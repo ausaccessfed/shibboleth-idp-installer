@@ -103,7 +103,7 @@
 
     - name: 'Update yum packages (yum -y update)'
       yum: name=* state=latest
-      when: server_patch!="false"
+      when: ((server_patch is undefined) or (server_patch is none) or (server_patch=="true"))
 
     - name: 'Set SELinux to permissive mode'
       selinux:
