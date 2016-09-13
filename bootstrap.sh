@@ -58,10 +58,18 @@ set -e
 #  Specify the attribute for user queries
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
+#                            ADVANCED SECTION
+#                            ~~~~~~~~~~~~~~~~
+
+# The base path for Shibboleth and the IdP Installer configuration.
+# Changing the base path MUST only occur here, do not attempt to change
+# the base after the initial install. 
+INSTALL_BASE=/opt
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
-LOCAL_REPO=/opt/shibboleth-idp-installer/repository
-SHIBBOLETH_IDP_INSTANCE=/opt/shibboleth/shibboleth-idp/current
+LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
+SHIBBOLETH_IDP_INSTANCE=$INSTALL_BASE/shibboleth/shibboleth-idp/current
 ANSIBLE_HOSTS_FILE=$LOCAL_REPO/ansible_hosts
 ANSIBLE_HOST_VARS=$LOCAL_REPO/host_vars/$HOST_NAME
 ASSETS=$LOCAL_REPO/assets/$HOST_NAME
@@ -139,6 +147,8 @@ function set_ansible_host_vars {
   replace_property 'home_organisation:' "\"$ORGANISATION_BASE_DOMAIN\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'install_base:' "\"$INSTALL_BASE\"" \
     $ANSIBLE_HOST_VARS
 }
 
