@@ -14,7 +14,9 @@ function git_update_details {
   echo -e "    * Jetty\n\n"
 }
 
-cd INSTALL_BASE:/shibboleth-idp-installer/repository
+working_dir=/opt/shibboleth-idp-installer/repository
+
+cd $working_dir
 
 upgrade=false
 while getopts ":u" opt; do

@@ -79,6 +79,7 @@ APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
 LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
 APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
+ACTIVITY_LOG=$INSTALL_BASE/shibboleth-idp-installer/activity.log
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 GIT_BRANCH=master
@@ -146,15 +147,6 @@ function replace_property {
   fi
 }
 
-function replase_string {
-  local string=$1
-  local value=$2
-  locat file=$3
-  if [ ! -z "$value" ]; then
-    sed -i "s/.*$string.*/$value/g" $file
-  fi
-}
-
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
   replace_property 'idp_host_name:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
@@ -172,12 +164,12 @@ function set_ansible_host_vars {
 }
 
 function set_ansible_cfg_log_path {
-  replace_string 'INSTALL_BASE:' "\""${INSTALL_BASE////\\/}"\"" \
+  replace_property 'log_path=' "\""${ACTIVITY_LOG////\\/}"\"" \
     $ANSIBLE_CFG
 }
 
 function set_update_idp_script_cd_path {
-  replase_string ''INSTALL_BASE:' "\""${INSTALL_BASE////\\/}"\"" \
+  replace_property 'working_dir=' "\""${LOCAL_REPO////\\/}"\"" \
     $UPDATE_IDP_SCRIPT
 }
 
