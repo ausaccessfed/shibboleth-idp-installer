@@ -6,8 +6,8 @@
     download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
-        version: 9.3.8.v20160314
-        sha256sum: fc4136c0abf8f86d99de1b11b3d2323bffda0d538a0f654bf741f5e84ea992bf
+        version: 9.3.11.v20160721
+        sha256sum: 6f720a39324ba02491c5dd598039f9cda1746d45c26594f8189692058f9f4264
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
         version: 3.2.1
