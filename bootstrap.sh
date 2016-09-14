@@ -72,6 +72,8 @@ LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
 SHIBBOLETH_IDP_INSTANCE=$INSTALL_BASE/shibboleth/shibboleth-idp/current
 ANSIBLE_HOSTS_FILE=$LOCAL_REPO/ansible_hosts
 ANSIBLE_HOST_VARS=$LOCAL_REPO/host_vars/$HOST_NAME
+ANSIBLE_CFG=$LOCAL_REPO/ansible.cfg
+UPDATE_IDP_SCRIPT=$LOCAL_REPO/update_idp.sh
 ASSETS=$LOCAL_REPO/assets/$HOST_NAME
 APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
@@ -144,6 +146,15 @@ function replace_property {
   fi
 }
 
+function replase_string {
+  local string=$1
+  local value=$2
+  locat file=$3
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$string.*/$value/g" $file
+  fi
+}
+
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
   replace_property 'idp_host_name:' "\"$HOST_NAME\"" $ANSIBLE_HOST_VARS
@@ -158,6 +169,16 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'install_base:' "\""${INSTALL_BASE////\\/}"\"" \
     $ANSIBLE_HOST_VARS
+}
+
+function set_ansible_cfg_log_path {
+  replace_string 'INSTALL_BASE:' "\""${INSTALL_BASE////\\/}"\"" \
+    $ANSIBLE_CFG
+}
+
+function set_update_idp_script_cd_path {
+  replase_string ''INSTALL_BASE:' "\""${INSTALL_BASE////\\/}"\"" \
+    $UPDATE_IDP_SCRIPT
 }
 
 function set_source_attribute_in_attribute_resolver {
@@ -304,6 +325,8 @@ function bootstrap {
   set_ansible_hosts
   create_ansible_assets
   set_ansible_host_vars
+  set_update_idp_script_cd_path
+  set_ansible_cfg_log_path
   set_source_attribute_in_attribute_resolver
   set_source_attribute_in_saml_nameid_properties
 
