@@ -164,12 +164,12 @@ function set_ansible_host_vars {
 }
 
 function set_ansible_cfg_log_path {
-  replace_property 'log_path=' "\""${ACTIVITY_LOG////\\/}"\"" \
+  replace_property 'log_path=' "${ACTIVITY_LOG////\\/}" \
     $ANSIBLE_CFG
 }
 
 function set_update_idp_script_cd_path {
-  replace_property 'working_dir=' "\""${LOCAL_REPO////\\/}"\"" \
+  replace_property 'working_dir=' "${LOCAL_REPO////\\/}" \
     $UPDATE_IDP_SCRIPT
 }
 
