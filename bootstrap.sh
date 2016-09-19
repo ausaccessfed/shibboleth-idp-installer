@@ -139,6 +139,7 @@ EOF
 }
 
 function replace_property {
+# There will be a space between the property and its value.
   local property=$1
   local value=$2
   local file=$3
@@ -146,6 +147,17 @@ function replace_property {
     sed -i "s/.*$property.*/$property $value/g" $file
   fi
 }
+
+function replace_property_nosp {
+# There will be NO space between the property and its value.
+  local property=$1
+  local value=$2
+  local file=$3
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$property.*/$property$value/g" $file
+  fi
+}
+
 
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
@@ -164,12 +176,12 @@ function set_ansible_host_vars {
 }
 
 function set_ansible_cfg_log_path {
-  replace_property 'log_path=' "${ACTIVITY_LOG////\\/}" \
+  replace_property_nosp 'log_path=' "${ACTIVITY_LOG////\\/}" \
     $ANSIBLE_CFG
 }
 
 function set_update_idp_script_cd_path {
-  replace_property 'working_dir=' "${LOCAL_REPO////\\/}" \
+  replace_property_nosp 'working_dir=' "${LOCAL_REPO////\\/}" \
     $UPDATE_IDP_SCRIPT
 }
 
