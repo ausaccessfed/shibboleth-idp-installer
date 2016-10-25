@@ -526,7 +526,7 @@
     dest: '{{ shib_idp.home }}/metadata'
     owner: root
     group: jetty
-    mode: 0640
+    mode: 0660
 
 - name: 'Copy bilateral credentials'
   copy:
