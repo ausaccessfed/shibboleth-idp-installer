@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 declare -a nodes
 
@@ -55,7 +55,7 @@ function server_patch () {
   fi
 }
 
-cd /opt/shibboleth-idp-installer/repository
+cd /opt/shibboleth-idp-installer/repository || exit
 
 get_nodes
 
@@ -72,7 +72,7 @@ echo -e "\n-----\n"
 echo -e "This process will perform the following UPDATES: \n"
 echo "  1. Update underlying operating system packages to ensure any security issues are addressed"
 echo ""
-for x in "${nodes[*]}"
+for x in ${nodes[*]}
 do
   server_patch $x
 done
