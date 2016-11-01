@@ -90,7 +90,7 @@ function ensure_mandatory_variables_set {
     fi
   done
 
-  if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != false ]
+  if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
   then
      echo "Variable YUM_UPDATE must be either true or false"
      exit 1
@@ -177,6 +177,8 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
+    $ANSIBLE_HOST_VARS
 }
 
 function set_source_attribute_in_attribute_resolver {
@@ -213,7 +215,7 @@ function set_apache_ecp_ldap_properties {
 
 function create_ansible_assets {
   cd $LOCAL_REPO
-  sh create_assets.sh $HOST_NAME $ENVIRONMENT $YUM_UPDATE
+  sh create_assets.sh $HOST_NAME $ENVIRONMENT
 }
 
 function create_apache_self_signed_certs {
