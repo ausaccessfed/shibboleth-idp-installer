@@ -19,10 +19,6 @@ function create_assets {
 function create_host_var {
   if [ ! -f $HOST_VAR ]; then
     cp host_vars/$TEMPLATE_HOST.$ENVIRONMENT $HOST_VAR
-
-    echo "" >> $HOST_VAR
-    echo "# Flag indicating if the server software should or should not be" \
-         "patched" >> $HOST_VAR
   else
     echo "$HOST_VAR already exists, skipping"
   fi
@@ -33,11 +29,11 @@ function setup_assets {
   create_assets
 }
 
-if [ "$#" -eq 3 ]
+if [ "$#" -eq 2 ]
 then
   setup_assets
 else
-  echo "Usage: `basename $0` <hostname> <environment> <yum_update>"
+  echo "Usage: `basename $0` <hostname> <environment>"
   exit 1
 fi
 

@@ -114,7 +114,7 @@ function install_yum_dependencies {
         echo "however we recommend that you patch your server software" \
              "regularly!"
     else
-        echo "There are currently `update_count` patches or update that are" \
+        echo "There are currently $count_updates patches or update that are" \
              "outstanding on this server"
         echo "Use 'yum update' to update to following software!"
 	echo ""
@@ -125,8 +125,12 @@ function install_yum_dependencies {
         echo "We recommend that you patch your server software regularly!"
     fi
   fi
-  yum -y install git
-  yum -y install ansible
+  echo "Install git"
+  yum -y -q -e0 install git
+
+  echo ""
+  echo "Install ansible"
+  yum -y -q -e0 install ansible
 }
 
 function pull_repo {
