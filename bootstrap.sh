@@ -39,6 +39,11 @@ set -e
 #  specify an attribute that will never change.
 #SOURCE_ATTRIBUTE_ID=uid
 
+# Perform a yum update as part of the bootstrap and every time you run
+# the update-idp script to ensure all of your operating system software is
+# patched and up to date. Setting this value to "true" is recommended.
+# Valid values are either "true" or "false".
+#YUM_UPDATE=true
 
 #                             OPTIONAL SECTION
 #                             ~~~~~~~~~~~~~~~~
@@ -89,12 +94,18 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
     fi
   done
+
+  if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
+  then
+     echo "Variable YUM_UPDATE must be either true or false"
+     exit 1
+  fi
 }
 
 function ensure_install_base_exists {
@@ -106,9 +117,39 @@ function ensure_install_base_exists {
 }
 
 function install_yum_dependencies {
-  yum -y update
-  yum -y install git
-  yum -y install ansible
+  if [ $YUM_UPDATE == "true" ]
+  then
+    yum -y update
+  else
+    count_updates=`yum check-update --quiet | grep '^[a-Z0-9]' | wc -l`
+   
+    echo "WARNING: Automatic server software updates performed by this"
+    echo "         installer have been disabled!"
+    echo ""
+    if (( $count_updates == 0 ))
+    then
+        echo "There are no patches or updates that are currently outstanding" \
+             "for this server,"
+        echo "however we recommend that you patch your server software" \
+             "regularly!"
+    else
+        echo "There are currently $count_updates patches or update that are" \
+             "outstanding on this server"
+        echo "Use 'yum update' to update to following software!"
+	echo ""
+
+        yum list updates --quiet
+
+        echo ""
+        echo "We recommend that you patch your server software regularly!"
+    fi
+  fi
+  echo "Install git"
+  yum -y -q -e0 install git
+
+  echo ""
+  echo "Install ansible"
+  yum -y -q -e0 install ansible
 }
 
 function pull_repo {
@@ -170,6 +211,8 @@ function set_ansible_host_vars {
   replace_property 'home_organisation:' "\"$ORGANISATION_BASE_DOMAIN\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'install_base:' "\""${INSTALL_BASE////\\/}"\"" \
     $ANSIBLE_HOST_VARS

@@ -39,3 +39,6 @@ federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 # The install base for the IdP software and Ansible configuration
 # Warning: Do NOT modify this value!
 install_base: "/opt"
+
+# Run yum -update on every execution of update_idp.sh
+server_patch: "true"
