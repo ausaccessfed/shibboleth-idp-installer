@@ -63,17 +63,28 @@ set -e
 #  Specify the attribute for user queries
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
+#                            ADVANCED SECTION
+#                            ~~~~~~~~~~~~~~~~
+
+# The base path for Shibboleth and the IdP Installer configuration.
+# Changing the base path MUST only occur here, do not attempt to change
+# the base after the initial install. 
+INSTALL_BASE=/opt
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
-LOCAL_REPO=/opt/shibboleth-idp-installer/repository
-SHIBBOLETH_IDP_INSTANCE=/opt/shibboleth/shibboleth-idp/current
+LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
+SHIBBOLETH_IDP_INSTANCE=$INSTALL_BASE/shibboleth/shibboleth-idp/current
 ANSIBLE_HOSTS_FILE=$LOCAL_REPO/ansible_hosts
 ANSIBLE_HOST_VARS=$LOCAL_REPO/host_vars/$HOST_NAME
+ANSIBLE_CFG=$LOCAL_REPO/ansible.cfg
+UPDATE_IDP_SCRIPT=$LOCAL_REPO/update_idp.sh
 ASSETS=$LOCAL_REPO/assets/$HOST_NAME
 APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
 LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
 APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
+ACTIVITY_LOG=$INSTALL_BASE/shibboleth-idp-installer/activity.log
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 GIT_BRANCH=master
@@ -83,7 +94,7 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID YUM_UPDATE; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -94,6 +105,14 @@ function ensure_mandatory_variables_set {
   then
      echo "Variable YUM_UPDATE must be either true or false"
      exit 1
+  fi
+}
+
+function ensure_install_base_exists {
+  if [ ! -d "$INSTALL_BASE" ]; then
+    echo "The directory $INSTALL_BASE where you have requested the install"
+    echo "to occur does not exist."
+    exit 1
   fi
 }
 
@@ -161,6 +180,7 @@ EOF
 }
 
 function replace_property {
+# There will be a space between the property and its value.
   local property=$1
   local value=$2
   local file=$3
@@ -168,6 +188,17 @@ function replace_property {
     sed -i "s/.*$property.*/$property $value/g" $file
   fi
 }
+
+function replace_property_nosp {
+# There will be NO space between the property and its value.
+  local property=$1
+  local value=$2
+  local file=$3
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$property.*/$property$value/g" $file
+  fi
+}
+
 
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
@@ -183,6 +214,18 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'install_base:' "\""${INSTALL_BASE////\\/}"\"" \
+    $ANSIBLE_HOST_VARS
+}
+
+function set_ansible_cfg_log_path {
+  replace_property_nosp 'log_path=' "${ACTIVITY_LOG////\\/}" \
+    $ANSIBLE_CFG
+}
+
+function set_update_idp_script_cd_path {
+  replace_property_nosp 'working_dir=' "${LOCAL_REPO////\\/}" \
+    $UPDATE_IDP_SCRIPT
 }
 
 function set_source_attribute_in_attribute_resolver {
@@ -322,12 +365,15 @@ function duplicate_execution_warning {
 
 function bootstrap {
   ensure_mandatory_variables_set
+  ensure_install_base_exists
   duplicate_execution_warning
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
   create_ansible_assets
   set_ansible_host_vars
+  set_update_idp_script_cd_path
+  set_ansible_cfg_log_path
   set_source_attribute_in_attribute_resolver
   set_source_attribute_in_saml_nameid_properties
 

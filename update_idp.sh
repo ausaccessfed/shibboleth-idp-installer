@@ -18,6 +18,9 @@ function git_update_details {
   echo -e "    * Jetty\n\n"
 }
 
+working_dir=/opt/shibboleth-idp-installer/repository
+
+cd $working_dir || exit
 
 function get_nodes {
   i=1
@@ -47,8 +50,6 @@ function server_patch () {
     echo "      Node: $1 will be patched"
   fi
 }
-
-cd /opt/shibboleth-idp-installer/repository || exit
 
 get_nodes
 
