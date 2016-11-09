@@ -20,25 +20,18 @@ function git_update_details {
 
 
 function get_nodes {
-echo "get_nodes"
   i=1
   getting_nodes=false
   for line in $(cat ansible_hosts)
   do
-echo "$line"
     if [ $line == "[idp-servers]" ]; then
       getting_nodes=true
-echo "Starting nodes"
     else
       if [[ "$line" == [* ]]; then
-echo "Finished nodes"
         getting_nodes=false
       else
         if ( $getting_nodes ); then
-echo "Got node $line"
           nodes[$i]=$line
-	else
-echo "Skip $line"
         fi
       fi
     fi
