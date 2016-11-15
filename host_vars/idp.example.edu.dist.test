@@ -35,3 +35,9 @@ home_organisation_type: "urn:mace:terena.org:schac:homeOrganizationType:au:unive
 # The federation's group id used for metadata-based attribute filtering
 federation_group_id: "https://md.test.aaf.edu.au/aaf-test-metadata.xml"
 
+# The install base for the IdP software and Ansible configuration
+# Warning: Do NOT modify this value!
+install_base: "/opt"
+
+# Run yum -update on every execution of update_idp.sh
+server_patch: "true"

@@ -50,7 +50,7 @@
 
 - name: 'Create keypair directory'
   file:
-    name: '/opt/keypairs'
+    name: '{{ install_base }}/keypairs'
     state: directory
     owner: root
     group: root
@@ -59,7 +59,7 @@
 - name: 'Install Apache SSL keys'
   copy:
     src: 'assets/{{inventory_hostname}}/apache/{{ item }}'
-    dest: '/opt/keypairs/{{ item }}'
+    dest: '{{ install_base }}/keypairs/{{ item }}'
     owner: root
     group: apache
     mode: 0640
