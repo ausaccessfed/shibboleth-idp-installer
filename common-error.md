@@ -281,7 +281,7 @@ In the IdP3, the customisation is done using the velocity templates. The jsp bra
 
  To find out the more information about the brading refer to the Branding section in the installer guide: http://ausaccessfed.github.io/shibboleth-idp-installer/upgradefromv2/config-and-data.html
 
- ### 12. LDAP Passwords with dollar signs ($)
+### 12. LDAP Passwords with dollar signs ($)
 
  ***Error:*** LDAP Passwords with dollars sign (LDAP_BIND_DN_PASSWORD="A$*****" ) in the bootstrap script will fail to include characters including and after a $ sign when inserted into the configuration area. Sed is doing this as it interprets $ as end of line.
 
