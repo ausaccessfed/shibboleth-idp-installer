@@ -4,6 +4,13 @@ layout: about
 
 # Release notes
 
+**Future release:** [**1.2.0+3.2.1**](#1.2.0) (Expected Nov 2016)
+
+**Current Version:** [**1.1.0+3.2.1**](#1.1.0)
+
+***Earlier versions***
+
+- [**1.1.0+3.2.1**](#1.0.0)
 - [**1.0.0-beta.3+idp-3.2.0**](#1.0.0-beta.3)
 - [**1.0.0-beta.2+idp-3.2.0**](#1.0.0-beta.2)
 - [**1.0.0-beta.1+idp-3.2.0**](#1.0.0-beta.1)
@@ -15,9 +22,45 @@ layout: about
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
 ----------
+## <a name="1.2.0"></a>1.2.0+idp-3.2.1 ##
+
+November TBA, 2016
+
+- Bumped Jetty to version 9.3.11.v20160721 
+- Option provide to disable automatic "yum update"
+- Fixed directory protections that affect loading of metadata from third party sources
+- Java tuning for Jetty
+- Option provided to install to an alternative directory. Default is /opt
+- Add a new attribute dsdStudentId to the Resolver and Filter in preparation for the introduction of the Digatary service
+
+## <a name="1.1.0"></a>1.1.0+idp-3.2.1 ##
+
+September 6, 2016
+
+- Added Attribute Definition for sAMAccountName
+- Added the shibcas beans configuration
+- Moved Jetty's temporary file space from /tmp/jetty to /opt/jetty/tmp because some systems have regular /tmp clean up processes
+- Fixed several file permissions issues
+
+
 ## <a name="1.0.0"></a>1.0.0+idp-3.2.1 ##
 
-April TBA, 2016
+April 26, 2016
+
+
+- Bumped Jetty to version 9.3.8.v20160314
+- Bumped Shibboleth to version 3.2.1
+- Set SELinux mode to permissive (from disabled)
+- Added file following files to be managed by the Installer
+    - conf/authn/general-authn.xml
+    - conf/intercept/consent-intercept-config.xml 
+    - conf/relying-party.xml 
+- Included ShibCas authentication flow. This allows the IdP to off load auth the a CAS server
+- Added cas extensions .jar files
+    - cas-client-core-3.3.3.jar
+    - shib-cas-authenticator-3.0.0.jar
+- Increased the time Jetty waits while it scans for annotations in the idp.war file. Now 3 minutes.
+
 
 ## <a name="1.0.0-beta.3"></a>1.0.0-beta.3+idp-3.2.0 ##
 
