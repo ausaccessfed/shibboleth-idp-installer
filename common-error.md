@@ -232,8 +232,6 @@ SELECT COUNT (*) FROM shibpid;
 
 ```
 
-
-
 If you need to update your database structure to meet with V3 requirement, follow the below instructions.
 
 1.Create a full backup of the current database.
@@ -270,3 +268,22 @@ The workaround is adding an AttributeDefinition for the sAMAccountName in the at
 </resolver:AttributeDefinition>
 
 ```
+### 11. Customisation and Branding
+
+TASK: [Set customised views] **************************************************
+ok: [devidp.edu.au] => (item=error.vm)
+ok: [devidp.edu.au] => (item=expiring-password.vm)
+ok: [devidp.edu.au] => (item=login-error.vm)
+***fatal***: [devidp.edu.au] => input file not found at /opt/shibboleth-idp-installer/repository/templates/assets/devidp.edu.au/idp/branding/views/login.vm or /opt/shibboleth-idp-installer/repository/assets/devidp.edu.au/idp/branding/views/login.vm
+
+
+In the IdP3, the customisation is done using the velocity templates. The jsp branding is not possible with V3 without massive re coding.
+
+ To find out the more information about the brading refer to the Branding section in the installer guide: http://ausaccessfed.github.io/shibboleth-idp-installer/upgradefromv2/config-and-data.html
+
+### 12. LDAP Passwords with dollar signs ($)
+
+ ***Error:*** LDAP Passwords with dollars sign (LDAP_BIND_DN_PASSWORD="A$*****" ) in the bootstrap script will fail to include characters including and after a $ sign when inserted into the configuration area. Sed is doing this as it interprets $ as end of line.
+
+***Fix:*** Insert a backslash before the dollar sign in your password.
+LDAP_BIND_DN_PASSWORD="A\$*****". This should  fixed the password of "A$****" as required.
