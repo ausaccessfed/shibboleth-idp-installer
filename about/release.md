@@ -4,13 +4,14 @@ layout: about
 
 # Release notes
 
-**Future release:** [**1.2.0+3.2.1**](#1.2.0) (Expected Nov 2016)
+**Future release:** [**1.2.1+3.2.1**](#1.2.1) (Expected Early Dec 2016)
 
-**Current Version:** [**1.1.0+3.2.1**](#1.1.0)
+**Current Version:** [**1.2.0+3.2.1**](#1.2.0)
 
 ***Earlier versions***
 
-- [**1.1.0+3.2.1**](#1.0.0)
+- [**1.1.0+3.2.1**](#1.1.0)
+- [**1.0.0+3.2.1**](#1.0.0)
 - [**1.0.0-beta.3+idp-3.2.0**](#1.0.0-beta.3)
 - [**1.0.0-beta.2+idp-3.2.0**](#1.0.0-beta.2)
 - [**1.0.0-beta.1+idp-3.2.0**](#1.0.0-beta.1)
@@ -22,9 +23,16 @@ layout: about
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
 ----------
+## <a name="1.2.1"></a>1.2.1+3.2.1 ##
+
+December TBA, 2016
+
+Bug fix - Add options for install directory to the host details
+
+
 ## <a name="1.2.0"></a>1.2.0+idp-3.2.1 ##
 
-November TBA, 2016
+November 15 November, 2016
 
 - Bumped Jetty to version 9.3.11.v20160721 
 - Option provide to disable automatic "yum update"
