@@ -278,7 +278,7 @@ function create_apache_self_signed_certs {
 
 function run_ansible {
   pushd $LOCAL_REPO > /dev/null
-  ansible-playbook -i ansible_hosts site.yml --force-handlers
+  ansible-playbook -i ansible_hosts site.yml --force-handlers --extra-var="install_base=$INSTALL_BASE"
   popd > /dev/null
 }
 
