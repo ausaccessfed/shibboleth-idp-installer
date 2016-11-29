@@ -58,6 +58,15 @@ set -e
 #LDAP_BIND_DN="cn=Manager,dc=example,dc=edu"
 
 #  The adminstrator's password
+#  Note: If any of the following special characters appear in your
+#        password you must add an escape "\" before each one.
+#        The special characters are 
+#           - $ (Dollars), 
+#           - " (Double quote),
+#           - / (Forward Slash) 
+#        Back Slash MUST never be used!
+#  The password: 'ReQ$-"/xxp4' would be entered as 'ReQ\$-\"\/xxp4'
+#
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
