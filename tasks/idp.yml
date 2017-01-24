@@ -582,6 +582,8 @@
   - conf/services.properties
   - conf/services.xml
   - conf/session-manager.xml
+  - conf/admin/general-admin.xml
+  - conf/admin/metrics.xml
   - conf/authn/authn-comparison.xml
   - conf/authn/authn-events-flow.xml
   - conf/authn/external-authn-config.xml
