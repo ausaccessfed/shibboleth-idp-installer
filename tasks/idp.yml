@@ -324,15 +324,6 @@
     group: root
     force: yes
 
-- name: 'Create empty metadata provider (federation-metadata.xml) as jetty:jetty'
-  template:
-    src: templates/idp/federation-metadata.xml
-    dest: '{{ shib_idp.home }}/metadata/federation-metadata.xml'
-    owner: jetty
-    group: jetty
-    mode: 0600
-    backup: yes
-
 - name: 'Set metadata provider'
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
