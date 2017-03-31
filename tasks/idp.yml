@@ -35,7 +35,7 @@
 - name: 'Create default jetty profile'
   template:
     dest: '/etc/default/jetty'
-    src: 'assets/{{inventory_hostname}}/idp/sys/jetty-profile'
+    src: 'templates/jetty/jetty-profile'
     owner: root
     group: jetty
     mode: 0640
