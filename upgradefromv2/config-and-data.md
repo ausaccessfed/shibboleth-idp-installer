@@ -20,7 +20,7 @@ The following content will be covered
 
 ## The entityID [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/api6i6h07ac)
 
-The *entityID* is a string that uniquely identifies your IdP within the federation. It is a [Uniform Resource Identifier (URI)](https://www.ietf.org/rfc/rfc3986.txt). Most IdPs will have an entityID that looks like a web URL something like: 
+The *entityID* is a string that uniquely identifies your IdP within the federation. It is a [Uniform Resource Identifier (URI)](https://www.ietf.org/rfc/rfc3986.txt). Most IdPs will have an entityID that looks like a web URL something like:
 
 ***https://idp.example.edu.au/idp/shibboleth***
 
@@ -29,15 +29,15 @@ older IdPs will have *entityIDs* that are URNs which are just another form of UR
 ***urn:mace:federation.org.au:testfed:example.edu.au***
 
 Whatever your IdP's *entityID* looks like, the new IdP **MUST** have exactly the same entityID.
-  
+
 **Finding the entityID**
 
 The *entityID* for your old IdP can be found in the file ***relying-party.xml*** file in the ***conf*** directory. Search for "*provider=*". The following string is the entityID. It should be listed in both the *AnonymousRelyingParty* and *DefaultRelyingParty* config sections.
 
 **Comparing entityIDs**
 
-The entityID for your new IdP can be found in the file 
-***/opt/shibboleth-idp-installer/repository/host_vars/****host.name* 
+The entityID for your new IdP can be found in the file
+***/opt/shibboleth-idp-installer/repository/host_vars/****host.name*
 with the identifier of **idp_entity_id:**
 
 ***idp_entity_id: "https://idp.example.edu.au/idp/shibboleth"***
@@ -67,7 +67,7 @@ Replace the value in the file ***passwords/your.server.edu.au/aespt_salt*** with
 
 ## Certificates [![](https://raw.githubusercontent.com/ausaccessfed/shibboleth-idp-installer/gh-pages/images/youtube.png)](https://youtu.be/XzZI7gGgxLE)
 
-Shibboleth IdPs use a number of certificates. With IdP v3 the number of certificates has increased with each now have its own individual role. See [Shibboleth IdP Security and Networking](https://wiki.shibboleth.net/confluence/display/IDP30/SecurityAndNetworking) for more details. 
+Shibboleth IdPs use a number of certificates. With IdP v3 the number of certificates has increased with each now have its own individual role. See [Shibboleth IdP Security and Networking](https://wiki.shibboleth.net/confluence/display/IDP30/SecurityAndNetworking) for more details.
 
 This section describes the changes to certificate for your IdP that need to occur for the migration to be successful.
 
@@ -168,7 +168,7 @@ Bi-lateral services are any services that are not provided by the AAF, this incl
 
 - Services manually added to the IdP
   - Local organisation only services
-- Software or Platform as a service 
+- Software or Platform as a service
   - Google Apps
   - Office 365
 - Part of another federation
@@ -196,17 +196,17 @@ Adding Metadata to your IdP, use the file:
 For each new Metadata source add a new section. For example to load metadata from a local file.
 
     <MetadataProvider id="MyMetadata"
-    xsi:type="xsi:type="FilesystemMetadataProvider" 
+    xsi:type="FilesystemMetadataProvider"
     metadataFile="%{idp.home}/metadata/myMetatdata.xml"/>
 
 Other options are available from the [Shibboleth Wiki](https://wiki.shibboleth.net/confluence/display/IDP30/MetadataConfiguration).
 
-###Verification certificates 
+###Verification certificates
 
-You may need a Certificate to validate the authenticity of the Metadata file. For example – Loading Metadata from a third party site: The following is added to your MetadataProvider. 
+You may need a Certificate to validate the authenticity of the Metadata file. For example – Loading Metadata from a third party site: The following is added to your MetadataProvider.
 
     <MetadataFilter xsi:type="SignatureValidation"
-        certificateFile="{{ shib_idp.home }}/credentials/your-metadata-cert.pem" 
+        certificateFile="{{ shib_idp.home }}/credentials/your-metadata-cert.pem"
         requireSignedRoot="true">
     </MetadataFilter>
 
@@ -366,7 +366,7 @@ For each Attribute add a ***DisplayName*** element. It must be added after the *
     <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" encodeType="false" />
     </resolver:AttributeDefinition>
-    
+
 This example we change givenName to First Names for the purpose of displaying on the consent page.
 
 ###Consent page wording
@@ -396,10 +396,4 @@ They can be added to the ***branding/css*** or ***branding/images*** directories
 
 ##Next step
 
-Your new IdP is fully configured and branded, almost ready to go. It's now time to thoroughly [test your IdP](testing). 
-
-
-
-
-
-
+Your new IdP is fully configured and branded, almost ready to go. It's now time to thoroughly [test your IdP](testing).
