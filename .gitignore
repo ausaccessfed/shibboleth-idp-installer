@@ -1,9 +1,9 @@
 ansible_hosts
 passwords
-host_vars
+host_vars/*
 !host_vars/idp.example.edu.dist.production
 !host_vars/idp.example.edu.dist.test
-assets
+assets/*
 !assets/idp.example.edu.dist
 .vagrant
 Vagrantfile
