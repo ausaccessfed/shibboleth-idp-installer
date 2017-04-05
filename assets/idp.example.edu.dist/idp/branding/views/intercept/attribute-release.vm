@@ -1,3 +1,4 @@
+##
 ## Velocity Template for DisplayAttributeReleasePage view-state
 ##
 ## Velocity context will contain the following properties :
@@ -70,17 +71,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            #set ($attributeOrder = $environment.getProperty("idp.consent.attributeOrder") )
-                            #set ($consentableAttributes = $attributeReleaseContext.getConsentableAttributes() )
-                            #if ( $attributeOrder )
-                                #set ($allAttributeKeys = $attributeOrder.split(",") )
-                            #else
-                                #set ($allAttributeKeys = $consentableAttributes.keySet())
-                            #end
-                            #foreach ($attributeKey in $allAttributeKeys)
-                              #if ($consentableAttributes.get($attributeKey))
-                                #set ($attribute = $consentableAttributes.get($attributeKey))
-
+                            #foreach ($attribute in $attributeReleaseContext.getConsentableAttributes().values())
                                 <tr>
                                     <td>$encoder.encodeForHTML($attributeDisplayNameFunction.apply($attribute))</td>
                                     <td>
@@ -98,7 +89,6 @@
                                         <input id="$attribute.id" type="$inputType" name="_shib_idp_consentIds" value="$encoder.encodeForHTML($attribute.id)" checked>
                                     </td>
                                 </tr>
-                              #end
                             #end
                         </tbody>
                     </table>
@@ -156,4 +146,3 @@
         </form>
     </body>
 </html>
-
