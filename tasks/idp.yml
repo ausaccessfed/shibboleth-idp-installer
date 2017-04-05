@@ -233,9 +233,16 @@
     - expiring-password.vm
     - login-error.vm
     - login.vm
+    - logout-complete.vm
+    - logout-propagate.vm
     - logout-response.vm
     - logout.vm
     - resolvertest.vm
+    - spnego-unavailable.vm
+    - user-prefs.js
+    - user-prefs.vm
+    - intercept/attribute-release.vm
+    - intercept/terms-of-use.vm
 
 - name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
   shell: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version}}.sh'
