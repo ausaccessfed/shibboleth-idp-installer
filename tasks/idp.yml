@@ -189,7 +189,7 @@
     backup: yes
 
 - name: 'Copy customised IdP branding (css)'
-  template:
+  copy:
     dest: '{{ shib_idp.home }}/edit-webapp/css/'
     src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/css/'
     owner: root
@@ -208,7 +208,7 @@
 - name: 'Copy customised IdP branding (images)'
   copy:
     dest: '{{ shib_idp.home }}/edit-webapp/images/'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/webapps/images/'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/images/'
     owner: root
     group: jetty
     mode: 0640
