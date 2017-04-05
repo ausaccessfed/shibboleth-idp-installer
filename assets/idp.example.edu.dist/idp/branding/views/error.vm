@@ -7,6 +7,7 @@
 ## request - HttpServletRequest
 ## response - HttpServletResponse
 ## environment - Spring Environment object for property resolution
+## custom - arbitrary object injected by deployer
 ##
 #set ($title = $springMacroRequestContext.getMessage("idp.title", "Web Login Service"))
 #set ($defaultTitleSuffix = $springMacroRequestContext.getMessage("idp.title.suffix", "Error"))
@@ -19,10 +20,12 @@
     #set ($message = $springMacroRequestContext.getMessage("${eventKey}.message", "$defaultTitleSuffix: $eventId"))
     #if ($eventId == "AccessDenied" or $eventId == "ContextCheckDenied")
         $response.setStatus(403)
-    #elseif ($eventId == "UnableToDecode" || $eventId == "InvalidMessage")
-        $response.setStatus(400)
-    #else
+    #elseif ($eventId == "AttributeReleaseRejected" || $eventId == "TermsRejected")
+        $response.setStatus(200)
+    #elseif ($eventKey == "unexpected" || $eventKey == "runtime-error" || $eventKey == "error")
         $response.setStatus(500)
+    #else
+        $response.setStatus(400)
     #end
 #elseif ($exception)
 	## This handles exceptions that reach the Spring-MVC exception handler.
