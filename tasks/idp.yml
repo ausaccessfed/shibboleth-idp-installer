@@ -427,15 +427,6 @@
     mode: 0640
     backup: yes
 
-- name: 'Set attribute-release.vm template'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
-    dest: '{{ shib_idp.home }}/views/intercept/attribute-release.vm'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
 - name: 'Set idp.properties'
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/idp.properties'
