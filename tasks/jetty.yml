@@ -130,6 +130,14 @@
     mode: 0640
     backup: yes
 
+- name: 'Set console-capture.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/console-capture.ini'
+    src: 'templates/jetty/console-capture.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
 
 - name: 'Set jetty-backchannel.xml'
   template:
