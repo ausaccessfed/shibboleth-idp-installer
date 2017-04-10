@@ -7,8 +7,121 @@
       repository: "{{ install_base }}/shibboleth-idp-installer/repository"
 
   tasks:
+    - name: 'Move file - authn-messages.properties if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/authn-messages.properties'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/authn-messages.properties'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/messages/authn-messages.properties'
+      when: file_exists.stat.exists == True
+
+    - file: 
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/authn-messages.properties'
+        state=absent
+
+    - name: 'Move file - consent-messages.properties if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/consent-messages.properties'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/consent-messages.properties'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/messages/consent-messages.properties'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/consent-messages.properties'
+        state=absent
+
+    - name: 'Move file - error-messages.properties if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/error-messages.properties'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/error-messages.properties'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/messages/error-messages.properties'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/error-messages.properties'
+        state=absent
+
+    - name: 'Move file - views/attribute-release.vm if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/views/intercept/attribute-release.vm'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
+        state=absent
+
+    - name: 'Move file - css/consent.css if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/consent.css'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/consent.css'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/webapp/css/consent.css'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/consent.css'
+        state=absent
+
+    - name: 'Move file - css/main.css if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/main.css'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/main.css'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/webapp/css/main.css'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/css/main.css'
+        state=absent
+
+    - name: 'Move file - images/logo.png if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo.png'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo.png'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/webapp/images/logo.png'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo.png'
+        state=absent
+
+    - name: 'Move file - images/logo-mobile.png if it exists in its old location'
+      stat:
+        path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo-mobile.png'
+      register: file_exists
+
+    - copy:
+        src: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo-mobile.png'
+        dest: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/webapp/images/logo-mobile.png'
+      when: file_exists.stat.exists == True
+
+    - file:
+        path='{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/images/logo-mobile.png'
+        state=absent
+
     - name: 'Copy example files to assets only if they do not exist'
       copy:
         src: '{{ installer.repository }}/assets/idp.example.edu.dist/'
         dest: '{{ installer.repository }}/assets/{{inventory_hostname}}'
         force: no
+
