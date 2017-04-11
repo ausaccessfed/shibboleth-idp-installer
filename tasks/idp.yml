@@ -115,12 +115,15 @@
     mode: 0750
     state: directory
   
-- name: 'Remove old versions of libraries'
+- name: 'Remove old versions of libraries that may be previously been deployed'
   file:
-    path: '{{ shib_idp.home }}/edit-webapp/WEB-IND/lib{{ item }}'
+    path: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/{{ item }}'
     state: absent
   with_items:
-    - aaf-shib-ext-*.jar
+    - aaf-shib-ext-1.0.0.jar
+    - aaf-shib-ext-1.0.1.jar
+    - aaf-shib-ext-1.1.0.jar
+    - cas-client-core-3.3.3.jar
 
 - name: 'Install aaf-shib-ext library'
   get_url:
@@ -137,8 +140,14 @@
 - name: 'Install cas-client-core library'
   get_url:
     url: '{{ urls.cas_client_core.url }}'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-{{ download.cas_client_core.version }}.jar'
+    dest: '{{ shib_idp.libs }}/cas-client-core-{{ download.cas_client_core.version }}.jar'
     sha256sum: '{{ download.cas_client_core.sha256sum }}'
+
+- name: 'Link to cas-client-core library'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core.jar'
+    src: '{{ shib_idp.libs }}/cas-client-core-{{ download.cas_client_core.version }}.jar'
+    state: link
 
 - name: 'Install shib-cas-authenticator library'
   get_url:
