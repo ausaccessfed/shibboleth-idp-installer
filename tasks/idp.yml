@@ -109,7 +109,7 @@
 
 - name: 'Create libs directory'
   file:
-    name:  '{{ shib_idp.libs_dir }}'
+    name:  '{{ shib_idp.libs }}'
     owner: root 
     group: jetty
     mode: 0750
