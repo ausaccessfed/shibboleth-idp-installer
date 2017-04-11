@@ -79,6 +79,7 @@
     shib_idp:
       home_root: "{{ install_base }}/shibboleth/shibboleth-idp"
       home: "{{ install_base }}/shibboleth/shibboleth-idp/shibboleth-idp-{{ download.shib_idp.version }}"
+      libs: "{{ install_base }}/shibboleth/libs"
       src_root: "{{ install_base }}/shibboleth/shibboleth-src"
       src: "{{ install_base }}/shibboleth/shibboleth-src/shibboleth-identity-provider-{{ download.shib_idp.version }}"
       keystore_password: "{{ lookup('password', installer.repository + '/passwords/' + inventory_hostname + '/shib_idp_keystore chars=letters,digits length=64') }}"
