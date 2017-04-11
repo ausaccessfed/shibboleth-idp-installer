@@ -115,6 +115,13 @@
     mode: 0750
     state: directory
   
+- name: 'Remove old versions of libraries'
+  file:
+    path: '{{ shib_idp.home }}/edit-webapp/WEB-IND/lib{{ item }}'
+    state: absent
+  with_items:
+    - aaf-shib-ext-*.jar
+
 - name: 'Install aaf-shib-ext library'
   get_url:
     url: '{{ urls.aaf_shib_ext.url }}'
