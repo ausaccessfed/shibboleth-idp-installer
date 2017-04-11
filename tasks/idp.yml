@@ -107,11 +107,25 @@
   args:
     creates: '{{ shib_idp.home }}'
 
+- name: 'Create libs directory'
+  file:
+    name:  '{{ shib_idp.libs_dir }}'
+    owner: root 
+    group: jetty
+    mode: 0750
+    state: directory
+  
 - name: 'Install aaf-shib-ext library'
   get_url:
     url: '{{ urls.aaf_shib_ext.url }}'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
+    dest: '{{ shib_idp.libs }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
     sha256sum: '{{ download.aaf_shib_ext.sha256sum }}'
+
+- name: 'Link to aaf-shib-ext library'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext.jar'
+    src: '{{ shib_idp.libs }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
+    state: link
 
 - name: 'Install cas-client-core library'
   get_url:
