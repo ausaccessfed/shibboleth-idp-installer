@@ -314,7 +314,6 @@
   with_items:
     - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
-    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
 
 - name: 'Create IdP log directory'
   file:
