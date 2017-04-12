@@ -123,6 +123,7 @@
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.1.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.0.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.1.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-3.3.3.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-3.0.0.jar' 
     - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-1.0.0.jar'
@@ -191,12 +192,12 @@
     creates={{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
-  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.libe }}/ creates="{{ shib_idp.libs }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
 
 - name: 'Link to commons-dbcp2 lib'
   file:
     name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2.jar'
-    src: '{{ shib_idp.libs }}commons-dbcp2-{{ download.commons_dbcp2.version }}.jar'
+    src: '{{ shib_idp.libs }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar'
     state: link
 
 - name: 'Install Jars - commons-pool2'
@@ -317,7 +318,7 @@
 - name: 'Link to mysql connector lib'
   file:
     name: '{{ jetty.base }}/lib/ext/mysql-connector-java-bin.jar'
-    src: '{{ hib-idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
+    src: '{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
     state: link
 
 - name: 'Download placeholder keystore'
@@ -333,7 +334,6 @@
     group: jetty
     mode: 0640
   with_items:
-    - '{{ jetty.base }}/lib/ext/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
     - '{{ jetty.base }}/etc/keystore'
 
 - name: 'Create IdP log directory'
