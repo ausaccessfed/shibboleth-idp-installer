@@ -117,13 +117,15 @@
   
 - name: 'Remove old versions of libraries that may be previously been deployed'
   file:
-    path: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/{{ item }}'
+    path: {{ item }}
     state: absent
   with_items:
-    - aaf-shib-ext-1.0.0.jar
-    - aaf-shib-ext-1.0.1.jar
-    - aaf-shib-ext-1.1.0.jar
-    - cas-client-core-3.3.3.jar
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.1.jar
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.0.jar
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-3.3.3.jar
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-3.0.0.jar 
+    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
 
 - name: 'Install aaf-shib-ext library'
   get_url:
@@ -152,14 +154,26 @@
 - name: 'Install shib-cas-authenticator library'
   get_url:
     url:  '{{ urls.shib_cas_authenticator.url }}'
-    dest: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
+    dest: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
     sha256sum: '{{ download.shib_cas_authenticator.sha256sum }}'
+
+- name: 'Link to shib-cas-authenticator library'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator.jar'
+    src: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib-cas-authenticator.version }}.jar'
+    state: link
 
 - name: 'Install jetty-dta-ssl'
   get_url:
     url: '{{ urls.dta_ssl.url }}'
-    dest: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
+    dest:  '{{ shib_idp.libs }}/jetty-dta-ssl-{{ download.dta_ssl.version }}.jar'
     sha256sum: '{{ download.dta_ssl.sha256sum }}'
+
+- name: 'Link to jetty-dta-ssl library'
+  file:
+    name: '{{ jetty.base }}/lib/ext/jetty9-dta-ssl.jar'
+    src: '{{ shib_idp.libs }}/jetty-dta-ssl-{{ download.dta_ssl.version }}.jar'
+    state: link
 
 - name: 'Install Jars - commons-dbcp2'
   get_url:
