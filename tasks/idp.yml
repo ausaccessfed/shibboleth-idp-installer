@@ -125,7 +125,10 @@
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.0.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-3.3.3.jar'
     - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-3.0.0.jar' 
-    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
+    - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-1.0.0.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-2.1.1.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-2.4.2.jar'
+    - '{{ jetty.base }}/lib/ext/mysql-connector-java-5.1.35-bin.jar'
 
 - name: 'Install aaf-shib-ext library'
   get_url:
@@ -188,7 +191,13 @@
     creates={{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar
 
 - name: 'Copy over commons-dbcp2 lib'
-  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar {{ shib_idp.libe }}/ creates="{{ shib_idp.libs }}/commons-dbcp2-{{ download.commons_dbcp2.version }}.jar"'
+
+- name: 'Link to commons-dbcp2 lib'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-dbcp2.jar'
+    src: {{ shib_idp.libs }}commons-dbcp2-{{ download.commons_dbcp2.version }}.jar'
+    state: link
 
 - name: 'Install Jars - commons-pool2'
   get_url:
@@ -203,7 +212,13 @@
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib'
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.home }}/edit-webapp/WEB-INF/lib/ creates="{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+
+- name: 'Link to commons-pool2 lib'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2.jar'
+    src: '{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
+    state: link
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -297,7 +312,13 @@
     creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar
 
 - name: 'Copy over mysql connector lib'
-  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar {{ jetty.base }}/lib/ext creates="{{ jetty.base }}/lib/ext/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar"'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar"'
+
+- name: 'Link to mysql connector lib'
+  file:
+    name: {{ jetty.base }}/lib/ext/mysql-connector-java-bin.jar'
+    src: {{ hib-idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
+    state: link
 
 - name: 'Download placeholder keystore'
   get_url:
