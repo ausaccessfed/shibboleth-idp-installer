@@ -324,15 +324,6 @@
     group: root
     force: yes
 
-- name: 'Create empty metadata provider (federation-metadata.xml) as jetty:jetty'
-  template:
-    src: templates/idp/federation-metadata.xml
-    dest: '{{ shib_idp.home }}/metadata/federation-metadata.xml'
-    owner: jetty
-    group: jetty
-    mode: 0600
-    backup: yes
-
 - name: 'Set metadata provider'
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
@@ -472,6 +463,14 @@
     group: jetty
     mode: 0640
 
+- name: 'Set authn/password-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/password-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/password-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set intercept/consent-intercept-config.xml'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
@@ -582,8 +581,12 @@
   - conf/services.properties
   - conf/services.xml
   - conf/session-manager.xml
+  - conf/admin/general-admin.xml
+  - conf/admin/metrics.xml
   - conf/authn/authn-comparison.xml
   - conf/authn/authn-events-flow.xml
+  - conf/authn/duo-authn-config.xml
+  - conf/authn/duo.properties
   - conf/authn/external-authn-config.xml
   - conf/authn/general-authn.xml
   - conf/authn/ipaddress-authn-config.xml
@@ -591,6 +594,7 @@
   - conf/authn/jaas.config
   - conf/authn/krb5-authn-config.xml
   - conf/authn/ldap-authn-config.xml
+  - conf/authn/mfa-authn-config.xml
   - conf/authn/password-authn-config.xml
   - conf/authn/remoteuser-authn-config.xml
   - conf/authn/remoteuser-internal-authn-config.xml
@@ -604,6 +608,7 @@
   - conf/c14n/x500-subject-c14n-config.xml
   - conf/intercept/consent-intercept-config.xml
   - conf/intercept/context-check-intercept-config.xml
+  - conf/intercept/expiring-password-intercept-config.xml
   - conf/intercept/intercept-events-flow.xml
   - conf/intercept/profile-intercept.xml
   - credentials/idp-backchannel.p12
