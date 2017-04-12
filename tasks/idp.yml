@@ -117,14 +117,14 @@
   
 - name: 'Remove old versions of libraries that may be previously been deployed'
   file:
-    path: {{ item }}
+    path: '{{ item }}'
     state: absent
   with_items:
-    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar
-    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.1.jar
-    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.0.jar
-    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-3.3.3.jar
-    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-3.0.0.jar 
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.0.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.0.1.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/aaf-shib-ext-1.1.0.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/cas-client-core-3.3.3.jar'
+    - '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator-3.0.0.jar' 
     - '{{ jetty.base }}/lib/ext/jetty9-dta-ssl-{{ download.dta_ssl.version }}.jar'
 
 - name: 'Install aaf-shib-ext library'
@@ -160,7 +160,7 @@
 - name: 'Link to shib-cas-authenticator library'
   file:
     name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/shib-cas-authenticator.jar'
-    src: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib-cas-authenticator.version }}.jar'
+    src: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
     state: link
 
 - name: 'Install jetty-dta-ssl'
