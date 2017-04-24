@@ -7,4 +7,4 @@ crendetianls area.
 
 ## Extra certificates and keys include
 
-* LDAPS ccerts, keys used to connect to your LDAP directory via LDAPS or TSL
+* LDAPS certs, keys used to connect to your LDAP directory via LDAPS or TSL
