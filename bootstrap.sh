@@ -8,17 +8,17 @@ set -e
 
 #  Specify the externally facing address for this IdP. Typically you would have
 #  a DNS entry for this. Do *NOT* use 'localhost' or any other local address.
-#HOST_NAME=idp.example.edu
+HOST_NAME=julian-idp.aaf.edu.au
 
 #  The federation environment
 #  Allowable values: {test, production} (case-sensitive)
-#ENVIRONMENT=test
+ENVIRONMENT=test
 
 #  Your Organisation's name
-#ORGANISATION_NAME="The University of Example"
+ORGANISATION_NAME="JULIANTEST"
 
 #  The base domain for your organisation
-#ORGANISATION_BASE_DOMAIN=example.edu
+ORGANISATION_BASE_DOMAIN=test.edu
 
 #  Your schacHomeOrganizationType.
 #  See http://www.terena.org/activities/tf-emc2/schacreleases.html
@@ -26,7 +26,7 @@ set -e
 #   urn:mace:terena.org:schac:homeOrganizationType:au:university
 #   urn:mace:terena.org:schac:homeOrganizationType:au:research-institution
 #   urn:mace:terena.org:schac:homeOrganizationType:au:other
-#HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:university
+HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:other
 
 #  The attribute used for AuEduPersonSharedToken and EduPersonTargetedId
 #  generation.
@@ -37,47 +37,38 @@ set -e
 #  it will change the AuEduPersonSharedToken and EduPersonTargetedId. This will
 #  cause the user to lose access in the federation. It is *critical* that you
 #  specify an attribute that will never change.
-#SOURCE_ATTRIBUTE_ID=uid
+SOURCE_ATTRIBUTE_ID=uid
 
 # Perform a yum update as part of the bootstrap and every time you run
 # the update-idp script to ensure all of your operating system software is
 # patched and up to date. Setting this value to "true" is recommended.
 # Valid values are either "true" or "false".
-#YUM_UPDATE=true
+YUM_UPDATE=true
 
 #                             OPTIONAL SECTION
 #                             ~~~~~~~~~~~~~~~~
 
 #  LDAP address Shibboleth IdP will connect to
-#LDAP_HOST="IP_ADDRESS:PORT"
+LDAP_HOST="ldap.exp.aaf.edu.au:389"
 
 #  Point from where LDAP will search for users
-#LDAP_BASE_DN="ou=Users,dc=example,dc=edu"
+LDAP_BASE_DN="cn=users,cn=accounts,dc=exp,dc=aaf,dc=edu,dc=au"
 
 #  The administrator's bind dn
-#LDAP_BIND_DN="cn=Manager,dc=example,dc=edu"
+LDAP_BIND_DN="uid=admin,cn=users,cn=accounts,dc=exp,dc=aaf,dc=edu,dc=au"
 
 #  The adminstrator's password
-#  Note: If any of the following special characters appear in your
-#        password you must add an escape "\" before each one.
-#        The special characters are 
-#           - $ (Dollars), 
-#           - " (Double quote),
-#           - / (Forward Slash) 
-#        Back Slash MUST never be used!
-#  The password: 'ReQ$-"/xxp4' would be entered as 'ReQ\$-\"\/xxp4'
-#
-#LDAP_BIND_DN_PASSWORD="p@ssw0rd"
+LDAP_BIND_DN_PASSWORD="Today123"
 
 #  Specify the attribute for user queries
-#LDAP_USER_FILTER_ATTRIBUTE="uid"
+LDAP_USER_FILTER_ATTRIBUTE="uid"
 
 #                            ADVANCED SECTION
 #                            ~~~~~~~~~~~~~~~~
 
 # The base path for Shibboleth and the IdP Installer configuration.
 # Changing the base path MUST only occur here, do not attempt to change
-# the base after the initial install. 
+# the base after the initial install.
 INSTALL_BASE=/opt
 
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
@@ -96,7 +87,7 @@ APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
 ACTIVITY_LOG=$INSTALL_BASE/shibboleth-idp-installer/activity.log
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
-GIT_BRANCH=master
+GIT_BRANCH=feature/add-favicon
 
 FR_TEST_REG=https://manager.test.aaf.edu.au/federationregistry/registration/idp
 FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
@@ -131,7 +122,7 @@ function install_yum_dependencies {
     yum -y update
   else
     count_updates=`yum check-update --quiet | grep '^[a-Z0-9]' | wc -l`
-   
+
     echo "WARNING: Automatic server software updates performed by this"
     echo "         installer have been disabled!"
     echo ""
@@ -398,4 +389,3 @@ function bootstrap {
 }
 
 bootstrap
-
