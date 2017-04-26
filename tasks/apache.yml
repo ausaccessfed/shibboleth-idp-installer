@@ -74,11 +74,3 @@
 
 - name: 'Enable Apache service'
   service: name=httpd state=started enabled=yes
-
-- name: 'Insert favicon'
-    file: 'favicon.ico'
-    src: 'assets/{{inventory_hostname}}/idp/branding'
-    est: '/var/www/html'
-    owner: root
-    group: apache
-    mode: 0755
