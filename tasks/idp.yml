@@ -462,7 +462,7 @@
     dest: '{{ shib_idp.home }}/conf/relying-party.xml'
     owner: root
     group: jetty
-    mode: 0640  
+    mode: 0640
 
 - name: 'Set authn/general-authn.xml'
   copy:
@@ -627,3 +627,14 @@
 - name: 'Enable idp service'
   service: name=idp state=restarted enabled=yes
 
+  - name: 'Set customised IdP Favicon (images)'
+    copy:
+      dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
+      src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
+      owner: root
+      group: root
+      mode: 0600
+      backup: yes
+    with_items:
+      - favicon-mobile.ico
+      - favicon.ico
