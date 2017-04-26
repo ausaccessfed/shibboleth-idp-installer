@@ -1,6 +1,3 @@
-[name]
-backchannel
- 
 [depend]
 server
  

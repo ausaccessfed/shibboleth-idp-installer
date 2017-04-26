@@ -2,9 +2,9 @@
 - hosts: idp-servers
   vars:
     installer:
-      root: /opt/shibboleth-idp-installer
-      path: /opt/shibboleth-idp-installer/build
-      repository: /opt/shibboleth-idp-installer/repository
+      root: "{{ install_base }}/shibboleth-idp-installer"
+      path: "{{ install_base }}/shibboleth-idp-installer/build"
+      repository: "{{ install_base }}/shibboleth-idp-installer/repository"
 
   tasks:
     - name: 'Copy example files to assets only if they do not exist'

@@ -39,6 +39,11 @@ set -e
 #  specify an attribute that will never change.
 #SOURCE_ATTRIBUTE_ID=uid
 
+# Perform a yum update as part of the bootstrap and every time you run
+# the update-idp script to ensure all of your operating system software is
+# patched and up to date. Setting this value to "true" is recommended.
+# Valid values are either "true" or "false".
+#YUM_UPDATE=true
 
 #                             OPTIONAL SECTION
 #                             ~~~~~~~~~~~~~~~~
@@ -53,22 +58,42 @@ set -e
 #LDAP_BIND_DN="cn=Manager,dc=example,dc=edu"
 
 #  The adminstrator's password
+#  Note: If any of the following special characters appear in your
+#        password you must add an escape "\" before each one.
+#        The special characters are 
+#           - $ (Dollars), 
+#           - " (Double quote),
+#           - / (Forward Slash) 
+#        Back Slash MUST never be used!
+#  The password: 'ReQ$-"/xxp4' would be entered as 'ReQ\$-\"\/xxp4'
+#
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
+#                            ADVANCED SECTION
+#                            ~~~~~~~~~~~~~~~~
+
+# The base path for Shibboleth and the IdP Installer configuration.
+# Changing the base path MUST only occur here, do not attempt to change
+# the base after the initial install. 
+INSTALL_BASE=/opt
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
-LOCAL_REPO=/opt/shibboleth-idp-installer/repository
-SHIBBOLETH_IDP_INSTANCE=/opt/shibboleth/shibboleth-idp/current
+LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
+SHIBBOLETH_IDP_INSTANCE=$INSTALL_BASE/shibboleth/shibboleth-idp/current
 ANSIBLE_HOSTS_FILE=$LOCAL_REPO/ansible_hosts
 ANSIBLE_HOST_VARS=$LOCAL_REPO/host_vars/$HOST_NAME
+ANSIBLE_CFG=$LOCAL_REPO/ansible.cfg
+UPDATE_IDP_SCRIPT=$LOCAL_REPO/update_idp.sh
 ASSETS=$LOCAL_REPO/assets/$HOST_NAME
 APACHE_ASSETS=$ASSETS/apache
 CREDENTIAL_BACKUP_PATH=$ASSETS/idp/credentials
 LDAP_PROPERTIES=$ASSETS/idp/conf/ldap.properties
 APACHE_IDP_CONFIG=$ASSETS/apache/idp.conf
+ACTIVITY_LOG=$INSTALL_BASE/shibboleth-idp-installer/activity.log
 
 GIT_REPO=https://github.com/ausaccessfed/shibboleth-idp-installer.git
 GIT_BRANCH=master
@@ -78,18 +103,62 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
     fi
   done
+
+  if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
+  then
+     echo "Variable YUM_UPDATE must be either true or false"
+     exit 1
+  fi
+}
+
+function ensure_install_base_exists {
+  if [ ! -d "$INSTALL_BASE" ]; then
+    echo "The directory $INSTALL_BASE where you have requested the install"
+    echo "to occur does not exist."
+    exit 1
+  fi
 }
 
 function install_yum_dependencies {
-  yum -y update
-  yum -y install git
-  yum -y install ansible
+  if [ $YUM_UPDATE == "true" ]
+  then
+    yum -y update
+  else
+    count_updates=`yum check-update --quiet | grep '^[a-Z0-9]' | wc -l`
+   
+    echo "WARNING: Automatic server software updates performed by this"
+    echo "         installer have been disabled!"
+    echo ""
+    if (( $count_updates == 0 ))
+    then
+        echo "There are no patches or updates that are currently outstanding" \
+             "for this server,"
+        echo "however we recommend that you patch your server software" \
+             "regularly!"
+    else
+        echo "There are currently $count_updates patches or update that are" \
+             "outstanding on this server"
+        echo "Use 'yum update' to update to following software!"
+	echo ""
+
+        yum list updates --quiet
+
+        echo ""
+        echo "We recommend that you patch your server software regularly!"
+    fi
+  fi
+  echo "Install git"
+  yum -y -q -e0 install git
+
+  echo ""
+  echo "Install ansible"
+  yum -y -q -e0 install ansible
 }
 
 function pull_repo {
@@ -120,6 +189,7 @@ EOF
 }
 
 function replace_property {
+# There will be a space between the property and its value.
   local property=$1
   local value=$2
   local file=$3
@@ -127,6 +197,17 @@ function replace_property {
     sed -i "s/.*$property.*/$property $value/g" $file
   fi
 }
+
+function replace_property_nosp {
+# There will be NO space between the property and its value.
+  local property=$1
+  local value=$2
+  local file=$3
+  if [ ! -z "$value" ]; then
+    sed -i "s/.*$property.*/$property$value/g" $file
+  fi
+}
+
 
 function set_ansible_host_vars {
   local entity_id="https:\/\/$HOST_NAME\/idp\/shibboleth"
@@ -140,6 +221,18 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
+    $ANSIBLE_HOST_VARS
+}
+
+function set_ansible_cfg_log_path {
+  replace_property_nosp 'log_path=' "${ACTIVITY_LOG////\\/}" \
+    $ANSIBLE_CFG
+}
+
+function set_update_idp_script_cd_path {
+  replace_property_nosp 'the_install_base=' "${INSTALL_BASE////\\/}" \
+    $UPDATE_IDP_SCRIPT
 }
 
 function set_source_attribute_in_attribute_resolver {
@@ -194,7 +287,7 @@ function create_apache_self_signed_certs {
 
 function run_ansible {
   pushd $LOCAL_REPO > /dev/null
-  ansible-playbook -i ansible_hosts site.yml --force-handlers
+  ansible-playbook -i ansible_hosts site.yml --force-handlers --extra-var="install_base=$INSTALL_BASE"
   popd > /dev/null
 }
 
@@ -279,12 +372,15 @@ function duplicate_execution_warning {
 
 function bootstrap {
   ensure_mandatory_variables_set
+  ensure_install_base_exists
   duplicate_execution_warning
   install_yum_dependencies
   setup_repo
   set_ansible_hosts
   create_ansible_assets
   set_ansible_host_vars
+  set_update_idp_script_cd_path
+  set_ansible_cfg_log_path
   set_source_attribute_in_attribute_resolver
   set_source_attribute_in_saml_nameid_properties
 

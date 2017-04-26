@@ -301,6 +301,14 @@
   </resolver:AttributeDefinition>
   -->
 
+  <!--
+  <resolver:AttributeDefinition xsi:type="ad:Simple" id="dsdStudentId" sourceAttributeID="studentNumber">
+    <resolver:Dependency ref="ldap" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.27691.1.1" encodeType="false" />
+    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.27691.1.1" friendlyName="dsdStudentId" encodeType="false" />
+  </resolver:AttributeDefinition>
+  -->
+
   <!-- ========================================== -->
   <!--            DATA Connectors                 -->
   <!-- ========================================== -->

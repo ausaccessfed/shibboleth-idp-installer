@@ -36,3 +36,5 @@ home_organisation_type: "urn:mace:terena.org:schac:homeOrganizationType:au:unive
 # The federation's group id used for metadata-based attribute filtering
 federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 
+# Run yum -update on every execution of update_idp.sh
+server_patch: "true"
