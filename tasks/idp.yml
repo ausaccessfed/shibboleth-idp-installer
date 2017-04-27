@@ -632,14 +632,14 @@
 - name: 'Enable idp service'
   service: name=idp state=restarted enabled=yes
 
-- name: 'Set customised IdP Favicon (images)'
+- name: 'Set favicon'
   copy:
-    dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
+    dest: '{{ shib_idp.home }}/webapp/{{ item }}'
     src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
     owner: root
     group: root
     mode: 0600
     backup: yes
-    with_items:
-      - favicon-mobile.ico
-      - favicon.ico
+  with_items:
+    - favicon-mobile.ico
+    - favicon.ico
