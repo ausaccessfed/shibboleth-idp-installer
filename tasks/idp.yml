@@ -634,11 +634,11 @@
 
 - name: 'Set favicon'
   copy:
-    dest: '{{ shib_idp.home }}/webapp/{{ item }}'
+    dest: '/var/www/html/{{ item }}'
     src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
     owner: root
     group: root
-    mode: 0600
+    mode: 0644
     backup: yes
   with_items:
     - favicon-mobile.ico
