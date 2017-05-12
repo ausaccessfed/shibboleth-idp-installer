@@ -135,6 +135,7 @@ function ensure_mandatory_variables_set {
 
   if [ $FIREWALL == "none" ]
   then
+    echo ""
     echo "WARNING: You have selected to not have the installer maintain"
     echo "         your local server firewall. This may put your IdP at"
     echo "         risk!"
@@ -184,6 +185,21 @@ function install_yum_dependencies {
   echo ""
   echo "Install ansible"
   yum -y -q -e0 install ansible
+
+  if [ $FIREWALL == "firewalld" ]
+  then
+    echo ""
+    echo "Install firewalld"
+    yum -y -q -e0 install firewalld
+  fi
+
+  if [ $FIREWALL == "iptables" ]
+  then
+    echo ""
+    echo "Install iptables"
+    yum -y -q -e0 install iptables
+  fi
+
 }
 
 function pull_repo {
