@@ -164,7 +164,7 @@
 - name: 'Set customised error-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/error-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/error-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
     owner: root
     group: jetty
     mode: 0640
@@ -173,7 +173,7 @@
 - name: 'Set customised authn-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/authn-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/authn-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
     owner: root
     group: jetty
     mode: 0640
@@ -182,23 +182,20 @@
 - name: 'Set customised consent-messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/consent-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/consent-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
     owner: root
     group: jetty
     mode: 0640
     backup: yes
 
-- name: 'Set customised IdP branding (css)'
-  template:
-    dest: '{{ shib_idp.home }}/edit-webapp/css/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/css/{{ item }}'
+- name: 'Copy customised IdP branding (css)'
+  copy:
+    dest: '{{ shib_idp.home }}/edit-webapp/css/'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/css/'
     owner: root
-    group: root
-    mode: 0600
-    backup: yes
-  with_items:
-    - consent.css
-    - main.css
+    group: jetty
+    mode: 0640
+    backup: no 
 
 - name: 'Remove "dummy" IdP branding'
   file:
@@ -208,17 +205,14 @@
     - dummylogo-mobile.png
     - dummylogo.png
 
-- name: 'Set customised IdP branding (images)'
+- name: 'Copy customised IdP branding (images)'
   copy:
-    dest: '{{ shib_idp.home }}/edit-webapp/images/{{ item }}'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/images/{{ item }}'
+    dest: '{{ shib_idp.home }}/edit-webapp/images/'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/images/'
     owner: root
-    group: root
-    mode: 0600
-    backup: yes
-  with_items:
-    - logo-mobile.png
-    - logo.png
+    group: jetty
+    mode: 0640
+    backup: no
 
 - name: 'Set customised views'
   template:
@@ -233,9 +227,16 @@
     - expiring-password.vm
     - login-error.vm
     - login.vm
+    - logout-complete.vm
+    - logout-propagate.vm
     - logout-response.vm
     - logout.vm
     - resolvertest.vm
+    - spnego-unavailable.vm
+    - user-prefs.js
+    - user-prefs.vm
+    - intercept/attribute-release.vm
+    - intercept/terms-of-use.vm
 
 - name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
   shell: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version}}.sh'
@@ -406,15 +407,6 @@
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/ldap.properties'
     dest: '{{ shib_idp.home }}/conf/ldap.properties'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Set attribute-release.vm template'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/branding/views/attribute-release.vm'
-    dest: '{{ shib_idp.home }}/views/intercept/attribute-release.vm'
     owner: root
     group: jetty
     mode: 0640

@@ -2,7 +2,7 @@
 ##
 ## authenticationErrorContext - context containing error data, if available
 ##
-#if ($authenticationErrorContext && $authenticationErrorContext.getClassifiedErrors().size() > 0)
+#if ($authenticationErrorContext && $authenticationErrorContext.getClassifiedErrors().size() > 0 && $authenticationErrorContext.getClassifiedErrors().iterator().next() != "ReselectFlow")
     ## This handles errors that are classified by the message maps in the authentication config.
     #set ($eventId = $authenticationErrorContext.getClassifiedErrors().iterator().next())
     #set ($eventKey = $springMacroRequestContext.getMessage("$eventId", "login"))

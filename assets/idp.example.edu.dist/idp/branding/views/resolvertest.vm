@@ -10,6 +10,8 @@
 ## XMLObjectSupport
 ## SerializeSupport
 ## environment - Spring Environment object for property resolution
+## custom - arbitrary object injected by deployer
+##
 #if ($flowRequestContext.getCurrentEvent() and !$flowRequestContext.getCurrentEvent().getId().equals("proceed"))
     { "error": "$flowRequestContext.getCurrentEvent().getId()" }
     $response.setContentType("application/json")
