@@ -511,6 +511,14 @@
     group: jetty
     mode: 0640
 
+- name: 'Set Shibboleth credentials.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/credentials.xml'
+    dest: '{{ shib_idp.home }}/conf/credentials.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
+
 - name: 'Set authn/general-authn.xml'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
