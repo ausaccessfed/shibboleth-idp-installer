@@ -7,6 +7,21 @@
       repository: "{{ install_base }}/shibboleth-idp-installer/repository"
 
   tasks:
+    - name: 'Create directories that may be missing'
+      file: 
+        name: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/{{item}}'
+        owner: root
+        group: root
+        mode: 0644
+        state: directory
+      with_items:
+        - 'views'
+	- 'views/intercept'
+        - 'messages'
+        - 'webapp'
+        - 'webapp/css'
+        - 'webapp/images'
+        
     - name: 'Move file - authn-messages.properties if it exists in its old location'
       stat:
         path: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/authn-messages.properties'
