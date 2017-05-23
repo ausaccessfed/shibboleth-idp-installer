@@ -6,9 +6,9 @@ layout: about
 
 ## Version: 1.3.0+idp-3.3.1
 
-### Release date: TBA May 2017
+### Release date: 26 May 2017
 
-This version is an Production release of the Installer. The AAF recommends using this version for in testing prior to upgrading your production IdP.
+This version is an Production release of the Installer. The AAF recommends using this version to upgrade your test IdP prior to upgrading your production IdP.
 
 This release installs the following software
 

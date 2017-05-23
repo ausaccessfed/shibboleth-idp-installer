@@ -34,7 +34,7 @@ June TBA, 2017
 
 ## <a name="1.3.0"></a>1.3.0+idp-3.3.1 ##
 
-May TBA, 2017
+May 26, 2017
 
 - Upgraded to version 3.3.1 of the IdP
 - Upgraded to version 9.4.2 of Jetty
