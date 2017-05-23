@@ -4,9 +4,9 @@ layout: about
 
 # Current version
 
-## Version: 1.2.0+idp-3.2.1
+## Version: 1.3.0+idp-3.3.1
 
-### Release date: 15 November 2016
+### Release date: TBA May 2017
 
 This version is an Production release of the Installer. The AAF recommends using this version for in testing prior to upgrading your production IdP.
 
@@ -14,10 +14,10 @@ This release installs the following software
 
 | Software | Version |
 | -------- | ------- |
-| Shibboleth IdP | 3.2.1 |
-| Jetty | 99.3.11.v20160721 |
+| Shibboleth IdP | 3.3.1 |
+| Jetty | 9.4.3.v20170317 |
 | MySQL Connector | 5.1.35 |
-| AAF Shared Token Extension | 1.0.1 |
+| AAF Shared Token Extension | 1.1.1 |
 | dta_ssl | 1.0.0 |
 | MySQL Connector  | 5.1.35  |
 | commons_dbcp2 | 2.1.1 |
