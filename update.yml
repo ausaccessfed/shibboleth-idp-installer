@@ -16,7 +16,7 @@
         state: directory
       with_items:
         - 'views'
-	- 'views/intercept'
+        - 'views/intercept'
         - 'messages'
         - 'webapp'
         - 'webapp/css'
