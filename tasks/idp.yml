@@ -543,10 +543,10 @@
     group: jetty
     mode: 0640
 
-- name: 'Set intercept/consent-intercept-config.xml'
+- name: 'Set intercept/context-check-intercept-config.xml'
   copy:
-    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/consent-intercept-config.xml'
-    dest: '{{ shib_idp.home }}/conf/intercept/consent-intercept-config.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/context-check-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/context-check-intercept-config.xml'
     owner: root
     group: jetty
     mode: 0640
