@@ -111,7 +111,7 @@
              <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
            </Item>
            <Item>
-             <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
+             <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"> <Set name="serveIcon">false</Set> </New>
            </Item>
          </Array>
         </Set>
