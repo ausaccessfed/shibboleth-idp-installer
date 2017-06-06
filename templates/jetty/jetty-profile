@@ -6,7 +6,7 @@ JETTY_STATE={{ jetty.state_directory }}/jetty.state
 JETTY_USER=jetty
 JETTY_PORT=8080
 JETTY_HOST=0.0.0.0
-JETTY_LOGS={{ jetty.base }}/logs
-JETTY_ARGS=jetty.logs=$JETTY_LOGS
+JETTY_START_LOG={{ jetty.base }}/logs/jetty-start.log
+JETTY_ARGS=jetty.logs={{ jetty.base }}/logs
 JETTY_BASE={{ jetty.base }}
 

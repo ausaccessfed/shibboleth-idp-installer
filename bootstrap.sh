@@ -58,6 +58,15 @@ set -e
 #LDAP_BIND_DN="cn=Manager,dc=example,dc=edu"
 
 #  The adminstrator's password
+#  Note: If any of the following special characters appear in your
+#        password you must add an escape "\" before each one.
+#        The special characters are 
+#           - $ (Dollars), 
+#           - " (Double quote),
+#           - / (Forward Slash) 
+#        Back Slash MUST never be used!
+#  The password: 'ReQ$-"/xxp4' would be entered as 'ReQ\$-\"\/xxp4'
+#
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
@@ -214,8 +223,6 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
-  replace_property 'install_base:' "\""${INSTALL_BASE////\\/}"\"" \
-    $ANSIBLE_HOST_VARS
 }
 
 function set_ansible_cfg_log_path {
@@ -224,7 +231,7 @@ function set_ansible_cfg_log_path {
 }
 
 function set_update_idp_script_cd_path {
-  replace_property_nosp 'working_dir=' "${LOCAL_REPO////\\/}" \
+  replace_property_nosp 'the_install_base=' "${INSTALL_BASE////\\/}" \
     $UPDATE_IDP_SCRIPT
 }
 
@@ -280,7 +287,7 @@ function create_apache_self_signed_certs {
 
 function run_ansible {
   pushd $LOCAL_REPO > /dev/null
-  ansible-playbook -i ansible_hosts site.yml --force-handlers
+  ansible-playbook -i ansible_hosts site.yml --force-handlers --extra-var="install_base=$INSTALL_BASE"
   popd > /dev/null
 }
 

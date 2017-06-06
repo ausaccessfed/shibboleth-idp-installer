@@ -130,6 +130,14 @@
     mode: 0640
     backup: yes
 
+- name: 'Set console-capture.ini'
+  template:
+    dest: '{{ jetty.base }}/start.d/console-capture.ini'
+    src: 'templates/jetty/console-capture.ini'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
 
 - name: 'Set jetty-backchannel.xml'
   template:
@@ -248,3 +256,9 @@
   with_items:
   - '{{ jetty.home }}/bin/jetty.sh'
 
+- name: 'Increase sleep time on jetty startup'
+  lineinfile:
+    dest: '{{ jetty.home }}/bin/jetty.sh'
+    regexp: 'sleep 4'
+    line: '    sleep 10'
+    backrefs: yes

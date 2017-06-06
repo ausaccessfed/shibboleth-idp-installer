@@ -18,7 +18,8 @@ function git_update_details {
   echo -e "    * Jetty\n\n"
 }
 
-working_dir=/opt/shibboleth-idp-installer/repository
+the_install_base=/opt
+working_dir=$the_install_base/shibboleth-idp-installer/repository
 
 cd $working_dir || exit
 
@@ -94,10 +95,10 @@ then
   if [[ $upgrade = true ]]
   then
     git pull
-    ansible-playbook -i ansible_hosts update.yml
+    ansible-playbook -i ansible_hosts update.yml --extra-var="install_base=$the_install_base"
   fi
 
-  ansible-playbook -i ansible_hosts site.yml --force-handlers
+  ansible-playbook -i ansible_hosts site.yml --force-handlers --extra-var="install_base=$the_install_base"
 else
   echo "No changes made, exiting."
   exit 0

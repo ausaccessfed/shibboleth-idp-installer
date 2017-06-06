@@ -47,6 +47,14 @@
         </property>
     </bean>
 
+    <!-- Uncomment if you need to support an older service that
+         does not support signing and encryption using SHA-256 -->
+
+    <!-- 
+    <bean id="SHA1SecurityConfig" parent="shibboleth.DefaultSecurityConfiguration"
+    p:signatureSigningConfiguration-ref="shibboleth.SigningConfiguration.SHA1" />
+    -->
+
     <!-- Container for any overrides you want to add. -->
 
     <util:list id="shibboleth.RelyingPartyOverrides">
@@ -65,6 +73,28 @@
         </bean>
         -->
         
+       <!--
+       Override example that ensures signing and encryption are performed 
+       using SHA-1. If you enable any services to use this configurtion you 
+       MUST also uncomment the "SHA1SecurityConfig" above.
+       -->
+       <!--
+       <bean parent="RelyingPartyByName" c:relyingPartyIds="https://sha1only.example.org">
+         <property name="profileConfigurations">
+             <list>
+                 <bean parent="Shibboleth.SSO" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML1.AttributeQuery" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML1.ArtifactResolution" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML2.SSO" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML2.ECP" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML2.Logout" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML2.AttributeQuery" p:securityConfiguration-ref="SHA1SecurityConfig" />
+                 <bean parent="SAML2.ArtifactResolution" p:securityConfiguration-ref="SHA1SecurityConfig" />
+             </list>
+         </property>
+       </bean>
+       -->
+
     </util:list>
 
 </beans>
