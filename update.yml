@@ -7,6 +7,33 @@
       repository: "{{ install_base }}/shibboleth-idp-installer/repository"
 
   tasks:
+    - name: 'Create directory for credentials'
+      file:
+        name: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/credentials'
+        owner: root
+        group: root
+        mode: 0644
+        state: directory
+
+    - name: 'Backup IdP 3.x credentails only if they have not been backed up'
+      copy:
+        src: '{{ install_base }}/shibboleth/shibboleth-idp/current/credentials/{{ item }}'
+        dest: 'assets/{{ inventory_hostname }}/idp/credentials'
+        owner: root
+        group: root
+        mode: 0644
+        force: no
+      with_items:
+      - idp-backchannel.crt
+      - idp-backchannel.p12
+      - idp-encryption.crt
+      - idp-encryption.key
+      - idp-signing.crt
+      - idp-signing.key
+      - idp-backchannel.p12
+      - sealer.jks
+      - sealer.kver
+
     - name: 'Create directories that may be missing'
       file: 
         name: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/branding/{{item}}'
