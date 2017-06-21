@@ -17,7 +17,7 @@
 
     - name: 'Backup IdP 3.x credentails only if they have not been backed up'
       copy:
-        src: '{{ shib_idp.home }}/credentials/{{ item }}'
+        src: '{{ install_base }}/shibboleth/shibboleth-idp/current/credentials/{{ item }}'
         dest: 'assets/{{ inventory_hostname }}/idp/credentials'
         owner: root
         group: root
