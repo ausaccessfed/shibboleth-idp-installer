@@ -232,11 +232,11 @@
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib'
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Set commons-pool2 ownership and protection'
   file:
-    name: '{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
+    name: '{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
     owner: root
     group: jetty
     mode: 0640
