@@ -38,3 +38,6 @@ federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 
 # Run yum -update on every execution of update_idp.sh
 server_patch: "true"
+
+# Install and configure a local MariaDB instance?
+local_idp_database: "true"
