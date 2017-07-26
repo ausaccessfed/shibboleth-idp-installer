@@ -80,6 +80,14 @@ set -e
 # the base after the initial install. 
 INSTALL_BASE=/opt
 
+# The IdP's Database details. By default a local independent MariaDB is 
+# installed and configured for use by the IdP. You can disable the local
+# database in preference of a remote database instance but you will need to 
+# configure this database separately. Your IdP will not successfully start
+# until the Database is configured.
+# Valid values are either "true" or "false".
+LOCAL_IDP_DATABASE=true  
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
 LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
@@ -103,7 +111,9 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE \
+    LOCAL_IDP_DATABASE; do
+
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -113,6 +123,12 @@ function ensure_mandatory_variables_set {
   if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
   then
      echo "Variable YUM_UPDATE must be either true or false"
+     exit 1
+  fi
+
+  if [ $LOCAL_IDP_DATABASE != "true" ] && [ $LOCAL_IDP_DATABASE != "false" ]
+  then
+     echo "Variable LOCAL_IDP_DATABASE must be either true or false"
      exit 1
   fi
 }
@@ -223,6 +239,8 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'local_idp_database:' "\"$LOCAL_IDP_DATABASE\"" \
+    $ANSIBLE_HOST_VARS
 }
 
 function set_ansible_cfg_log_path {
@@ -243,6 +261,9 @@ function set_source_attribute_in_attribute_resolver {
 function set_source_attribute_in_saml_nameid_properties {
   local saml_nameid_properties=$ASSETS/idp/conf/saml-nameid.properties
   sed -i "s/YOUR_SOURCE_ATTRIBUTE_HERE/$SOURCE_ATTRIBUTE_ID/g" $saml_nameid_properties
+}
+
+function set_database_properties {
 }
 
 function set_ldap_properties {
@@ -383,6 +404,7 @@ function bootstrap {
   set_ansible_cfg_log_path
   set_source_attribute_in_attribute_resolver
   set_source_attribute_in_saml_nameid_properties
+  set_database_properties
 
   if [ ${LDAP_HOST} ];
   then
