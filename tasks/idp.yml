@@ -172,6 +172,9 @@
     url: '{{ urls.dta_ssl.url }}'
     dest:  '{{ shib_idp.libs }}/jetty-dta-ssl-{{ download.dta_ssl.version }}.jar'
     sha256sum: '{{ download.dta_ssl.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Link to jetty-dta-ssl library'
   file:
@@ -213,7 +216,7 @@
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib'
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Link to commons-pool2 lib'
   file:
@@ -327,6 +330,9 @@
     url: '{{ urls.keystore.url }}'
     dest: '{{ jetty.base }}/etc/keystore'
     sha256sum: '{{ download.keystore.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0740
 
 - name: 'Set jetty.base file permissions'
   file:
@@ -609,6 +615,20 @@
     mode: 0775
   with_items:
    - metadata
+
+- name: 'Fix IdP libs permissions and ownership'
+  file:
+    name: '{{ shib_idp.libs }}/{{ item }}'
+    owner: root
+    group: jetty
+    mode: 0640
+  with_items:
+  - 'aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar' 
+  - 'cas-client-core-{{ download.cas_client_core.version }}.jar'
+  - 'shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
+  - 'commons-dbcp2-{{ download.commons_dbcp2.version }}.jar'
+  - 'commons-pool2-{{ download.commons_pool2.version }}.jar'
+  - 'mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
 
 - name: 'Fix IdP file permissions'
   file:
