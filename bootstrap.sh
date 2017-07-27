@@ -263,8 +263,8 @@ function set_source_attribute_in_saml_nameid_properties {
   sed -i "s/YOUR_SOURCE_ATTRIBUTE_HERE/$SOURCE_ATTRIBUTE_ID/g" $saml_nameid_properties
 }
 
-function set_database_properties {
-}
+# function set_database_properties {
+# }
 
 function set_ldap_properties {
   replace_property 'idp.authn.LDAP.ldapURL =' \
@@ -404,7 +404,7 @@ function bootstrap {
   set_ansible_cfg_log_path
   set_source_attribute_in_attribute_resolver
   set_source_attribute_in_saml_nameid_properties
-  set_database_properties
+#  set_database_properties
 
   if [ ${LDAP_HOST} ];
   then
