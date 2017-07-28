@@ -141,6 +141,13 @@ function ensure_install_base_exists {
   fi
 }
 
+function ensure_environment_is_valid {
+  if [ $ENVIRONMENT != "test" ] && [ $ENVIROMENT != "production" ]
+    echo "The ENVIRONMENT must be either 'test' or 'production'"
+    exit 1
+  fi
+}
+  
 function install_yum_dependencies {
   if [ $YUM_UPDATE == "true" ]
   then
@@ -394,6 +401,7 @@ function duplicate_execution_warning {
 function bootstrap {
   ensure_mandatory_variables_set
   ensure_install_base_exists
+  ensure_environment_is_valid
   duplicate_execution_warning
   install_yum_dependencies
   setup_repo
