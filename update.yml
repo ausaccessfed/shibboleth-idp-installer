@@ -7,6 +7,14 @@
       repository: "{{ install_base }}/shibboleth-idp-installer/repository"
 
   tasks:
+    - name: 'Add local_idp_database variable if missing'
+      blockinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        block: |
+          # Install and configure a local MariaDB instance?
+          local_idp_database: "false"
+      when: local_idp_database is undefine
+
     - name: 'Create directory for credentials'
       file:
         name: '{{ installer.repository }}/assets/{{inventory_hostname}}/idp/credentials'
