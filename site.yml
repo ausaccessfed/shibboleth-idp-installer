@@ -119,12 +119,17 @@
         - mod_ldap
         - java-1.8.0-openjdk
         - java-1.8.0-openjdk-devel
+        - ntp
+        - expect
+
+    - name: 'Install optional packages'
+      yum: pkg={{ item }} state=installed
+      with_items:
         - mariadb-server
         - mariadb-devel
         - mariadb
         - MySQL-python
-        - ntp
-        - expect
+      when: local_idp_database == "true"
 
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes
