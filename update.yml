@@ -12,7 +12,7 @@
         path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
         block: |
           # Install and configure a local MariaDB instance?
-          local_idp_database: "false"
+          local_idp_database: "true"
       when: local_idp_database is undefine
 
     - name: 'Create directory for credentials'
