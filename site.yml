@@ -129,13 +129,16 @@
         - mariadb-devel
         - mariadb
         - MySQL-python
-      when: local_idp_database == "true"
+      when: idp_database == "local"
 
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes
 
     - include: tasks/jetty.yml
-    - include: tasks/db.yml
+    - include: tasks/local-db.yml
+      when: idp_database == "local"
+    - include: tasks/remote-db.yml
+      when: idp_database == "remote"
     - include: tasks/idp.yml
     - include: tasks/apache.yml
     - include: tasks/firewalld.yml

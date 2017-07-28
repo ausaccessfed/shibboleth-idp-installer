@@ -40,4 +40,4 @@ federation_group_id: "https://md.aaf.edu.au/aaf-metadata.xml"
 server_patch: "true"
 
 # Install and configure a local MariaDB instance?
-local_idp_database: "true"
+idp_database: "local"

@@ -85,8 +85,8 @@ INSTALL_BASE=/opt
 # database in preference of a remote database instance but you will need to 
 # configure this database separately. Your IdP will not successfully start
 # until the Database is configured.
-# Valid values are either "true" or "false".
-LOCAL_IDP_DATABASE=true  
+# Valid values are either "local" or "remote".
+IDP_DATABASE=local
 
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
@@ -112,7 +112,7 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
     HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE \
-    LOCAL_IDP_DATABASE; do
+    IDP_DATABASE; do
 
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
@@ -120,15 +120,20 @@ function ensure_mandatory_variables_set {
     fi
   done
 
+  if [ $ENVIRONMENT != "test" ] && [ $ENVIROMENT != "production" ]; then
+    echo "The ENVIRONMENT must be either 'test' or 'production'"
+    exit 1
+  fi
+
   if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
   then
-     echo "Variable YUM_UPDATE must be either true or false"
+     echo "Variable YUM_UPDATE must be either 'true' or 'false'"
      exit 1
   fi
 
-  if [ $LOCAL_IDP_DATABASE != "true" ] && [ $LOCAL_IDP_DATABASE != "false" ]
+  if [ $IDP_DATABASE != "local" ] && [ $IDP_DATABASE != "remote" ]
   then
-     echo "Variable LOCAL_IDP_DATABASE must be either true or false"
+     echo "Variable IDP_DATABASE must be either 'local' or 'remote'"
      exit 1
   fi
 }
@@ -141,13 +146,6 @@ function ensure_install_base_exists {
   fi
 }
 
-function ensure_environment_is_valid {
-  if [ $ENVIRONMENT != "test" ] && [ $ENVIROMENT != "production" ]
-    echo "The ENVIRONMENT must be either 'test' or 'production'"
-    exit 1
-  fi
-}
-  
 function install_yum_dependencies {
   if [ $YUM_UPDATE == "true" ]
   then
@@ -246,7 +244,7 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
-  replace_property 'local_idp_database:' "\"$LOCAL_IDP_DATABASE\"" \
+  replace_property 'idp_database:' "\"$IDP_DATABASE\"" \
     $ANSIBLE_HOST_VARS
 }
 
@@ -401,7 +399,6 @@ function duplicate_execution_warning {
 function bootstrap {
   ensure_mandatory_variables_set
   ensure_install_base_exists
-  ensure_environment_is_valid
   duplicate_execution_warning
   install_yum_dependencies
   setup_repo
