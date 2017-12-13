@@ -6,16 +6,16 @@
     download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
-        version: 9.4.3.v20170317
-        sha256sum: d23be69b99c4178a15bda229ef45ca9a0b3b4e2e29445cfcd7e7f50ee22a15bb
+        version: 9.4.8.v20171121
+        sha256sum: 50d6bdedd3f57923516661019aed2f5ef89b394d09bffdb04786ccb6c1897c2f
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
-        version: 3.3.1
-        sha256sum: 8bd852dcdc7e6729ee645c0374a3c476b152fa24506fb86ffec33dfd190e607c
+        version: 3.3.2
+        sha256sum: ed9fbefd273199d2841d4045b2661671c53825ed3c7d52d38bfe516b39d5fc64
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
-        version: 5.1.35
-        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+        version: 5.1.45
+        sha256sum: 1d289a056c7eb8290108a8d2e3c4717193662a9171adb56cfa3b769b32de3300
       dta_ssl:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
         version: 1.0.0
@@ -38,12 +38,12 @@
         sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
       cas_client_core:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.3.3
-        sha256sum: ed66678bcc81b5407e6379b5a01545991e85dd3950e361a9ed2163679f700c08
+        version: 3.4.1
+        sha256sum: 840a860da8e1cd65bb2b66c38222518e87158edfe8c3dc5a94f6e1183511c445
       shib_cas_authenticator:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.0.0
-        sha256sum: 16395533d58990295af2f18f78e4b2a74eb0224ea24bfc655fee8e6b22d0a5b2
+        version: 3.2.3
+        sha256sum: a21766ff6010f15177760d2cfc4409c81e068447ce1f62281586e5daf07c23a0
     urls:
       jetty:
         url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
