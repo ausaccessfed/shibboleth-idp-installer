@@ -2,6 +2,30 @@
 layout: about
 ---
 
+# Next version
+
+## Version: 1.4.0+idp-3.3.2
+
+### Release date: TBA
+
+This will be the next release of the AAF IdP Installer. 
+
+This release installs the following software
+
+| Software | Version |
+| -------- | ------- |
+| Shibboleth IdP | 3.3.2 |
+| Jetty | 9.4.8.v20171121 |
+| MySQL Connector | 5.1.45 |
+| AAF Shared Token Extension | 1.1.1 |
+| dta_ssl | 1.0.0 |
+| commons_dbcp2 | 2.1.1 |
+| commons_pool2 | 2.4.2 |
+| cas-client-core | 3.4.1 |
+| shib-cas-authenticator | 3.2.3 |
+
+All other software is managed by YUM.
+
 # Current version
 
 ## Version: 1.3.0+idp-3.3.1
@@ -16,10 +40,9 @@ This release installs the following software
 | -------- | ------- |
 | Shibboleth IdP | 3.3.1 |
 | Jetty | 9.4.3.v20170317 |
-| MySQL Connector | 5.1.35 |
+| MySQL Connector  | 5.1.35  |
 | AAF Shared Token Extension | 1.1.1 |
 | dta_ssl | 1.0.0 |
-| MySQL Connector  | 5.1.35  |
 | commons_dbcp2 | 2.1.1 |
 | commons_pool2 | 2.4.2 |
 | cas-client-core | 3.3.3 |
