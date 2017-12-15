@@ -4,7 +4,7 @@ layout: about
 
 # Release notes
 
-**Future release:** [**1.3.1+idp-3.3.1-eudGAIN**](#1.3.1) (Expected June 2017)
+**Future release:** [**1.4.0+idp-3.3.2-eudGAIN**](#1.3.2) (Expected January  2018)
 
 **Current Version:** [**1.3.0+idp-3.3.1**](#1.3.0)
 
@@ -26,11 +26,15 @@ layout: about
 ----------
 ## <a name="1.3.1"></a>1.3.1+idp-3.3.1-eduGAIN ##
 
-June TBA, 2017
+January TBA, 2018
+
+- Update of software verions (Shibboleth, Jetty, etc)
+- Fixed MySQL startup issue
 
 - Load AAF eduGAIN metadata feed
 - Add additional attributes required by Research and Scholarly entity category
-- Add attribute release policies to enable release of attributes to SPs that have been identiified as Research And Scholarly services
+- Add attribute release policies to enable release of attributes to SPs that have
+been identiified as Research And Scholarly services
 
 ## <a name="1.3.0"></a>1.3.0+idp-3.3.1 ##
 
