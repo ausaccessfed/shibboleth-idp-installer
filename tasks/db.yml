@@ -1,16 +1,3 @@
----
-- name: 'Create MariaDB directories'
-  file:
-    dest: '{{ item }}'
-    state: directory
-    owner: mysql
-    group: mysql
-    mode: 0700
-  with_items:
-    - /var/lib/mysql
-    - /var/lib/mysql/tmp
-    - /var/lib/mysql/binlog
-
 - name: 'Create /var/run/mariadb'
   file:
     dest: /var/run/mariadb
