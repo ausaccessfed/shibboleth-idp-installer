@@ -80,6 +80,16 @@ set -e
 # the base after the initial install. 
 INSTALL_BASE=/opt
 
+# Select the local Firewall that will be running on your server. The default 
+# is firewalld which is the default for CentOS and RHEL 7. Some organisations
+# have selected to maintain iptables. You can also select to not have the 
+# installer maintain your local firewall but this is definitly NOT recommeded. 
+# Relevant values are:
+#    firewalld (default)
+#    iptables
+#    none (NOT Recommended)
+FIREWALL=firewalld
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
 LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
@@ -103,7 +113,7 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -114,6 +124,22 @@ function ensure_mandatory_variables_set {
   then
      echo "Variable YUM_UPDATE must be either true or false"
      exit 1
+  fi
+
+  if [ $FIREWALL != "firewalld" ] && [ $FIREWALL != "iptables" ] \
+     && [ $FIREWALL != "none" ]
+  then
+    echo "Variable FIREWALL must be one of firewalld, iptables or none"
+    exit 1
+  fi
+
+  if [ $FIREWALL == "none" ]
+  then
+    echo ""
+    echo "WARNING: You have selected to not have the installer maintain"
+    echo "         your local server firewall. This may put your IdP at"
+    echo "         risk!"
+    echo ""
   fi
 }
 
@@ -159,6 +185,21 @@ function install_yum_dependencies {
   echo ""
   echo "Install ansible"
   yum -y -q -e0 install ansible
+
+  if [ $FIREWALL == "firewalld" ]
+  then
+    echo ""
+    echo "Install firewalld"
+    yum -y -q -e0 install firewalld
+  fi
+
+  if [ $FIREWALL == "iptables" ]
+  then
+    echo ""
+    echo "Install iptables"
+    yum -y -q -e0 install iptables
+  fi
+
 }
 
 function pull_repo {
