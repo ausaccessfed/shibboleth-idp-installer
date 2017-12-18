@@ -199,7 +199,6 @@ function install_yum_dependencies {
     echo "Install iptables"
     yum -y -q -e0 install iptables
   fi
-
 }
 
 function pull_repo {
@@ -264,6 +263,7 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'firewall:' "\"$FIREWALL\"" \
 }
 
 function set_ansible_cfg_log_path {
