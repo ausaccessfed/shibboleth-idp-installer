@@ -197,7 +197,7 @@ function install_yum_dependencies {
   then
     echo ""
     echo "Install iptables"
-    yum -y -q -e0 install iptables
+    yum -y -q -e0 install iptables-services system-config-firewall-base
   fi
 }
 
