@@ -9,3 +9,7 @@
 - name: 'Open IdP Backchannel port'
   command: lokkit --port=8443:tcp
   changed_when: false
+
+- name: 'Open SSH'
+  command: lokkit --port=22:tcp
+  changed_when: false
