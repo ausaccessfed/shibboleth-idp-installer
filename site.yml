@@ -133,12 +133,10 @@
     - include_tasks: tasks/db.yml
     - include_tasks: tasks/idp.yml
     - include_tasks: tasks/apache.yml
-
     - include_tasks: tasks/firewalld.yml
-      when firewall=="firewalld"
-
+      when firewall is defined and firewall=="firewalld"
     - include_tasks: tasks/iptables.yml
-      when firewall=="iptables"
+      when firewall is defined and firewall=="iptables"
 
   handlers:
     - name: Restart idp
