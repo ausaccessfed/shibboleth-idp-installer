@@ -136,6 +136,9 @@
     url: '{{ urls.aaf_shib_ext.url }}'
     dest: '{{ shib_idp.libs }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
     sha256sum: '{{ download.aaf_shib_ext.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to aaf-shib-ext library'
   file:
@@ -148,6 +151,9 @@
     url: '{{ urls.cas_client_core.url }}'
     dest: '{{ shib_idp.libs }}/cas-client-core-{{ download.cas_client_core.version }}.jar'
     sha256sum: '{{ download.cas_client_core.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to cas-client-core library'
   file:
@@ -160,6 +166,9 @@
     url:  '{{ urls.shib_cas_authenticator.url }}'
     dest: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
     sha256sum: '{{ download.shib_cas_authenticator.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to shib-cas-authenticator library'
   file:
@@ -172,6 +181,9 @@
     url: '{{ urls.dta_ssl.url }}'
     dest:  '{{ shib_idp.libs }}/jetty-dta-ssl-{{ download.dta_ssl.version }}.jar'
     sha256sum: '{{ download.dta_ssl.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Link to jetty-dta-ssl library'
   file:
@@ -184,6 +196,9 @@
     url: '{{ urls.commons_dbcp2.url }}'
     dest: '{{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz'
     sha256sum: '{{ download.commons_dbcp2.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Extract commons-dbcp2 distribution'
   shell: >
@@ -205,6 +220,9 @@
     url: '{{ urls.commons_pool2.url }}'
     dest: '{{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz'
     sha256sum: '{{ download.commons_pool2.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Extract commons-pool2 distribution'
   shell: >
@@ -213,7 +231,7 @@
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib'
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Link to commons-pool2 lib'
   file:
@@ -306,6 +324,9 @@
     url: '{{ urls.mysql_connector.url }}'
     dest: '{{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz'
     sha256sum: '{{ download.mysql_connector.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Extract mysql connector library distribution'
   shell: >
@@ -327,6 +348,9 @@
     url: '{{ urls.keystore.url }}'
     dest: '{{ jetty.base }}/etc/keystore'
     sha256sum: '{{ download.keystore.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Set jetty.base file permissions'
   file:
