@@ -264,6 +264,7 @@ function set_ansible_host_vars {
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'firewall:' "\"$FIREWALL\"" \
+    $ANSIBLE_HOST_VARS
 }
 
 function set_ansible_cfg_log_path {
