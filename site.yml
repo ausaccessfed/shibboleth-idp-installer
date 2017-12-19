@@ -129,11 +129,14 @@
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes
 
-    - include: tasks/jetty.yml
-    - include: tasks/db.yml
-    - include: tasks/idp.yml
-    - include: tasks/apache.yml
-    - include: tasks/firewalld.yml
+    - include_tasks: tasks/jetty.yml
+    - include_tasks: tasks/db.yml
+    - include_tasks: tasks/idp.yml
+    - include_tasks: tasks/apache.yml
+    - include_tasks: tasks/firewalld.yml
+      when firewall is defined and firewall=="firewalld"
+    - include_tasks: tasks/iptables.yml
+      when firewall is defined and firewall=="iptables"
 
   handlers:
     - name: Restart idp
