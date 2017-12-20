@@ -30,6 +30,8 @@ January TBA, 2018
 
 - Update of software verions (Shibboleth, Jetty, etc)
 - Fixed MySQL startup issue
+- Type of local firewall now configurable (firewalld, iptables, none)
+- Added new AAF Core attributes
 
 - Load AAF eduGAIN metadata feed
 - Add additional attributes required by Research and Scholarly entity category
