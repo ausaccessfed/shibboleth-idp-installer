@@ -340,6 +340,8 @@ To make your IdP functional follow these steps:
        * organizationName
        * surname
        * givenName
+       * eduPersonOrcid
+       * eduPersonPrincipalName
        * homeOrganization
        * homeOrganizationType
 
