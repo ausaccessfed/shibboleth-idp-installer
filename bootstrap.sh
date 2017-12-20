@@ -86,8 +86,15 @@ INSTALL_BASE=/opt
 # installer maintain your local firewall but this is definitly NOT recommeded. 
 # Relevant values are:
 #    firewalld (default)
+#       Adds ports 433 (https) and 8443 (IdP backchannel) ports to the 
+#       firewalld config. All other configuration remains unchanged.
 #    iptables
-#    none (NOT Recommended)
+#       Adds ports 22 (ssh), 443 (https) and 8443 (IdP backchannel) ports
+#       to the iptables config. Other firewall settings may be overwritten!
+#    none
+#       You are responsible for the maintance of the servers firewall. No
+#       changes to the local firewall are made in this mode. 
+#
 FIREWALL=firewalld
 
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
