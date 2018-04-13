@@ -4,14 +4,15 @@ layout: about
 
 # Release notes
 
-**Future release:** [**1.2.1+3.2.1**](#1.2.1) (Expected Early Dec 2016)
+**Future release:** [**1.4.0+idp-3.3.2-eudGAIN**](#1.3.2) (Expected January  2018)
 
-**Current Version:** [**1.2.0+3.2.1**](#1.2.0)
+**Current Version:** [**1.3.0+idp-3.3.1**](#1.3.0)
 
 ***Earlier versions***
 
-- [**1.1.0+3.2.1**](#1.1.0)
-- [**1.0.0+3.2.1**](#1.0.0)
+- [**1.2.0+idp-3.2.1**](#1.2.0)
+- [**1.1.0+idp-3.2.1**](#1.1.0)
+- [**1.0.0+idp-3.2.1**](#1.0.0)
 - [**1.0.0-beta.3+idp-3.2.0**](#1.0.0-beta.3)
 - [**1.0.0-beta.2+idp-3.2.0**](#1.0.0-beta.2)
 - [**1.0.0-beta.1+idp-3.2.0**](#1.0.0-beta.1)
@@ -23,12 +24,33 @@ layout: about
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
 ----------
+## <a name="1.3.1"></a>1.3.1+idp-3.3.1-eduGAIN ##
 
-## <a name="1.2.1"></a>1.2.1+idp-3.2.1 ##
+January TBA, 2018
 
-December TBA, 2016
+- Update of software verions (Shibboleth, Jetty, etc)
+- Fixed MySQL startup issue
+- Type of local firewall now configurable (firewalld, iptables, none)
+- Added new AAF Core attributes
 
-Bug fix - Add options for install directory to the host details
+- Load AAF eduGAIN metadata feed
+- Add additional attributes required by Research and Scholarly entity category
+- Add attribute release policies to enable release of attributes to SPs that have
+been identiified as Research And Scholarly services
+
+## <a name="1.3.0"></a>1.3.0+idp-3.3.1 ##
+
+May 26, 2017
+
+- Upgraded to version 3.3.1 of the IdP
+- Upgraded to version 9.4.2 of Jetty
+- Added favicon and robots.txt files
+- Added option change the install directory
+- Copies LDAP Certificates from config into IdP
+- Updated external .jar files used by the IdP to latest version
+- Additional branding, images and css files copied from config into the IdP. Directory layout now matches that of the IdP.
+- Fixed typo in CAS integration option
+- Added optional config for SP that only support SHA1 sigining algrothms
 
 
 ## <a name="1.2.0"></a>1.2.0+idp-3.2.1 ##
