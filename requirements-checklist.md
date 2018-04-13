@@ -10,8 +10,8 @@ You MUST NOT continue to installation until you've worked through the checklists
 1. A **dedicated** CentOS 7 or Redhat 7 server (virtual or physical), with the following minimum specifications:
 
     1. 2 CPU
-    1. 2GB RAM
-    1. 10GB+ partition for OS
+    2. 4GB RAM
+    3. 10GB+ partition for OS
 
 This server MUST NOT be used for any other purpose in the future.
 
