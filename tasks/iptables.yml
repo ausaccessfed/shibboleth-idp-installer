@@ -1,0 +1,15 @@
+---
+- name: 'Enable iptables'
+  service: name=iptables state=started enabled=yes
+
+- name: 'Open Apache firewall ports'
+  command: lokkit --service=https
+  changed_when: false
+
+- name: 'Open IdP Backchannel port'
+  command: lokkit --port=8443:tcp
+  changed_when: false
+
+- name: 'Open SSH'
+  command: lokkit --port=22:tcp
+  changed_when: false
