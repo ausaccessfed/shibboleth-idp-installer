@@ -332,15 +332,15 @@
   shell: >
     umask 0027;
     tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz;
-    creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar
+    creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar
 
 - name: 'Copy over mysql connector lib'
-  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar"'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar"'
 
 - name: 'Link to mysql connector lib'
   file:
     name: '{{ jetty.base }}/lib/ext/mysql-connector-java-bin.jar'
-    src: '{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
+    src: '{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar'
     state: link
 
 - name: 'Download placeholder keystore'
