@@ -374,8 +374,8 @@
     name: '{{ shib_idp.home }}/logs'
     src: /var/log/shibboleth-idp
     state: link
-    owner: root
-    group: root
+    owner: jetty
+    group: jetty
     force: yes
 
 - name: 'Symlink IdP src directory'
@@ -384,7 +384,7 @@
     src: '{{ shib_idp.src }}'
     state: link
     owner: root
-    group: root
+    group: jetty
     force: yes
 
 - name: 'Symlink IdP instance directory'
@@ -409,8 +409,8 @@
     name: '{{ jetty.base }}/logs'
     src: /var/log/jetty
     state: link
-    owner: root
-    group: root
+    owner: jetty
+    group: jetty
     force: yes
 
 - name: 'Set metadata provider'
