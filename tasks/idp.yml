@@ -393,7 +393,7 @@
     src: '{{ shib_idp.home }}'
     state: link
     owner: root
-    group: root
+    group: jetty
     force: yes
 
 - name: 'Create jetty log directory'
