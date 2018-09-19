@@ -1,88 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<resolver:AttributeResolver
-  xmlns:resolver="urn:mace:shibboleth:2.0:resolver"
-  xmlns:pc="urn:mace:shibboleth:2.0:resolver:pc"
-  xmlns:ad="urn:mace:shibboleth:2.0:resolver:ad"
-  xmlns:dc="urn:mace:shibboleth:2.0:resolver:dc"
-  xmlns:enc="urn:mace:shibboleth:2.0:attribute:encoder"
-  xmlns:sec="urn:mace:shibboleth:2.0:security"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver http://shibboleth.net/schema/idp/shibboleth-attribute-resolver.xsd
-                      urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc classpath:/schema/aaf-shib-ext-dc.xsd
-                      urn:mace:shibboleth:2.0:resolver:pc http://shibboleth.net/schema/idp/shibboleth-attribute-resolver-pc.xsd
-                      urn:mace:shibboleth:2.0:resolver:ad http://shibboleth.net/schema/idp/shibboleth-attribute-resolver-ad.xsd
-                      urn:mace:shibboleth:2.0:resolver:dc http://shibboleth.net/schema/idp/shibboleth-attribute-resolver-dc.xsd
-                      urn:mace:shibboleth:2.0:attribute:encoder http://shibboleth.net/schema/idp/shibboleth-attribute-encoder.xsd
-                      urn:mace:shibboleth:2.0:security http://shibboleth.net/schema/idp/shibboleth-security.xsd">
+<AttributeResolver
+        xmlns="urn:mace:shibboleth:2.0:resolver"
+        xmlns:resolver="urn:mace:shibboleth:2.0:resolver"
+        xmlns:sec="urn:mace:shibboleth:2.0:security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver http://shibboleth.net/schema/idp/shibboleth-attribute-resolver.xsd
+                            urn:mace:shibboleth:2.0:security http://shibboleth.net/schema/idp/shibboleth-security.xsd
+                            urn:mace:shibboleth:2.0:resolver:dc http://shibboleth.net/schema/idp/shibboleth-attribute-resolver-dc.xsd
+                            urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc classpath:/schema/aaf-shib-ext-dc.xsd">
 
   <!-- ========================================== -->
   <!--         REQUIRED CORE ATTRIBUTES           -->
   <!-- ========================================== -->
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="email" sourceAttributeID="mail">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">E-Mail</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The person's public email address used to contact the person regarding matters related to their organisation.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:mail" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.3" friendlyName="mail" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="email" sourceAttributeID="mail">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">E-Mail</DisplayName>
+    <DisplayDescription xml:lang="en">The person's public email address used to contact the person regarding matters related to their organisation.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:mail" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.3" friendlyName="mail" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="displayName" sourceAttributeID="displayName">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Display Name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The preferred name of a person to be used when displaying entries.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:displayName" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.241" friendlyName="displayName" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="displayName" sourceAttributeID="displayName">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Display Name</DisplayName>
+    <DisplayDescription xml:lang="en">The preferred name of a person to be used when displaying entries.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:displayName" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.16.840.1.113730.3.1.241" friendlyName="displayName" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:SAML2NameID" id="eduPersonTargetedID"
+  <AttributeDefinition xsi:type="SAML2NameID" id="eduPersonTargetedID"
     nameIdFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" sourceAttributeID="eptidStoredID">
-    <resolver:Dependency ref="StoredIDConnector" />
-    <resolver:DisplayName xml:lang="en">Targeted ID</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">A persistent, non-reassigned, privacy-preserving identifier for a user shared between an identity provider and service provider.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" friendlyName="eduPersonTargetedID" />
-  </resolver:AttributeDefinition>
+    <Dependency ref="StoredIDConnector" />
+    <DisplayName xml:lang="en">Targeted ID</DisplayName>
+    <DisplayDescription xml:lang="en">A persistent, non-reassigned, privacy-preserving identifier for a user shared between an identity provider and service provider.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" />
+    <AttributeEncoder xsi:type="SAML2XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" friendlyName="eduPersonTargetedID" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="auEduPersonSharedToken" xsi:type="ad:Simple" sourceAttributeID="auEduPersonSharedToken">
-    <resolver:Dependency ref="sharedToken" />
-    <resolver:DisplayName xml:lang="en">Shared Token</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">A unique identifier enabling federation spanning services such as Grid and Repositories.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:federation.org.au:attribute:auEduPersonSharedToken" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.27856.1.2.5" friendlyName="auEduPersonSharedToken" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="auEduPersonSharedToken" xsi:type="Simple" sourceAttributeID="auEduPersonSharedToken">
+    <Dependency ref="sharedToken" />
+    <DisplayName xml:lang="en">Shared Token</DisplayName>
+    <DisplayDescription xml:lang="en">A unique identifier enabling federation spanning services such as Grid and Repositories.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:federation.org.au:attribute:auEduPersonSharedToken" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.27856.1.2.5" friendlyName="auEduPersonSharedToken" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationName" sourceAttributeID="o">
-    <resolver:Dependency ref="staticAttributes" />
-    <resolver:DisplayName xml:lang="en">Organisation Name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The standard name of the top-level organization (institution) with which this person is associated.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:o" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.10" friendlyName="o" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="organizationName" sourceAttributeID="o">
+    <Dependency ref="staticAttributes" />
+    <DisplayName xml:lang="en">Organisation Name</DisplayName>
+    <DisplayDescription xml:lang="en">The standard name of the top-level organization (institution) with which this person is associated.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:o" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.10" friendlyName="o" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonEntitlement" sourceAttributeID="eduPersonEntitlement">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Entitlements</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">URI (either URN or URL) that indicates a set of rights to specific resources.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonEntitlement" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" friendlyName="eduPersonEntitlement" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="eduPersonEntitlement" sourceAttributeID="eduPersonEntitlement">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Entitlements</DisplayName>
+    <DisplayDescription xml:lang="en">URI (either URN or URL) that indicates a set of rights to specific resources.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonEntitlement" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" friendlyName="eduPersonEntitlement" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonAssurance" sourceAttributeID="eduPersonAssurance">
-    <resolver:Dependency ref="staticAttributes" />
-    <resolver:DisplayName xml:lang="en">Assurance Levels</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Set of URIs that assert compliance with specific standards for identity assurance.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAssurance" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="eduPersonAssurance" sourceAttributeID="eduPersonAssurance">
+    <Dependency ref="staticAttributes" />
+    <DisplayName xml:lang="en">Assurance Levels</DisplayName>
+    <DisplayDescription xml:lang="en">Set of URIs that assert compliance with specific standards for identity assurance.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonAssurance" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" encodeType="false" />
+  </AttributeDefinition>
 
 
-  <resolver:AttributeDefinition xsi:type="ad:Script" id="eduPersonAffiliation">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Affiliations</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specifies the person's relationship(s) to the institution in broad categories.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
-    <ad:Script><![CDATA[
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="eduPersonAffiliation">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Affiliations</DisplayName>
+    <DisplayDescription xml:lang="en">Specifies the person's relationship(s) to the institution in broad categories.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
+    <Script><![CDATA[
         var BasicAttribute = Java.type("edu.internet2.middleware.shibboleth.common.attribute.provider.BasicAttribute");
         var newAffiliations = new BasicAttribute("eduPersonAffiliation");
 
@@ -116,96 +110,95 @@
         eduPersonAffiliation.getValues().clear();
 
         eduPersonAffiliation.getValues().addAll(newAffiliations.getValues());
-    ]]></ad:Script>
-  </resolver:AttributeDefinition>
+    ]]></Script>
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Scoped" id="eduPersonScopedAffiliation" scope="%{idp.scope}" sourceAttributeID="eduPersonAffiliation">
-    <resolver:Dependency ref="eduPersonAffiliation" />
-    <resolver:DisplayName xml:lang="en">Scoped Affiliation</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specifies the person's relationship(s) to the institution in broad categories.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonScopedAffiliation" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" friendlyName="eduPersonScopedAffiliation" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Scoped" id="eduPersonScopedAffiliation" scope="%{idp.scope}" sourceAttributeID="eduPersonAffiliation">
+    <Dependency ref="eduPersonAffiliation" />
+    <DisplayName xml:lang="en">Scoped Affiliation</DisplayName>
+    <DisplayDescription xml:lang="en">Specifies the person's relationship(s) to the institution in broad categories.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonScopedAffiliation" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" friendlyName="eduPersonScopedAffiliation" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="givenName" sourceAttributeID="givenName">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Given name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Person's given or first name.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="givenName" sourceAttributeID="givenName">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Given name</DisplayName>
+    <DisplayDescription xml:lang="en">Person's given or first name.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="surname" sourceAttributeID="sn">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Surname</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">A hereditary name common to all members of a family, as distinct from a forename or given name</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:sn" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.4" friendlyName="sn" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="surname" sourceAttributeID="sn">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Surname</DisplayName>
+    <DisplayDescription xml:lang="en">A hereditary name common to all members of a family, as distinct from a forename or given name</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:sn" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.4" friendlyName="sn" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="homeOrganizationType" xsi:type="ad:Simple" sourceAttributeID="homeOrganizationType">
-    <resolver:Dependency ref="staticAttributes" />
-    <resolver:DisplayName xml:lang="en">Home Organisation Type</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Type of Organisation the user belongs too.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" friendlyName="homeOrganizationType" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="homeOrganizationType" xsi:type="Simple" sourceAttributeID="homeOrganizationType">
+    <Dependency ref="staticAttributes" />
+    <DisplayName xml:lang="en">Home Organisation Type</DisplayName>
+    <DisplayDescription xml:lang="en">Type of Organisation the user belongs too.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" friendlyName="homeOrganizationType" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="homeOrganization" xsi:type="ad:Simple" sourceAttributeID="homeOrganization">
-    <resolver:Dependency ref="staticAttributes" />
-    <resolver:DisplayName xml:lang="en">Home Orgainisation</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specifies a person's home organization using the domain name of the organizstion.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" friendlyName="homeOrganization" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="homeOrganization" xsi:type="Simple" sourceAttributeID="homeOrganization">
+    <Dependency ref="staticAttributes" />
+    <DisplayName xml:lang="en">Home Orgainisation</DisplayName>
+    <DisplayDescription xml:lang="en">Specifies a person's home organization using the domain name of the organizstion.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" friendlyName="homeOrganization" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Prescoped" id="eduPersonPrincipalName" sourceAttributeID="eduPersonPrincipalName">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Principal Name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">A scoped identifier for a person. It should be represented in the form "user@scope" where 'user' is a name-based identifier for the person and where 'scope' defines a local security domain.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Prescoped" id="eduPersonPrincipalName" sourceAttributeID="eduPersonPrincipalName">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Principal Name</DisplayName>
+    <DisplayDescription xml:lang="en">A scoped identifier for a person. It should be represented in the form "user@scope" where 'user' is a name-based identifier for the person and where 'scope' defines a local security domain.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
+  </AttributeDefinition>
 
   <!-- Alternate eduPersonPrincipalName based on the uid attribute -->
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Scoped" id="eduPersonPrincipalName" scope="%{idp.scope}" sourceAttributeID="uid">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Principal Name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">A scoped identifier for a person. It should be represented in the form "user@scope" where 'user' is a name-based identifier for the person and where 'scope' defines a local security domain.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Scoped" id="eduPersonPrincipalName" scope="%{idp.scope}" sourceAttributeID="uid">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Principal Name</DisplayName>
+    <DisplayDescription xml:lang="en">A scoped identifier for a person. It should be represented in the form "user@scope" where 'user' is a name-based identifier for the person and where 'scope' defines a local security domain.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!-- ========================================== -->
   <!--            OPTIONAL ATTRIBUTES             -->
   <!-- ========================================== -->
-  <resolver:AttributeDefinition id="eduPersonOrcid" xsi:type="ad:Simple" sourceAttributeID="eduPersonOrcid">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">ORCID</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">ORCID iDs are persistent digital identifiers for individual researchers.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" friendlyName="eduPersonOrcid"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="eduPersonOrcid" xsi:type="Simple" sourceAttributeID="eduPersonOrcid">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">ORCID</DisplayName>
+    <DisplayDescription xml:lang="en">ORCID iDs are persistent digital identifiers for individual researchers.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.16" friendlyName="eduPersonOrcid"/>
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="uid" sourceAttributeID="uid">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Unique ID</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The users central LDAP directory username.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:uid" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.1" friendlyName="uid" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="uid" sourceAttributeID="uid">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Unique ID</DisplayName>
+    <DisplayDescription xml:lang="en">The users central LDAP directory username.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:uid" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.1" friendlyName="uid" encodeType="false" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Script" id="commonName">
-    <resolver:Dependency ref="givenName" />
-    <resolver:Dependency ref="surname" />
-    <resolver:Dependency ref="forCNScript"/>
-    <resolver:DisplayName xml:lang="en">Common Name</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">An individual's common name. For the AAF this is defined as the users first name followed by their surname.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:cn" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
-    <ad:Script><![CDATA[
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="commonName">
+    <Dependency ref="givenName" />
+    <Dependency ref="surname" />
+    <DisplayName xml:lang="en">Common Name</DisplayName>
+    <DisplayDescription xml:lang="en">An individual's common name. For the AAF this is defined as the users first name followed by their surname.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:cn" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
+    <Script><![CDATA[
 
       commonName.getValues().clear();
 
@@ -223,14 +216,8 @@
       commonName.getValues().add([hyphenatedGN, hyphenatedSN].join(' '));
 
         ]]>
-    </ad:Script>
-  </resolver:AttributeDefinition>
-
-  <resolver:DataConnector xmlns="urn:mace:shibboleth:2.0:resolver:dc" xsi:type="dc:Static" id="forCNScript">
-    <Attribute id="commonName">
-      <Value>dummy</Value>
-    </Attribute>
-  </resolver:DataConnector>
+    </Script>
+  </AttributeDefinition>
 
 
   <!-- ========================================== -->
@@ -238,131 +225,131 @@
   <!-- ========================================== -->
 
   <!--
-  <resolver:AttributeDefinition id="businessCategory" xsi:type="ad:Simple" sourceAttributeID="businessCategory">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Business Category</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Identifies the business in which the organisational unit is involved.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:2.5.4.15" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.15" friendlyName="businessCategory"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="businessCategory" xsi:type="Simple" sourceAttributeID="businessCategory">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Business Category</DisplayName>
+    <DisplayDescription xml:lang="en">Identifies the business in which the organisational unit is involved.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:2.5.4.15" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.15" friendlyName="businessCategory"/>
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="departmentNumber" sourceAttributeID="departmentNumber">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Department Number</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Identifies the department for which the person works.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:departmentNumber" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.2" friendlyName="departmentNumber" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="departmentNumber" sourceAttributeID="departmentNumber">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Department Number</DisplayName>
+    <DisplayDescription xml:lang="en">Identifies the department for which the person works.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:departmentNumber" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.16.840.1.113730.3.1.2" friendlyName="departmentNumber" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition id="division" xsi:type="ad:Simple" sourceAttributeID="division">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Division</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specify a person'sdivision within their organisation</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.2.840.113556.1.4.261" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.2.840.113556.1.4.261" friendlyName="division"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="division" xsi:type="Simple" sourceAttributeID="division">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Division</DisplayName>
+    <DisplayDescription xml:lang="en">Specify a person'sdivision within their organisation</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.2.840.113556.1.4.261" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.2.840.113556.1.4.261" friendlyName="division"/>
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonPrimaryAffiliation" sourceAttributeID="eduPersonPrimaryAffiliation">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Primary Affiliation</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specifies the persons PRIMARY relationship to the institution in broad categories such as student, faculty, staff, alum, etc.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" friendlyName="eduPersonPrimaryAffiliation" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="eduPersonPrimaryAffiliation" sourceAttributeID="eduPersonPrimaryAffiliation">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Primary Affiliation</DisplayName>
+    <DisplayDescription xml:lang="en">Specifies the persons PRIMARY relationship to the institution in broad categories such as student, faculty, staff, alum, etc.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonPrimaryAffiliation" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" friendlyName="eduPersonPrimaryAffiliation" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="employeeNumber" sourceAttributeID="employeeNumber">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Employee Number</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Numerically identifies an employee within an organisation</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:employeeNumber" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.3" friendlyName="employeeNumber" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="employeeNumber" sourceAttributeID="employeeNumber">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Employee Number</DisplayName>
+    <DisplayDescription xml:lang="en">Numerically identifies an employee within an organisation</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:employeeNumber" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.16.840.1.113730.3.1.3" friendlyName="employeeNumber" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition id="exlibrisid" xsi:type="ad:Simple" sourceAttributeID="exlibrisid">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Exlibris ID</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Exlibris Identifier</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:aaf.edu.au:shibboleth:attribute-def:exlibrisid" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:mace:aaf.edu.au:shibboleth:attribute-def:exlibrisid" friendlyName="exlibrisid"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="exlibrisid" xsi:type="Simple" sourceAttributeID="exlibrisid">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Exlibris ID</DisplayName>
+    <DisplayDescription xml:lang="en">Exlibris Identifier</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:aaf.edu.au:shibboleth:attribute-def:exlibrisid" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:mace:aaf.edu.au:shibboleth:attribute-def:exlibrisid" friendlyName="exlibrisid"/>
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="mobileNumber" sourceAttributeID="mobile">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Mobile number</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The public mobile telephone number on which the person may be contacted regarding matters related to their organisation.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:mobile" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.41" friendlyName="mobile" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="mobileNumber" sourceAttributeID="mobile">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Mobile number</DisplayName>
+    <DisplayDescription xml:lang="en">The public mobile telephone number on which the person may be contacted regarding matters related to their organisation.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:mobile" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.41" friendlyName="mobile" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationalUnit" sourceAttributeID="ou">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Organisational Unit</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Organisational Unit currently used for faculty membership of staff</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:ou" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.11" friendlyName="ou" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="organizationalUnit" sourceAttributeID="ou">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Organisational Unit</DisplayName>
+    <DisplayDescription xml:lang="en">Organisational Unit currently used for faculty membership of staff</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:ou" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.11" friendlyName="ou" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="postalAddress" sourceAttributeID="postalAddress">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Postal Address</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The public postal address associated with the person for matters related to their role within their organisation.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:postalAddress" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.16" friendlyName="postalAddress" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="postalAddress" sourceAttributeID="postalAddress">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Postal Address</DisplayName>
+    <DisplayDescription xml:lang="en">The public postal address associated with the person for matters related to their role within their organisation.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:postalAddress" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.16" friendlyName="postalAddress" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition id="schacPersonalUniqueID" xsi:type="ad:Simple" sourceAttributeID="schacPersonalUniqueID">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Unique Id</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Specifies a "legal unique identifier" for the subject it is associated with.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.15" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.15" friendlyName="schacPersonalUniqueID"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="schacPersonalUniqueID" xsi:type="Simple" sourceAttributeID="schacPersonalUniqueID">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Unique Id</DisplayName>
+    <DisplayDescription xml:lang="en">Specifies a "legal unique identifier" for the subject it is associated with.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.15" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.15" friendlyName="schacPersonalUniqueID"/>
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="telephoneNumber" sourceAttributeID="telephoneNumber">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Telephone number</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">The public telephone number on which the person may be contacted regarding matters related to their organisation.</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:telephoneNumber" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" encodeType="false" />  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="telephoneNumber" sourceAttributeID="telephoneNumber">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Telephone number</DisplayName>
+    <DisplayDescription xml:lang="en">The public telephone number on which the person may be contacted regarding matters related to their organisation.</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:telephoneNumber" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" encodeType="false" />  </AttributeDefinition>
   -->
 
   <!-- Note: Microsoft Active Directory users, If you use the sAMAccountName as the sourceAttributeId -->
   <!--       in the sharedToken DataConnector below you must uncomment the following AttributeDefinition for -->
   <!--       the sAMAccountName attributue. -->
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="sAMAccountName" sourceAttributeID="sAMAccountName">
-    <resolver:Dependency ref="ldap" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="sAMAccountName" sourceAttributeID="sAMAccountName">
+    <Dependency ref="ldap" />
+  </AttributeDefinition>
   -->
 
   <!--
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="dsdStudentId" sourceAttributeID="studentNumber">
-    <resolver:Dependency ref="ldap" />
-    <resolver:DisplayName xml:lang="en">Student Number</resolver:DisplayName>
-    <resolver:DisplayDescription xml:lang="en">Numerically identifies a student within an organisation</resolver:DisplayDescription>
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.27691.1.1" encodeType="false" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.27691.1.1" friendlyName="dsdStudentId" encodeType="false" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="dsdStudentId" sourceAttributeID="studentNumber">
+    <Dependency ref="ldap" />
+    <DisplayName xml:lang="en">Student Number</DisplayName>
+    <DisplayDescription xml:lang="en">Numerically identifies a student within an organisation</DisplayDescription>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.27691.1.1" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.27691.1.1" friendlyName="dsdStudentId" encodeType="false" />
+  </AttributeDefinition>
   -->
 
   <!-- ========================================== -->
@@ -370,22 +357,22 @@
   <!-- ========================================== -->
 
 
-  <resolver:DataConnector id="staticAttributes" xsi:type="dc:Static">
-    <dc:Attribute id="eduPersonAssurance">
-      <dc:Value>urn:mace:aaf.edu.au:iap:id:1</dc:Value>
-      <dc:Value>urn:mace:aaf.edu.au:iap:authn:1</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="o">
-      <dc:Value>{{ organisation_name }}</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="homeOrganization">
-      <dc:Value>{{ home_organisation }}</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="homeOrganizationType">
-      <dc:Value>{{ home_organisation_type }}</dc:Value>
-    </dc:Attribute>
+  <DataConnector id="staticAttributes" xsi:type="Static">
+    <Attribute id="eduPersonAssurance">
+      <Value>urn:mace:aaf.edu.au:iap:id:1</Value>
+      <Value>urn:mace:aaf.edu.au:iap:authn:1</Value>
+    </Attribute>
+    <Attribute id="o">
+      <Value>{{ organisation_name }}</Value>
+    </Attribute>
+    <Attribute id="homeOrganization">
+      <Value>{{ home_organisation }}</Value>
+    </Attribute>
+    <Attribute id="homeOrganizationType">
+      <Value>{{ home_organisation_type }}</Value>
+    </Attribute>
 
-  </resolver:DataConnector>
+  </DataConnector>
 
   <!-- See https://github.com/ausaccessfed/aaf-shib-ext for configuration details -->
   <!-- Note: Microsoft Active Directory users, If you use the sAMAccountName as the sourceAttributeId -->
@@ -399,29 +386,29 @@
     <resolver:Dependency ref="ldap" />
   </resolver:DataConnector>
 
-  <resolver:DataConnector id="StoredIDConnector"
-    xsi:type="dc:StoredId"
+  <DataConnector id="StoredIDConnector"
+    xsi:type="StoredId"
     sourceAttributeID="YOUR_SOURCE_ATTRIBUTE_HERE"
     salt="{{ shib_idp.targeted_id_salt }}"
     generatedAttributeID="eptidStoredID">
 
-    <resolver:Dependency ref="ldap" />
+    <Dependency ref="ldap" />
 
-    <dc:ContainerManagedConnection resourceName="jdbc/shib_idp" />
+    <ContainerManagedConnection resourceName="jdbc/shib_idp" />
 
-  </resolver:DataConnector>
+  </DataConnector>
 
-  <resolver:DataConnector id="ldap" xsi:type="dc:LDAPDirectory"
+  <DataConnector id="ldap" xsi:type="LDAPDirectory"
     ldapURL="%{idp.attribute.resolver.LDAP.ldapURL}"
     baseDN="%{idp.attribute.resolver.LDAP.baseDN}"
     principal="%{idp.attribute.resolver.LDAP.bindDN}"
     principalCredential="%{idp.attribute.resolver.LDAP.bindDNCredential}"
     useStartTLS="%{idp.attribute.resolver.LDAP.useStartTLS:true}">
-    <dc:FilterTemplate>
+    <FilterTemplate>
       <![CDATA[
         %{idp.attribute.resolver.LDAP.searchFilter}
         ]]>
-    </dc:FilterTemplate>
-  </resolver:DataConnector>
+    </FilterTemplate>
+  </DataConnector>
 
-</resolver:AttributeResolver>
+</AttributeResolver>
