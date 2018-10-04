@@ -19,296 +19,121 @@
 
       <!-- Core AAF Attributes -->
       <AttributeRule attributeID="email">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:0.9.2342.19200300.100.1.3"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="displayName">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.16.840.1.113730.3.1.241"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="commonName">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.3"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonTargetedID">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.10"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="auEduPersonSharedToken">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.27856.1.2.5"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="organizationName">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.10"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonEntitlement">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.7"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonAssurance">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.11"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonAffiliation">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.1"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonScopedAffiliation">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.9"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <!-- Optional AAF Attributes -->
       <AttributeRule attributeID="uid">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:0.9.2342.19200300.100.1.1"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="givenName">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.42"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="surname">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.4"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="homeOrganizationType">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.25178.1.2.10"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="homeOrganization">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.25178.1.2.9"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonOrcid">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.16"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonPrincipalName">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.6"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="businessCategory">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.15"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="departmentNumber">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.16.840.1.113730.3.1.2"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="division">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.2.840.113556.1.4.261"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="eduPersonPrimaryAffiliation">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.5923.1.1.1.5"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="employeeNumber">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.16.840.1.113730.3.1.3"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="exlibrisid">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:mace:aaf.edu.au:shibboleth:attribute-def:exlibrisid"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="mobileNumber">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:0.9.2342.19200300.100.1.41"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="organizationalUnit">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.11"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="postalAddress">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.16"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="schacPersonalUniqueID">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.25178.1.2.15"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="telephoneNumber">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:2.5.4.20"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
       <AttributeRule attributeID="dsdStudentId">
-          <PermitValueRule xsi:type="OR">
-                  <Rule xsi:type="AttributeInMetadata"
-                              onlyIfRequired="false"/>
-                  <Rule xsi:type="AttributeInMetadata"
-                              attributeName="urn:oid:1.3.6.1.4.1.27691.1.1"
-                              onlyIfRequired="false"/>
-          </PermitValueRule>
+          <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
-
 
     </AttributeFilterPolicy>
 </AttributeFilterPolicyGroup>
