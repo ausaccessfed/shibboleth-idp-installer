@@ -37,7 +37,7 @@
     name: '{{ jetty.current }}'
     src: '{{ jetty.home }}'
     owner: root
-    group: root
+    group: jetty
     state: link
     force: yes
 
@@ -255,10 +255,3 @@
     mode: 0750
   with_items:
   - '{{ jetty.home }}/bin/jetty.sh'
-
-- name: 'Increase sleep time on jetty startup'
-  lineinfile:
-    dest: '{{ jetty.home }}/bin/jetty.sh'
-    regexp: 'sleep 4'
-    line: '    sleep 10'
-    backrefs: yes
