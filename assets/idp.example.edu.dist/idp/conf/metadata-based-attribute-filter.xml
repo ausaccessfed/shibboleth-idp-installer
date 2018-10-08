@@ -188,11 +188,11 @@
           <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
-      <attributeRule attributeID="physicalDeliveryOfficeName">
+      <AttributeRule attributeID="physicalDeliveryOfficeName">
           <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 
-      <attributeRule attributeID="postOfficeBox">
+      <AttributeRule attributeID="postOfficeBox">
           <PermitValueRule xsi:type="MappedAttributeInMetadata" onlyIfRequired="false"/>
       </AttributeRule>
 

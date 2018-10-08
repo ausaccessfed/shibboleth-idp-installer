@@ -459,7 +459,7 @@
     <Dependency ref="ldap" />
     <DisplayName xml:lang="en">Description</DisplayName>
     <DisplayDescription xml:lang="en">Description</DisplayDescription>
-    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:description />
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:description" />
     <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.13" friendlyName="description" />
   </AttributeDefinition>
   -->
@@ -470,7 +470,7 @@
     <Dependency ref="ldap" />
     <DisplayName xml:lang="en">Facsimile Telephone Number</DisplayName>
     <DisplayDescription xml:lang="en">Facsimile Telephone Number</DisplayDescription>
-    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:facsimileTelephoneNumber />
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:facsimileTelephoneNumber" />
     <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.23" friendlyName="facsimileTelephoneNumber" />
   </AttributeDefinition>
   -->
@@ -662,12 +662,13 @@
     <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:preferredLanguage" encodeType="false" />
     <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.16.840.1.113730.3.1.39" friendlyName="preferredLanguage" encodeType="false" />
   </AttributeDefinition>
+  -->
 
   <!-- Schema: MS Active Directory -->
 
   <!-- division -->
   <!--
-  <AttributeDefinition id="division" xsi:type="Simple" sourceAttributeID="division">
+  <AttributeDefinition xsi:type="Simple" id="division" sourceAttributeID="division">
     <Dependency ref="ldap" />
     <DisplayName xml:lang="en">Division</DisplayName>
     <DisplayDescription xml:lang="en">Specify a person'sdivision within their organisation</DisplayDescription>
@@ -678,12 +679,12 @@
 
   <!-- department -->
   <!--
-  <AtributeDefinition xsi:type="Simple" id="department" sourceAttributeID="department">
+  <AttributeDefinition xsi:type="Simple" id="department" sourceAttributeID="department">
     <Dependency ref="ldap" />
     <DisplayName xml:lang="en">Department</DisplayName>
     <DisplayDescription xml:lang="en">Identifies the department for which the person works.</DisplayDescription>
     <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.2.840.113556.1.2.141" encodeType="false" />
-    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.2.840.113556.1.2.141" friendlyName="departmentr" encodeType="false" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.2.840.113556.1.2.141" friendlyName="department" encodeType="false" />
   </AttributeDefinition>
   -->
 
