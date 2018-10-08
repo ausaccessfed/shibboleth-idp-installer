@@ -37,7 +37,7 @@
     name: '{{ jetty.current }}'
     src: '{{ jetty.home }}'
     owner: root
-    group: root
+    group: jetty
     state: link
     force: yes
 
