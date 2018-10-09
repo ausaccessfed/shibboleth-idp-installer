@@ -77,6 +77,11 @@ set -e
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
+# 
+# Generally use uid for most LDAP servers and sAMAccountName for MS Active 
+# Directoy. In some situations the directory will use cn (commonName) to hold
+# the users unique login name.
+#
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
 #                            ADVANCED SECTION
