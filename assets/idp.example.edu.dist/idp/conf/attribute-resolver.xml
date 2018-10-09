@@ -724,12 +724,14 @@
   <!-- Note: Microsoft Active Directory users, If you use the sAMAccountName as the sourceAttributeId -->
   <!--       you must uncomment the AttributeDefinition for the sAMAccountName attribute in the -->
   <!--       configuration above. -->
+  <!--       In addition, whatever attribute you select as the sourceAttributeId there MUST be an -->
+  <!--       active AttributeResolver for the attribute that returns exactly one value -->
   <resolver:DataConnector xsi:type="SharedToken" xmlns="urn:mace:aaf.edu.au:shibboleth:2.0:resolver:dc"
     id="sharedToken"
     sourceAttributeId="YOUR_SOURCE_ATTRIBUTE_HERE"
     salt="{{ shib_idp.aepst_salt }}"
     dataSource="jdbc/shib_idp">
-    <resolver:Dependency ref="ldap" />
+    <resolver:Dependency ref="YOUR_SOURCE_ATTRIBUTE_HERE" />
   </resolver:DataConnector>
 
   <DataConnector id="StoredIDConnector"
