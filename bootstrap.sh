@@ -421,6 +421,49 @@ function duplicate_execution_warning {
   fi
 }
 
+function test_python_package_warning {
+
+  python - << EOF
+  import warnings
+  import sys
+
+  def format_Warning(message, category, filename, lineno, line=''):
+    if (category.__name__ == 'RequestsDependencyWarning'):
+       sys.exit (-1)
+    else:
+       sys.exit (0)
+
+  warnings.formatwarning = format_Warning
+
+  import requests
+
+  EOF
+}
+
+function correct_python_package_warning {
+  test_python_package_warning
+  retval=$?
+
+  if [ $retval -ne 0 ]
+   then
+     yum -y install python-pip
+     pip install --upgrade pip
+     pip install --upgrade requests
+
+     test_python_package_warning
+     retval=$?
+     if [ $retval -ne 0 ]
+       then
+       echo "Python Package warning NOT corrected. Continuing anyway"
+       echo "You may see warnings from Python about package Dependency"
+       echo "Warnings when using the update_idp.sh script. These warnings"
+       echo "safely be ignored."
+     else
+       echo "Python Package warning corrected. Continuing"
+     fi
+  fi
+}
+
 function bootstrap {
   ensure_mandatory_variables_set
   ensure_install_base_exists
@@ -442,6 +485,7 @@ function bootstrap {
   fi
 
   create_apache_self_signed_certs
+  correct_python_package_warning
   run_ansible
   backup_shibboleth_credentials
   display_completion_message
