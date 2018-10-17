@@ -193,8 +193,10 @@
   <!-- Schema: eduPerson -->
 
   <!-- eduPersonNickname -->
+  <!-- Note: The Source Attribute ID uses an upper case 'N' in name, all other  
+       uses have lower case 'n' -->
   <!--
-  <AttributeDefinition id="eduPersonNickname" xsi:type="Simple" sourceAttributeID="eduPersonNickname">
+  <AttributeDefinition id="eduPersonNickname" xsi:type="Simple" sourceAttributeID="eduPersonNickName">
     <Dependency ref="ldap" />
     <DisplayName xml:lang="en">Nickname</DisplayName>
     <DisplayDescription xml:lang="en">Person's nickname, or the informal name by which they are accustomed to be hailed.</DisplayDescription>
