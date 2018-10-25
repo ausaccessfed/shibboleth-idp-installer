@@ -28,15 +28,22 @@ set -e
 #   urn:mace:terena.org:schac:homeOrganizationType:au:other
 #HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:university
 
-#  The attribute used for AuEduPersonSharedToken and EduPersonTargetedId
-#  generation.
-#  See http://wiki.aaf.edu.au/tech-info/attributes/auedupersonsharedtoken
-#      http://wiki.aaf.edu.au/tech-info/attributes/edupersontargetedid
+#  The attribute used for AuEduPersonSharedToken, eduPersonTargetedId and
+#  the persistent Name ID value generation.
+#
 #  IMPORTANT: The generation of AuEduPersonSharedToken and EduPersonTargetedId
 #  require the value from the specified source attribute. If the value changes,
 #  it will change the AuEduPersonSharedToken and EduPersonTargetedId. This will
 #  cause the user to lose access in the federation. It is *critical* that you
 #  specify an attribute that will never change.
+#
+# Generally use uid for most LDAP servers and sAMAccountName for MS Active 
+# Directoy. In some situations the directory will use cn (commonName) to hold
+# the users unique login name.
+# 
+# The attribute choose MUST provide a unique single value for ALL user. If
+# this is not the case no value will be provide for the auEduPersonSharedToken.
+#
 #SOURCE_ATTRIBUTE_ID=uid
 
 # Perform a yum update as part of the bootstrap and every time you run
@@ -70,6 +77,11 @@ set -e
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
+# 
+# Generally use uid for most LDAP servers and sAMAccountName for MS Active 
+# Directoy. In some situations the directory will use cn (commonName) to hold
+# the users unique login name.
+#
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
 #                            ADVANCED SECTION
