@@ -637,7 +637,7 @@
 - name: 'Check files exist before fixing file permissions'
   stat:
     path: '{{ shib_idp.home }}/{{ item }}'
-    register: check_file_exists
+  register: check_file_exists
   with_items:
   - conf/access-control.xml
   - conf/attribute-filter.xml
