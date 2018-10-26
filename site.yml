@@ -122,6 +122,7 @@
           - mod_ssl
           - mariadb-devel
           - mariadb
+          - mariadb-server
           - MySQL-python
           - ntp
         state: installed
