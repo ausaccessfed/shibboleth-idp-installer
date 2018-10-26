@@ -39,7 +39,7 @@
 
 - name: 'Run lock_down_db.sql'
   command: 'mysql -e "source {{ installer.path }}/lock_down_db.sql"'
-  when: security_sql | changed
+  when: security_sql.changed
 
 - name: 'Write /root/.my.cnf'
   template:

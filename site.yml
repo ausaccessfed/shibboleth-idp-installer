@@ -112,19 +112,19 @@
         state: permissive
 
     - name: 'Install required packages'
-      yum: pkg={{ item }} state=installed
-      with_items:
-        - httpd
-        - mod_ssl
-        - mod_ldap
-        - java-1.8.0-openjdk
-        - java-1.8.0-openjdk-devel
-        - mariadb-server
-        - mariadb-devel
-        - mariadb
-        - MySQL-python
-        - ntp
-        - expect
+      yum: 
+        name:
+          - httpd
+          - mod_ssl
+          - mod_ssl
+          - java-1.8.0-openjdk
+          - java-1.8.0-openjdk-devel
+          - mod_ssl
+          - mariadb-devel
+          - mariadb
+          - MySQL-python
+          - ntp
+        state: installed
 
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes
