@@ -19,13 +19,11 @@
     backingFile="{{ shib_idp.home }}/metadata/federation-metadata.xml"
     metadataURL="{{ metadata_url }}">
 
-    <MetadataFilter xsi:type="ChainingFilter">
-      <MetadataFilter xsi:type="RequiredValidUntil" maxValidityInterval="P30D" />
+    <MetadataFilter xsi:type="RequiredValidUntil" maxValidityInterval="P30D" />
 
-      <MetadataFilter xsi:type="SignatureValidation"
+    <MetadataFilter xsi:type="SignatureValidation"
         certificateFile="{{ shib_idp.home }}/credentials/federation-metadata-cert.pem"
         requireSignedRoot="true">
-      </MetadataFilter>
     </MetadataFilter>
 
     <MetadataFilter xsi:type="EntityRoleWhiteList">
