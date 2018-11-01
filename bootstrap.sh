@@ -435,24 +435,25 @@ function duplicate_execution_warning {
 
 function test_python_package_warning {
 
-  python - << EOF
-  import warnings
-  import sys
+python - << EOF
+import warnings
+import sys
 
-  def format_Warning(message, category, filename, lineno, line=''):
+def format_Warning(message, category, filename, lineno, line=''):
     if (category.__name__ == 'RequestsDependencyWarning'):
        sys.exit (-1)
     else:
        sys.exit (0)
 
-  warnings.formatwarning = format_Warning
+warnings.formatwarning = format_Warning
 
-  import requests
+import requests
 
-  EOF
+EOF
 }
 
 function correct_python_package_warning {
+  set +e
   test_python_package_warning
   retval=$?
 
@@ -474,6 +475,7 @@ function correct_python_package_warning {
        echo "Python Package warning corrected. Continuing"
      fi
   fi
+  set -e
 }
 
 function bootstrap {
