@@ -413,6 +413,42 @@
     group: jetty
     force: yes
 
+- name: 'Set access control'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/access-control.xml'
+    dest: '{{ shib_idp.home }}/conf/access-control.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+ 
+- name: 'Set attribute filter'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
+    dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set attribute resolver'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
+    dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set audit'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/audit.xml'
+    dest: '{{ shib_idp.home }}/conf/audit.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Set metadata provider'
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
@@ -472,24 +508,6 @@
     dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
     force: yes
   when: metadata_cert_sha256sum is not defined
-
-- name: 'Set attribute resolver'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
-    dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Set attribute filter'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
-    dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
 
 - name: 'Set ldap.properties'
   template:
