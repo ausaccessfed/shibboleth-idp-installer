@@ -458,6 +458,22 @@
     mode: 0640
     backup: yes
 
+- name: 'Set Shibboleth credentials.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/credentials.xml'
+    dest: '{{ shib_idp.home }}/conf/credentials.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
+
+- name: 'Set Shibboleth errors.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/errors.xml'
+    dest: '{{ shib_idp.home }}/conf/errors.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
+
 - name: 'Set metadata provider'
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/metadata-providers.xml'
@@ -561,14 +577,6 @@
     owner: root
     group: jetty
     mode: 0640
-
-- name: 'Set Shibboleth credentials.xml'
-  copy:
-    src: 'assets/{{inventory_hostname}}/idp/conf/credentials.xml'
-    dest: '{{ shib_idp.home }}/conf/credentials.xml'
-    owner: root
-    group: jetty
-    mode: 0640  
 
 - name: 'Set authn/general-authn.xml'
   copy:
