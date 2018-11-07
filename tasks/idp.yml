@@ -546,6 +546,16 @@
     mode: 0640
     backup: yes
 
+- name: 'Set admin/metrics.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/admin/metrics.xml'
+    dest: '{{ shib_idp.home }}/conf/admin/metrics.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+
 - name: 'Get and verify metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
