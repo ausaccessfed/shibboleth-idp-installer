@@ -239,28 +239,10 @@
     src: '{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
     state: link
 
-- name: 'Set customised error-messages.properties'
+- name: 'Set customised messages.properties'
   template:
-    dest: '{{ shib_idp.home }}/messages/error-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Set customised authn-messages.properties'
-  template:
-    dest: '{{ shib_idp.home }}/messages/authn-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Set customised consent-messages.properties'
-  template:
-    dest: '{{ shib_idp.home }}/messages/consent-messages.properties'
-    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
+    dest: '{{ shib_idp.home }}/messages/messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/messages.properties'
     owner: root
     group: jetty
     mode: 0640
