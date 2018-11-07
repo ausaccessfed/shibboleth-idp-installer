@@ -615,6 +615,46 @@
     group: jetty
     mode: 0640
 
+- name: 'Set authn/duo-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/duo-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/duo-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/duo.properties'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/duo.properties'
+    dest: '{{ shib_idp.home }}/conf/authn/duo.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/function-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/function-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/function-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/mfa-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/mfa-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/mfa-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/spnego-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/spnego-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/spnego-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set authn/general-authn.xml'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
@@ -739,6 +779,7 @@
   - conf/authn/duo-authn-config.xml
   - conf/authn/duo.properties
   - conf/authn/external-authn-config.xml
+  - conf/authn/function-authn-config.xml
   - conf/authn/general-authn.xml
   - conf/authn/ipaddress-authn-config.xml
   - conf/authn/jaas-authn-config.xml
