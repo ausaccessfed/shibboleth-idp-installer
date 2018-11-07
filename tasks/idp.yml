@@ -655,6 +655,46 @@
     group: jetty
     mode: 0640
 
+- name: 'Set c14n/attribute-sourced-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/attribute-sourced-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/attribute-sourced-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/simple-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/simple-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/simple-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/subject-c14n-events-flow.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/subject-c14n-events-flow.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/subject-c14n-events-flow.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/subject-c14n.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/subject-c14n.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/subject-c14n.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/x500-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/x500-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/x500-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
 - name: 'Set authn/general-authn.xml'
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
