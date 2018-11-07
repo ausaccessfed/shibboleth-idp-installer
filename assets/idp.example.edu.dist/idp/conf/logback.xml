@@ -66,6 +66,9 @@
     <logger name="org.apache.catalina" level="${idp.loglevel.container}"/>
     <logger name="org.eclipse.jetty" level="${idp.loglevel.container}"/>
 
+    <!-- Suppress logs that add little or no value -->
+      <!-- Log shown when a user hits the back button -->
+      <logger name="org.springframework.webflow.execution.repository.NoSuchFlowExecutionException" level="OFF" />
 
     <!-- =========================================================== -->
     <!-- ============== Low Level Details or Changes =============== -->
