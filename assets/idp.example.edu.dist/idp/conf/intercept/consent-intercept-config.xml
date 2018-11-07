@@ -111,26 +111,6 @@
     </util:map>
 
     <!--
-    The beans below need to be defined, even if left empty. They can be ignored in most cases.
-    
-    If you write your own function to extract a new piece of data for auditing, you can install it into one or more
-    of the maps below to add it to the auditing framework, keyed by an audit field label to be used in formatting.
-    -->
-    <bean id="shibboleth.consent.PreConsentAuditExtractors" parent="shibboleth.consent.DefaultPreConsentAuditExtractors" lazy-init="true">
-        <property name="sourceMap">
-            <map merge="true">
-            </map>
-        </property>
-    </bean>
-
-    <bean id="shibboleth.consent.ConsentAuditExtractors" parent="shibboleth.consent.DefaultConsentAuditExtractors" lazy-init="true">
-        <property name="sourceMap">
-            <map merge="true">
-            </map>
-        </property>
-    </bean>
-
-    <!--
     Specify custom symbolic replacements for attribute names to shrink the size of results saved to client-side storage 
     such as cookies.
     -->
@@ -143,5 +123,10 @@
             </map>
         </property>
     </bean>
+
+    <!--
+    Condition to evaluate to apply attribute-release consent to attribute queries.
+    -->
+    <bean id="shibboleth.consent.AttributeQuery.Condition" parent="shibboleth.Conditions.FALSE" />
 
 </beans>
