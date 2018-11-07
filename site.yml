@@ -14,8 +14,8 @@
         sha256sum: 866793c31e067882819ff3e37d4c8c1eb404dea4e99a713ef05da4fb97787fb0
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
-        version: 8.0.12
-        sha256sum: 4aded8964442becb9c8fd84928af7c61b5882833750262049201b3061c623a36
+        version: 8.0.13
+        sha256sum: 99501fbc74b4cb80cd75a4d06c38b662be01bfd39c409efa3c747ec83216329b
       dta_ssl:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
         version: 1.0.0
