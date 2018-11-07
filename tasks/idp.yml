@@ -537,6 +537,15 @@
     mode: 0640
     backup: yes
 
+- name: 'Set admin/general-admin.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/admin/general-admin.xml'
+    dest: '{{ shib_idp.home }}/conf/admin/general-admin.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
 - name: 'Get and verify metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
