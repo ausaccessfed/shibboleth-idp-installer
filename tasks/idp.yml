@@ -249,8 +249,8 @@
     backup: yes
 
 - stat:
-   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
-   register: error_messages
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
+  register: error_messages
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -260,11 +260,11 @@
     group: jetty
     mode: 0640
     backup: yes
-    when error_messages.stat.exists
+  when error_messages.stat.exists
 
 - stat:
-   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
-   register: authn_messages
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
+  register: authn_messages
 
 - name: 'Set customised authn-messages.properties'
   template:
@@ -274,11 +274,11 @@
     group: jetty
     mode: 0640
     backup: yes
-    when authn_messages.stat.exists
+  when authn_messages.stat.exists
 
 - stat:
-   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
-   register: consent_messages
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
+  register: consent_messages
 
 - name: 'Set customised consent-messages.properties'
   template:
@@ -288,7 +288,7 @@
     group: jetty
     mode: 0640
     backup: yes
-    when consent_messages.stat.exists
+  when consent_messages.stat.exists
 
 - name: 'Copy customised IdP branding (css)'
   copy:
