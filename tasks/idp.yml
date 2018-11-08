@@ -248,6 +248,48 @@
     mode: 0640
     backup: yes
 
+- stat:
+   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
+   register: error_messages
+
+- name: 'Set customised error-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/error-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+    when error_messages.stat.exists
+
+- stat:
+   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
+   register: authn_messages
+
+- name: 'Set customised authn-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/authn-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+    when authn_messages.stat.exists
+
+- stat:
+   path: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
+   register: consent_messages
+
+- name: 'Set customised consent-messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/consent-messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+    when consent_messages.stat.exists
+
 - name: 'Copy customised IdP branding (css)'
   copy:
     dest: '{{ shib_idp.home }}/edit-webapp/css/'
