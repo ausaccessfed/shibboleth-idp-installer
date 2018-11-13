@@ -40,3 +40,6 @@ server_patch: "true"
 
 # Installed Firewall
 firewall: "firewalld"
+
+# Enable BackChannel
+enable_backchannel: "false"
