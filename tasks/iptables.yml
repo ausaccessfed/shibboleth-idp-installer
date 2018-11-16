@@ -9,7 +9,7 @@
 - name: 'Open IdP Backchannel port 8443 only when enabled'
   command: lokkit --port=8443:tcp
   changed_when: false
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Open SSH'
   command: lokkit --port=22:tcp

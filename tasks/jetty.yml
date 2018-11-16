@@ -66,7 +66,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'UnSet backchannel.mod when backchannel disabled'
   file:
@@ -91,7 +91,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'UnSet https.mod when backchannel disabled'
   file:
@@ -107,7 +107,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'UnSet ssl.mod when backchannel disabled'
   file:
@@ -123,7 +123,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset backchannel.ini when backchannel disabled'
   file:
@@ -148,7 +148,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset https.ini when backchannel disabled'
   file:
@@ -164,7 +164,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset ssl.ini when backchannel disabled'
   file:
@@ -189,7 +189,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset jetty-backchannel.xml when backchannel disabled'
   file:
@@ -214,7 +214,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="ture"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset jetty-https.xml when backchannel disabled'
   file:
