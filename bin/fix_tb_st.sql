@@ -6,6 +6,9 @@
 -- Login to the database connected to the idp_db schema and load the
 -- the fix_tb_st procedure.
 --
+-- Below, use 'false' if you want to verify if a change is required, 
+-- otherwise 'true' if you want the change to be made.
+--
 --     mysql idb_db
 --     source fix_tb_st.sql
 --     call fix_tb_st ([ture|false])
