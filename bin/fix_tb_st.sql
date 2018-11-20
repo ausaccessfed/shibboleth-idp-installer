@@ -25,14 +25,14 @@ BEGIN
          @tb_st_collation := collation_name as 'Current Collation'
   from information_schema.columns where table_name = 'tb_st';
 
-  if (@tb_st_charset != 'utf8mb4' or @tb_st_collation != 'utf8mb4_bin') then
+  if (@tb_st_charset != 'utf8mb4' or @tb_st_collation != 'utf8mb4_unicode_ci') then
 
     if (!dorun) then
       select 'Change of character set required!' as 'Result';
     else
-        alter table tb_st  default character set utf8mb4 default collate utf8mb4_bin;
+        alter table tb_st  default character set utf8mb4 default collate utf8mb4_unicode_ci;
 
-        alter table tb_st convert to character set utf8mb4 collate utf8mb4_bin;
+        alter table tb_st convert to character set utf8mb4 collate utf8mb4_unicode_ci;
 
         select 'Table successfully modified' as 'Result';
     end if;
