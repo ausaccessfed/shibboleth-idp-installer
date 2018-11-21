@@ -6,6 +6,22 @@
     group: mysql
     mode: 0700
 
+- name: 'Create /etc/mysql'
+  file:
+    dest: /etc/mysql
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: 'Write /etc/mysql/my.cnf'
+  template:
+    src: templates/db/my.cnf
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
 - name: 'Start database server'
   service:
     name: mariadb
@@ -23,7 +39,7 @@
 
 - name: 'Run lock_down_db.sql'
   command: 'mysql -e "source {{ installer.path }}/lock_down_db.sql"'
-  when: security_sql | changed
+  when: security_sql.changed
 
 - name: 'Write /root/.my.cnf'
   template:
@@ -37,8 +53,8 @@
   mysql_db:
     login_unix_socket: /var/lib/mysql/mysql.sock
     name: '{{ db.name }}'
-    collation: utf8_general_ci
-    encoding: utf8
+    collation: utf8mb4_unicode_ci
+    encoding: utf8mb4
     state: present
 
 - name: 'Create db user'

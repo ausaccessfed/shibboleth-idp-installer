@@ -6,28 +6,28 @@
     download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
-        version: 9.4.8.v20171121
-        sha256sum: 50d6bdedd3f57923516661019aed2f5ef89b394d09bffdb04786ccb6c1897c2f
+        version: 9.4.12.v20180830
+        sha256sum: 03c7b8cc5702b52173afad56b3c40e5e5dcf22cca23c1423b99486bb3b4389fc
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
-        version: 3.3.2
-        sha256sum: ed9fbefd273199d2841d4045b2661671c53825ed3c7d52d38bfe516b39d5fc64
+        version: 3.4.1
+        sha256sum: 866793c31e067882819ff3e37d4c8c1eb404dea4e99a713ef05da4fb97787fb0
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
-        version: 5.1.45
-        sha256sum: 1d289a056c7eb8290108a8d2e3c4717193662a9171adb56cfa3b769b32de3300
+        version: 8.0.13
+        sha256sum: 99501fbc74b4cb80cd75a4d06c38b662be01bfd39c409efa3c747ec83216329b
       dta_ssl:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
         version: 1.0.0
         sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
       commons_dbcp2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_dbcp2"
-        version: 2.1.1
-        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+        version: 2.5.0
+        sha256sum: 2e9da64b97af50951a3ac14b2269993fd8de323e00265d0e6a952fc108f05a22
       commons_pool2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_pool2"
-        version: 2.4.2
-        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+        version: 2.6.0
+        sha256sum: 961606add45d4212951482327d6b541214af1f95ea21b0528628eb031a4af522
       aaf_shib_ext:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
         version: 1.1.1
@@ -112,19 +112,19 @@
         state: permissive
 
     - name: 'Install required packages'
-      yum: pkg={{ item }} state=installed
-      with_items:
-        - httpd
-        - mod_ssl
-        - mod_ldap
-        - java-1.8.0-openjdk
-        - java-1.8.0-openjdk-devel
-        - mariadb-server
-        - mariadb-devel
-        - mariadb
-        - MySQL-python
-        - ntp
-        - expect
+      yum: 
+        name:
+          - httpd
+          - mod_ssl
+          - mod_ldap
+          - java-1.8.0-openjdk
+          - java-1.8.0-openjdk-devel
+          - mariadb-devel
+          - mariadb
+          - mariadb-server
+          - MySQL-python
+          - ntp
+        state: installed
 
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes

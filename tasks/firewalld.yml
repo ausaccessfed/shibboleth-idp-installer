@@ -14,7 +14,7 @@
 
 - name: 'Restart firewalld'
   service: name=firewalld state=restarted enabled=yes
-  when: firewall | changed
+  when: firewall.changed
 
 - meta: flush_handlers
 

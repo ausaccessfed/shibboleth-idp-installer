@@ -14,18 +14,23 @@
 ## environment - Spring Environment object for property resolution
 ## custom - arbitrary object injected by deployer
 ##
+#set ($rpContext = $profileRequestContext.getSubcontext("net.shibboleth.idp.profile.context.RelyingPartyContext"))
+#if ($rpContext)
+#set ($rpUIContext = $rpContext.getSubcontext("net.shibboleth.idp.ui.context.RelyingPartyUIContext"))
+#end
 <!DOCTYPE html>
 <html>
-  	<head>
+    <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         #if ( $logoutContext and !$logoutContext.getSessionMap().isEmpty() )
             <meta http-equiv="refresh" content="10;url=$flowExecutionUrl&_eventId=propagate">
         #end
         <title>#springMessageText("idp.title", "Web Login Service")</title>
         <link rel="stylesheet" type="text/css" href="$request.getContextPath()/css/main.css">
-  	</head>
+    </head>
 
-  	<body>
+    <body>
     <div class="wrapper">
       <div class="container">
         <header>
@@ -39,6 +44,18 @@
             decision, and we don't have a good suggestion for a default.</p>
             <br>
     
+            #if ($rpContext)
+                <p>#springMessageText("idp.logout.sp-initiated", "You have been logged out of the following service:")</p>
+                <blockquote>
+                #if ($rpUIContext)
+                    $encoder.encodeForHTML($rpUIContext.getServiceName())
+                #else
+                    $encoder.encodeForHTML($rpContext.getRelyingPartyId())
+                #end
+                </blockquote>
+                <br>
+            #end
+
             #if ( $logoutContext and !$logoutContext.getSessionMap().isEmpty() )
                 <p>#springMessageText("idp.logout.ask", "Would you like to attempt to log out of all services accessed during your session? Please select <strong>Yes</strong> or <strong>No</strong> to ensure the logout operation completes, or wait a few seconds for Yes.")</p>
                 <br>
@@ -65,10 +82,8 @@
                 </ol>
             #else
                 <p><strong>#springMessageText("idp.logout.complete", "The logout operation is complete, and no other services appear to have been accessed during this session.")</strong></p>
-                <!-- If SAML logout with no extra work to do, complete the flow by adding a hidden iframe. -->
-                #if ( $profileRequestContext.getProfileId().contains("saml2/logout") )
-                    <iframe style="display:none" src="$flowExecutionUrl&_eventId=proceed">
-                #end
+                <!-- Complete the flow by adding a hidden iframe. -->
+                <iframe style="display:none" src="$flowExecutionUrl&_eventId=proceed"></iframe>
             #end
 
           </div>
