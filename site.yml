@@ -6,12 +6,12 @@
     download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
-        version: 9.4.12.v20180830
-        sha256sum: 03c7b8cc5702b52173afad56b3c40e5e5dcf22cca23c1423b99486bb3b4389fc
+        version: 9.4.14.v20181114
+        sha256sum: c66abd7323f6df5b28690e145d2ae829dbd12b8a2923266fa23ab5139a9303c5
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
-        version: 3.4.1
-        sha256sum: 866793c31e067882819ff3e37d4c8c1eb404dea4e99a713ef05da4fb97787fb0
+        version: 3.4.2
+        sha256sum: e946bafedfca21af6bba152605fbbb7fce9c1f6a1b3e1c8c8d2cf26e53bcbc11
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
         version: 8.0.13
