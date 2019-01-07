@@ -13,7 +13,7 @@
        default-destroy-method="destroy">
 
     <!-- Simple transforms to apply to username after authentication. -->
-    <util:constant id="shibboleth.c14n.simple.Lowercase" static-field="java.lang.Boolean.FALSE"/>
+    <util:constant id="shibboleth.c14n.simple.Lowercase" static-field="java.lang.Boolean.TRUE"/>
     <util:constant id="shibboleth.c14n.simple.Uppercase" static-field="java.lang.Boolean.FALSE"/>
     <util:constant id="shibboleth.c14n.simple.Trim" static-field="java.lang.Boolean.TRUE"/>
 
