@@ -109,6 +109,18 @@ INSTALL_BASE=/opt
 #
 FIREWALL=firewalld
 
+# 
+
+# The Shibboleth IdP can provide a back channel for Service Providers to
+# communicate directly with the Identity Provider. This has been used for 
+# attribute release, transmission of messages via SAML Artifact and more recently
+# for backchannel SLO. The AAF have idenified that none of the use cases for
+# the backchannel are relivant to operation within the AAF, and therefor 
+# recommend it no longer be enable be default. If it is required, for example 
+# for a standalone Attribute Authority service, then setting the following to true
+# will enable configuration for the backchannel.
+ENABLE_BACKCHANNEL=false
+
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
 LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
@@ -132,7 +144,8 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL \
+    ENABLE_BACKCHANNEL; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -159,6 +172,12 @@ function ensure_mandatory_variables_set {
     echo "         your local server firewall. This may put your IdP at"
     echo "         risk!"
     echo ""
+  fi
+
+  if [ $ENABLE_BACKCHANNEL != "true" ] && [ $ENABLE_BACKCHANNEL != "false" ]
+  then
+     echo "Variable ENABLE_BACKCHANNEL must be either true or false"
+     exit 1
   fi
 }
 
@@ -284,6 +303,8 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'firewall:' "\"$FIREWALL\"" \
     $ANSIBLE_HOST_VARS
+  replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
+    $ENABLE_BACKCHANNEL
 }
 
 function set_ansible_cfg_log_path {
