@@ -304,7 +304,7 @@ function set_ansible_host_vars {
   replace_property 'firewall:' "\"$FIREWALL\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
-    $ENABLE_BACKCHANNEL
+    $ANSIBLE_HOST_VARS
 }
 
 function set_ansible_cfg_log_path {
