@@ -28,15 +28,22 @@ set -e
 #   urn:mace:terena.org:schac:homeOrganizationType:au:other
 #HOME_ORG_TYPE=urn:mace:terena.org:schac:homeOrganizationType:au:university
 
-#  The attribute used for AuEduPersonSharedToken and EduPersonTargetedId
-#  generation.
-#  See http://wiki.aaf.edu.au/tech-info/attributes/auedupersonsharedtoken
-#      http://wiki.aaf.edu.au/tech-info/attributes/edupersontargetedid
+#  The attribute used for AuEduPersonSharedToken, eduPersonTargetedId and
+#  the persistent Name ID value generation.
+#
 #  IMPORTANT: The generation of AuEduPersonSharedToken and EduPersonTargetedId
 #  require the value from the specified source attribute. If the value changes,
 #  it will change the AuEduPersonSharedToken and EduPersonTargetedId. This will
 #  cause the user to lose access in the federation. It is *critical* that you
 #  specify an attribute that will never change.
+#
+# Generally use uid for most LDAP servers and sAMAccountName for MS Active 
+# Directoy. In some situations the directory will use cn (commonName) to hold
+# the users unique login name.
+# 
+# The attribute choose MUST provide a unique single value for ALL user. If
+# this is not the case no value will be provide for the auEduPersonSharedToken.
+#
 #SOURCE_ATTRIBUTE_ID=uid
 
 # Perform a yum update as part of the bootstrap and every time you run
@@ -70,6 +77,11 @@ set -e
 #LDAP_BIND_DN_PASSWORD="p@ssw0rd"
 
 #  Specify the attribute for user queries
+# 
+# Generally use uid for most LDAP servers and sAMAccountName for MS Active 
+# Directoy. In some situations the directory will use cn (commonName) to hold
+# the users unique login name.
+#
 #LDAP_USER_FILTER_ATTRIBUTE="uid"
 
 #                            ADVANCED SECTION
@@ -79,6 +91,35 @@ set -e
 # Changing the base path MUST only occur here, do not attempt to change
 # the base after the initial install. 
 INSTALL_BASE=/opt
+
+# Select the local Firewall that will be running on your server. The default 
+# is firewalld which is the default for CentOS and RHEL 7. Some organisations
+# have selected to maintain iptables. You can also select to not have the 
+# installer maintain your local firewall but this is definitly NOT recommeded. 
+# Relevant values are:
+#    firewalld (default)
+#       Adds ports 433 (https) and 8443 (IdP backchannel) ports to the 
+#       firewalld config. All other configuration remains unchanged.
+#    iptables
+#       Adds ports 22 (ssh), 443 (https) and 8443 (IdP backchannel) ports
+#       to the iptables config. Other firewall settings may be overwritten!
+#    none
+#       You are responsible for the maintance of the servers firewall. No
+#       changes to the local firewall are made in this mode. 
+#
+FIREWALL=firewalld
+
+# 
+
+# The Shibboleth IdP can provide a back channel for Service Providers to
+# communicate directly with the Identity Provider. This has been used for 
+# attribute release, transmission of messages via SAML Artifact and more recently
+# for backchannel SLO. The AAF have idenified that none of the use cases for
+# the backchannel are relivant to operation within the AAF, and therefor 
+# recommend it no longer be enable be default. If it is required, for example 
+# for a standalone Attribute Authority service, then setting the following to true
+# will enable configuration for the backchannel.
+ENABLE_BACKCHANNEL=false
 
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
@@ -103,7 +144,8 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
-    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE; do
+    HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL \
+    ENABLE_BACKCHANNEL; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -113,6 +155,28 @@ function ensure_mandatory_variables_set {
   if [ $YUM_UPDATE != "true" ] && [ $YUM_UPDATE != "false" ]
   then
      echo "Variable YUM_UPDATE must be either true or false"
+     exit 1
+  fi
+
+  if [ $FIREWALL != "firewalld" ] && [ $FIREWALL != "iptables" ] \
+     && [ $FIREWALL != "none" ]
+  then
+    echo "Variable FIREWALL must be one of firewalld, iptables or none"
+    exit 1
+  fi
+
+  if [ $FIREWALL == "none" ]
+  then
+    echo ""
+    echo "WARNING: You have selected to not have the installer maintain"
+    echo "         your local server firewall. This may put your IdP at"
+    echo "         risk!"
+    echo ""
+  fi
+
+  if [ $ENABLE_BACKCHANNEL != "true" ] && [ $ENABLE_BACKCHANNEL != "false" ]
+  then
+     echo "Variable ENABLE_BACKCHANNEL must be either true or false"
      exit 1
   fi
 }
@@ -159,6 +223,20 @@ function install_yum_dependencies {
   echo ""
   echo "Install ansible"
   yum -y -q -e0 install ansible
+
+  if [ $FIREWALL == "firewalld" ]
+  then
+    echo ""
+    echo "Install firewalld"
+    yum -y -q -e0 install firewalld
+  fi
+
+  if [ $FIREWALL == "iptables" ]
+  then
+    echo ""
+    echo "Install iptables"
+    yum -y -q -e0 install iptables-services system-config-firewall-base
+  fi
 }
 
 function pull_repo {
@@ -222,6 +300,10 @@ function set_ansible_host_vars {
   replace_property 'home_organisation_type:' "\"$HOME_ORG_TYPE\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'server_patch:' "\"$YUM_UPDATE\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'firewall:' "\"$FIREWALL\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
     $ANSIBLE_HOST_VARS
 }
 
@@ -340,6 +422,8 @@ To make your IdP functional follow these steps:
        * organizationName
        * surname
        * givenName
+       * eduPersonOrcid
+       * eduPersonPrincipalName
        * homeOrganization
        * homeOrganizationType
 
@@ -370,6 +454,51 @@ function duplicate_execution_warning {
   fi
 }
 
+function test_python_package_warning {
+
+python - << EOF
+import warnings
+import sys
+
+def format_Warning(message, category, filename, lineno, line=''):
+    if (category.__name__ == 'RequestsDependencyWarning'):
+       sys.exit (-1)
+    else:
+       sys.exit (0)
+
+warnings.formatwarning = format_Warning
+
+import requests
+
+EOF
+}
+
+function correct_python_package_warning {
+  set +e
+  test_python_package_warning
+  retval=$?
+
+  if [ $retval -ne 0 ]
+   then
+     yum -y install python-pip
+     pip install --upgrade pip
+     pip install --upgrade requests
+
+     test_python_package_warning
+     retval=$?
+     if [ $retval -ne 0 ]
+       then
+       echo "Python Package warning NOT corrected. Continuing anyway"
+       echo "You may see warnings from Python about package Dependency"
+       echo "Warnings when using the update_idp.sh script. These warnings"
+       echo "safely be ignored."
+     else
+       echo "Python Package warning corrected. Continuing"
+     fi
+  fi
+  set -e
+}
+
 function bootstrap {
   ensure_mandatory_variables_set
   ensure_install_base_exists
@@ -391,6 +520,7 @@ function bootstrap {
   fi
 
   create_apache_self_signed_certs
+  correct_python_package_warning
   run_ansible
   backup_shibboleth_credentials
   display_completion_message

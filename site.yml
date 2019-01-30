@@ -6,28 +6,28 @@
     download:
       jetty:
         baseurl: "{{ aaf_binaries.baseurl }}/jetty"
-        version: 9.4.3.v20170317
-        sha256sum: d23be69b99c4178a15bda229ef45ca9a0b3b4e2e29445cfcd7e7f50ee22a15bb
+        version: 9.4.14.v20181114
+        sha256sum: c66abd7323f6df5b28690e145d2ae829dbd12b8a2923266fa23ab5139a9303c5
       shib_idp:
         baseurl: "{{ aaf_binaries.baseurl }}/shibboleth"
-        version: 3.3.1
-        sha256sum: 8bd852dcdc7e6729ee645c0374a3c476b152fa24506fb86ffec33dfd190e607c
+        version: 3.4.3
+        sha256sum: eb86bc7b6366ce2a44f97cae1b014d307b84257e3149469b22b2d091007309db
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
-        version: 5.1.35
-        sha256sum: fa77909a62363c1aa49ef5ab537ed4affe90a4a6aa5dd1045555b16b2611306d
+        version: 8.0.13
+        sha256sum: 99501fbc74b4cb80cd75a4d06c38b662be01bfd39c409efa3c747ec83216329b
       dta_ssl:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
         version: 1.0.0
         sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
       commons_dbcp2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_dbcp2"
-        version: 2.1.1
-        sha256sum: d6181397b20490aa9b3a793a19c2b75f31af032040d976db1cd97cc2f0ef4379
+        version: 2.5.0
+        sha256sum: 2e9da64b97af50951a3ac14b2269993fd8de323e00265d0e6a952fc108f05a22
       commons_pool2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_pool2"
-        version: 2.4.2
-        sha256sum: 175ddacc9364b4619ac0fd0fd22acc9d4c372f9099ae5208e8cb72e04a9a872e
+        version: 2.6.0
+        sha256sum: 961606add45d4212951482327d6b541214af1f95ea21b0528628eb031a4af522
       aaf_shib_ext:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
         version: 1.1.1
@@ -38,12 +38,12 @@
         sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
       cas_client_core:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.3.3
-        sha256sum: ed66678bcc81b5407e6379b5a01545991e85dd3950e361a9ed2163679f700c08
+        version: 3.4.1
+        sha256sum: 840a860da8e1cd65bb2b66c38222518e87158edfe8c3dc5a94f6e1183511c445
       shib_cas_authenticator:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.0.0
-        sha256sum: 16395533d58990295af2f18f78e4b2a74eb0224ea24bfc655fee8e6b22d0a5b2
+        version: 3.2.3
+        sha256sum: a21766ff6010f15177760d2cfc4409c81e068447ce1f62281586e5daf07c23a0
     urls:
       jetty:
         url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
@@ -112,28 +112,31 @@
         state: permissive
 
     - name: 'Install required packages'
-      yum: pkg={{ item }} state=installed
-      with_items:
-        - httpd
-        - mod_ssl
-        - mod_ldap
-        - java-1.8.0-openjdk
-        - java-1.8.0-openjdk-devel
-        - mariadb-server
-        - mariadb-devel
-        - mariadb
-        - MySQL-python
-        - ntp
-        - expect
+      yum: 
+        name:
+          - httpd
+          - mod_ssl
+          - mod_ldap
+          - java-1.8.0-openjdk
+          - java-1.8.0-openjdk-devel
+          - mariadb-devel
+          - mariadb
+          - mariadb-server
+          - MySQL-python
+          - ntp
+        state: installed
 
     - name: 'Enable NTP service'
       service: name=ntpd state=started enabled=yes
 
-    - include: tasks/jetty.yml
-    - include: tasks/db.yml
-    - include: tasks/idp.yml
-    - include: tasks/apache.yml
-    - include: tasks/firewalld.yml
+    - include_tasks: tasks/jetty.yml
+    - include_tasks: tasks/db.yml
+    - include_tasks: tasks/idp.yml
+    - include_tasks: tasks/apache.yml
+    - include_tasks: tasks/firewalld.yml
+      when: firewall is defined and firewall=="firewalld"
+    - include_tasks: tasks/iptables.yml
+      when: firewall is defined and firewall=="iptables"
 
   handlers:
     - name: Restart idp

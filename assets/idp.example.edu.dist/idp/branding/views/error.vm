@@ -3,6 +3,7 @@
 ##
 ## Velocity context will contain the following properties
 ## flowRequestContext - the Spring Web Flow RequestContext
+## profileRequestContext - root of context tree
 ## encoder - HTMLEncoder class
 ## request - HttpServletRequest
 ## response - HttpServletResponse
@@ -41,13 +42,14 @@
 ##
 <!DOCTYPE html>
 <html>
-  	<head>
-    	<meta charset="utf-8">
-    	<title>$title - $titleSuffix</title>
-    	<link rel="stylesheet" type="text/css" href="$request.getContextPath()/css/main.css">
-  	</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>$title - $titleSuffix</title>
+        <link rel="stylesheet" type="text/css" href="$request.getContextPath()/css/main.css">
+    </head>
   	
-  	<body>
+    <body>
     <div class="wrapper">
     	<div class="container">
         	<header>

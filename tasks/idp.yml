@@ -50,33 +50,6 @@
     mode: 0640
     backup: yes
 
-- name: 'Set backchannel.ini'
-  template:
-    dest: '{{ jetty.base }}/start.d/backchannel.ini'
-    src: 'templates/idp/backchannel.ini'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Create jetty-logging.properties'
-  template:
-    dest: '{{ jetty.base }}/resources/jetty-logging.properties'
-    src: 'templates/idp/jetty-logging.properties'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Create Logback access configuration'
-  template:
-    dest: '{{ jetty.base }}/etc/logback-access.xml'
-    src: 'templates/idp/logback-access.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
 - name: 'Create IdP context in jetty'
   template:
     dest: '{{ jetty.base }}/webapps/idp.xml'
@@ -136,6 +109,9 @@
     url: '{{ urls.aaf_shib_ext.url }}'
     dest: '{{ shib_idp.libs }}/aaf-shib-ext-{{ download.aaf_shib_ext.version }}.jar'
     sha256sum: '{{ download.aaf_shib_ext.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to aaf-shib-ext library'
   file:
@@ -148,6 +124,9 @@
     url: '{{ urls.cas_client_core.url }}'
     dest: '{{ shib_idp.libs }}/cas-client-core-{{ download.cas_client_core.version }}.jar'
     sha256sum: '{{ download.cas_client_core.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to cas-client-core library'
   file:
@@ -160,6 +139,9 @@
     url:  '{{ urls.shib_cas_authenticator.url }}'
     dest: '{{ shib_idp.libs }}/shib-cas-authenticator-{{ download.shib_cas_authenticator.version }}.jar'
     sha256sum: '{{ download.shib_cas_authenticator.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Link to shib-cas-authenticator library'
   file:
@@ -172,6 +154,9 @@
     url: '{{ urls.dta_ssl.url }}'
     dest:  '{{ shib_idp.libs }}/jetty-dta-ssl-{{ download.dta_ssl.version }}.jar'
     sha256sum: '{{ download.dta_ssl.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Link to jetty-dta-ssl library'
   file:
@@ -184,6 +169,9 @@
     url: '{{ urls.commons_dbcp2.url }}'
     dest: '{{ installer.path }}/commons-dbcp2-{{ download.commons_dbcp2.version }}-bin.tar.gz'
     sha256sum: '{{ download.commons_dbcp2.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Extract commons-dbcp2 distribution'
   shell: >
@@ -205,6 +193,9 @@
     url: '{{ urls.commons_pool2.url }}'
     dest: '{{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}-bin.tar.gz'
     sha256sum: '{{ download.commons_pool2.sha256sum }}'
+    mode: 0640
+    owner: root
+    group: jetty
 
 - name: 'Extract commons-pool2 distribution'
   shell: >
@@ -213,13 +204,26 @@
     creates={{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar
 
 - name: 'Copy over commons-pool2 lib'
-  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.home }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
+  command: 'cp {{ installer.path }}/commons-pool2-{{ download.commons_pool2.version }}/commons-pool2-{{ download.commons_pool2.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar"'
 
 - name: 'Link to commons-pool2 lib'
   file:
     name: '{{ shib_idp.home }}/edit-webapp/WEB-INF/lib/commons-pool2.jar'
     src: '{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
     state: link
+
+- name: 'Set customised messages.properties'
+  template:
+    dest: '{{ shib_idp.home }}/messages/messages.properties'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/messages/messages.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- stat:
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/error-messages.properties'
+  register: error_messages
 
 - name: 'Set customised error-messages.properties'
   template:
@@ -229,6 +233,11 @@
     group: jetty
     mode: 0640
     backup: yes
+  when: error_messages.stat.exists
+
+- stat:
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/authn-messages.properties'
+  register: authn_messages
 
 - name: 'Set customised authn-messages.properties'
   template:
@@ -238,6 +247,11 @@
     group: jetty
     mode: 0640
     backup: yes
+  when: authn_messages.stat.exists
+
+- stat:
+    path: 'assets/{{ inventory_hostname }}/idp/branding/messages/consent-messages.properties'
+  register: consent_messages
 
 - name: 'Set customised consent-messages.properties'
   template:
@@ -247,6 +261,7 @@
     group: jetty
     mode: 0640
     backup: yes
+  when: consent_messages.stat.exists
 
 - name: 'Copy customised IdP branding (css)'
   copy:
@@ -283,20 +298,20 @@
     mode: 0640
     backup: yes
   with_items:
+    - duo.vm
     - error.vm
-    - expiring-password.vm
     - login-error.vm
     - login.vm
     - logout-complete.vm
     - logout-propagate.vm
-    - logout-response.vm
     - logout.vm
-    - resolvertest.vm
     - spnego-unavailable.vm
     - user-prefs.js
     - user-prefs.vm
     - intercept/attribute-release.vm
+    - intercept/expiring-password.vm
     - intercept/terms-of-use.vm
+    - intercept/impersonate.vm
 
 - name: 'Re-run IdP install.sh to install aaf-shib-ext and IdP branding'
   shell: '{{ shib_idp.src_root }}/install-{{ download.shib_idp.version}}.sh'
@@ -306,20 +321,23 @@
     url: '{{ urls.mysql_connector.url }}'
     dest: '{{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz'
     sha256sum: '{{ download.mysql_connector.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Extract mysql connector library distribution'
   shell: >
     umask 0027;
     tar zx -C {{ installer.path }} -f {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}.tar.gz;
-    creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar
+    creates={{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar
 
 - name: 'Copy over mysql connector lib'
-  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar"'
+  command: 'cp {{ installer.path }}/mysql-connector-java-{{ download.mysql_connector.version }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar {{ shib_idp.libs }}/ creates="{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar"'
 
 - name: 'Link to mysql connector lib'
   file:
     name: '{{ jetty.base }}/lib/ext/mysql-connector-java-bin.jar'
-    src: '{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}-bin.jar'
+    src: '{{ shib_idp.libs }}/mysql-connector-java-{{ download.mysql_connector.version }}.jar'
     state: link
 
 - name: 'Download placeholder keystore'
@@ -327,6 +345,9 @@
     url: '{{ urls.keystore.url }}'
     dest: '{{ jetty.base }}/etc/keystore'
     sha256sum: '{{ download.keystore.sha256sum }}'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Set jetty.base file permissions'
   file:
@@ -350,8 +371,8 @@
     name: '{{ shib_idp.home }}/logs'
     src: /var/log/shibboleth-idp
     state: link
-    owner: root
-    group: root
+    owner: jetty
+    group: jetty
     force: yes
 
 - name: 'Symlink IdP src directory'
@@ -360,7 +381,7 @@
     src: '{{ shib_idp.src }}'
     state: link
     owner: root
-    group: root
+    group: jetty
     force: yes
 
 - name: 'Symlink IdP instance directory'
@@ -369,7 +390,7 @@
     src: '{{ shib_idp.home }}'
     state: link
     owner: root
-    group: root
+    group: jetty
     force: yes
 
 - name: 'Create jetty log directory'
@@ -385,9 +406,70 @@
     name: '{{ jetty.base }}/logs'
     src: /var/log/jetty
     state: link
-    owner: root
-    group: root
+    owner: jetty
+    group: jetty
     force: yes
+
+- name: 'Set access control'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/access-control.xml'
+    dest: '{{ shib_idp.home }}/conf/access-control.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+ 
+- name: 'Set attribute filter'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
+    dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set attribute resolver'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
+    dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set audit'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/audit.xml'
+    dest: '{{ shib_idp.home }}/conf/audit.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set cas-protocol'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/cas-protocol.xml'
+    dest: '{{ shib_idp.home }}/conf/cas-protocol.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set Shibboleth credentials.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/credentials.xml'
+    dest: '{{ shib_idp.home }}/conf/credentials.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
+
+- name: 'Set Shibboleth errors.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/errors.xml'
+    dest: '{{ shib_idp.home }}/conf/errors.xml'
+    owner: root
+    group: jetty
+    mode: 0640  
 
 - name: 'Set metadata provider'
   template:
@@ -402,6 +484,15 @@
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/metadata-based-attribute-filter.xml'
     dest: '{{ shib_idp.home }}/conf/metadata-based-attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set services.properties'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/services.properties'
+    dest: '{{ shib_idp.home }}/conf/services.properties'
     owner: root
     group: jetty
     mode: 0640
@@ -434,6 +525,34 @@
     mode: 0640
     backup: yes
 
+- name: 'Set session-manager.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/session-manager.xml'
+    dest: '{{ shib_idp.home }}/conf/session-manager.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set admin/general-admin.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/admin/general-admin.xml'
+    dest: '{{ shib_idp.home }}/conf/admin/general-admin.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set admin/metrics.xml'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/admin/metrics.xml'
+    dest: '{{ shib_idp.home }}/conf/admin/metrics.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+
 - name: 'Get and verify metadata certificate'
   get_url:
     url: '{{ metadata_cert_url }}'
@@ -448,24 +567,6 @@
     dest: '{{ shib_idp.home }}/credentials/federation-metadata-cert.pem'
     force: yes
   when: metadata_cert_sha256sum is not defined
-
-- name: 'Set attribute resolver'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-resolver.xml'
-    dest: '{{ shib_idp.home }}/conf/attribute-resolver.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Set attribute filter'
-  template:
-    src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
-    dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
 
 - name: 'Set ldap.properties'
   template:
@@ -511,13 +612,85 @@
     group: jetty
     mode: 0640
 
-- name: 'Set Shibboleth credentials.xml'
+- name: 'Set authn/duo-authn-config.xml'
   copy:
-    src: 'assets/{{inventory_hostname}}/idp/conf/credentials.xml'
-    dest: '{{ shib_idp.home }}/conf/credentials.xml'
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/duo-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/duo-authn-config.xml'
     owner: root
     group: jetty
-    mode: 0640  
+    mode: 0640
+
+- name: 'Set authn/duo.properties'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/duo.properties'
+    dest: '{{ shib_idp.home }}/conf/authn/duo.properties'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/function-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/function-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/function-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/mfa-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/mfa-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/mfa-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set authn/spnego-authn-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/authn/spnego-authn-config.xml'
+    dest: '{{ shib_idp.home }}/conf/authn/spnego-authn-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/attribute-sourced-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/attribute-sourced-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/attribute-sourced-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/simple-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/simple-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/simple-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/subject-c14n-events-flow.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/subject-c14n-events-flow.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/subject-c14n-events-flow.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/subject-c14n.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/subject-c14n.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/subject-c14n.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set c14n/x500-subject-c14n-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/c14n/x500-subject-c14n-config.xml'
+    dest: '{{ shib_idp.home }}/conf/c14n/x500-subject-c14n-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
 
 - name: 'Set authn/general-authn.xml'
   copy:
@@ -547,6 +720,38 @@
   copy:
     src: 'assets/{{inventory_hostname}}/idp/conf/intercept/context-check-intercept-config.xml'
     dest: '{{ shib_idp.home }}/conf/intercept/context-check-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/expiring-password-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/expiring-password-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/expiring-password-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/impersonate-intercept-config.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/impersonate-intercept-config.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/impersonate-intercept-config.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/intercept-events-flow.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/intercept-events-flow.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/intercept-events-flow.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+
+- name: 'Set intercept/profile-intercept.xml'
+  copy:
+    src: 'assets/{{inventory_hostname}}/idp/conf/intercept/profile-intercept.xml'
+    dest: '{{ shib_idp.home }}/conf/intercept/profile-intercept.xml'
     owner: root
     group: jetty
     mode: 0640
@@ -610,12 +815,10 @@
   with_items:
    - metadata
 
-- name: 'Fix IdP file permissions'
-  file:
-    name: '{{ shib_idp.home }}/{{ item }}'
-    owner: root
-    group: jetty
-    mode: 0640
+- name: 'Check files exist before fixing file permissions'
+  stat:
+    path: '{{ shib_idp.home }}/{{ item }}'
+  register: check_file_exists
   with_items:
   - conf/access-control.xml
   - conf/attribute-filter.xml
@@ -645,6 +848,7 @@
   - conf/authn/duo-authn-config.xml
   - conf/authn/duo.properties
   - conf/authn/external-authn-config.xml
+  - conf/authn/function-authn-config.xml
   - conf/authn/general-authn.xml
   - conf/authn/ipaddress-authn-config.xml
   - conf/authn/jaas-authn-config.xml
@@ -666,6 +870,7 @@
   - conf/intercept/consent-intercept-config.xml
   - conf/intercept/context-check-intercept-config.xml
   - conf/intercept/expiring-password-intercept-config.xml
+  - conf/intercept/impersonate-intercept-config.xml
   - conf/intercept/intercept-events-flow.xml
   - conf/intercept/profile-intercept.xml
   - credentials/idp-backchannel.p12
@@ -674,6 +879,15 @@
   - system/conf/services-system.xml
   - flows/authn/Shibcas/shibcas-authn-beans.xml
   - flows/authn/Shibcas/shibcas-authn-flow.xml
+
+- name: 'Fix IdP file permissions'
+  file:
+    name: '{{ shib_idp.home }}/{{ item.item }}'
+    owner: root
+    group: jetty
+    mode: 0640
+  with_items: "{{ check_file_exists.results }}"
+  when: item.stat.exists
 
 - name: 'Install IdP systemd unit'
   template:
