@@ -4,8 +4,6 @@ layout: about
 
 # Next version :TBA
 
-### Release date: TBA
-
 # Current version
 
 ## Version: 1.3.2+idp-3.4.3
