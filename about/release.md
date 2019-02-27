@@ -4,12 +4,11 @@ layout: about
 
 # Release notes
 
-**Future release:** [**1.4.0+idp-3.3.2-eudGAIN**](#1.3.2) (Expected January  2018)
-
-**Current Version:** [**1.3.0+idp-3.3.1**](#1.3.0)
+**Current Version:** [**1.3.2+idp-3.4.3**](#1.3.2)
 
 ***Earlier versions***
-
+- [**1.3.1+idp-3.3.1-eduGAIN**](#1.3.1)
+- [**1.3.0+idp-3.3.1**](#1.3.0)
 - [**1.2.0+idp-3.2.1**](#1.2.0)
 - [**1.1.0+idp-3.2.1**](#1.1.0)
 - [**1.0.0+idp-3.2.1**](#1.0.0)
@@ -26,7 +25,7 @@ layout: about
 ----------
 ## <a name="1.3.1"></a>1.3.1+idp-3.3.1-eduGAIN ##
 
-January TBA, 2018
+January, 2018
 
 - Update of software verions (Shibboleth, Jetty, etc)
 - Fixed MySQL startup issue
@@ -36,7 +35,7 @@ January TBA, 2018
 - Load AAF eduGAIN metadata feed
 - Add additional attributes required by Research and Scholarly entity category
 - Add attribute release policies to enable release of attributes to SPs that have
-been identiified as Research And Scholarly services
+been identified as Research And Scholarly services
 
 ## <a name="1.3.0"></a>1.3.0+idp-3.3.1 ##
 
@@ -57,7 +56,7 @@ May 26, 2017
 
 November 15 November, 2016
 
-- Bumped Jetty to version 9.3.11.v20160721 
+- Bumped Jetty to version 9.3.11.v20160721
 - Option provide to disable automatic "yum update"
 - Fixed directory protections that affect loading of metadata from third party sources
 - Java tuning for Jetty
@@ -84,8 +83,8 @@ April 26, 2016
 - Set SELinux mode to permissive (from disabled)
 - Added file following files to be managed by the Installer
     - conf/authn/general-authn.xml
-    - conf/intercept/consent-intercept-config.xml 
-    - conf/relying-party.xml 
+    - conf/intercept/consent-intercept-config.xml
+    - conf/relying-party.xml
 - Included ShibCas authentication flow. This allows the IdP to off load auth the a CAS server
 - Added cas extensions .jar files
     - cas-client-core-3.3.3.jar
@@ -101,7 +100,7 @@ April 4, 2016
 - Set Failed login message to be same for both incorrect username and incorrect password
 - Added additional configuration files to the branding area
 - Enable all attributes that are available in FR into the metadata based attribute release filter
-- Changed the source of the Metadata to md.[test.]aaf.edu.au 
+- Changed the source of the Metadata to md.[test.]aaf.edu.au
 - Added basic attribute-definiations for all FR attributes to the attribute resolver - most are commented out. The eduPersonORCID is included.
 - Added a basic eduPersonAffiliation script to the attribute resolver.
 - Installer now downloads all external file from the AAF S3 URL
@@ -112,7 +111,7 @@ February 11, 2016
 
 - Jetty binaries from AAF binaries. Eclipse site move older version of Jetty to an archive area.
 -  Change hard-coded groupID value 'aaf.edu.au' to the Ansible variable
--  Minor bug fixes 
+-  Minor bug fixes
 
 ## <a name="1.0.0-beta.1"></a>1.0.0-beta.1+idp-3.2.0 ##
 
