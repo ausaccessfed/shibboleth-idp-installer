@@ -50,33 +50,6 @@
     mode: 0640
     backup: yes
 
-- name: 'Set backchannel.ini'
-  template:
-    dest: '{{ jetty.base }}/start.d/backchannel.ini'
-    src: 'templates/idp/backchannel.ini'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Create jetty-logging.properties'
-  template:
-    dest: '{{ jetty.base }}/resources/jetty-logging.properties'
-    src: 'templates/idp/jetty-logging.properties'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
-- name: 'Create Logback access configuration'
-  template:
-    dest: '{{ jetty.base }}/etc/logback-access.xml'
-    src: 'templates/idp/logback-access.xml'
-    owner: root
-    group: jetty
-    mode: 0640
-    backup: yes
-
 - name: 'Create IdP context in jetty'
   template:
     dest: '{{ jetty.base }}/webapps/idp.xml'

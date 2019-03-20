@@ -132,7 +132,7 @@
         <Arg>jdbc/shib_idp</Arg>
         <Arg>
             <New class="com.mysql.cj.jdbc.MysqlConnectionPoolDataSource">
-                <Set name="Url">jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true</Set>
+                <Set name="Url">jdbc:mysql://localhost/{{ db.name }}?autoReconnect=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=GMT</Set>
                 <Set name="User">{{ db.username }}</Set>
                 <Set name="Password">{{ db.password }}</Set>
             </New>
