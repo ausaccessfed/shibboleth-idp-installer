@@ -10,3 +10,12 @@ This software is currently under active development and not yet ready for use in
 
 ## License
 Apache License Version 2.0, January 2004
+
+---
+
+# AAF Rapid IdP
+Need a secure, highly available and feature rich Identity Provider solution?
+
+Contact the AAF about Rapid IdP today.  https://aaf.edu.au/rapid/
+
+[![](https://aaf.edu.au/images/Rapid-IdP.png)](https://aaf.edu.au/rapid/)
