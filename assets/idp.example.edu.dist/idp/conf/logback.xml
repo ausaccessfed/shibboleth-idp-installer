@@ -16,6 +16,7 @@
     
     <variable name="idp.logfiles" value="${idp.logfiles:-${idp.home}/logs}" />
     <variable name="idp.loghistory" value="${idp.loghistory:-180}" />
+    <variable name="idp.auditloghistory" value="${idp.auditloghistory:-732}" />
     
     <!-- Much higher performance if you operate on DEBUG. -->
     <!-- <variable name="idp.process.appender" value="ASYNC_PROCESS" /> -->
@@ -143,7 +144,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${idp.logfiles}/idp-audit-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-            <maxHistory>${idp.loghistory}</maxHistory>
+            <maxHistory>${idp.auditloghistory}</maxHistory>
         </rollingPolicy>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
