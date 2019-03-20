@@ -147,4 +147,7 @@
       service:
         name: httpd
         state: restarted
-
+    - name: Restart database
+      service:
+        name: mariadb
+        state: restarted
