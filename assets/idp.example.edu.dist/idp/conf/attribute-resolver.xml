@@ -488,7 +488,7 @@
 
   <!-- l -->
   <!-- 
-  <AttributeDefinition xsi:type="Simple" id="localitY">
+  <AttributeDefinition xsi:type="Simple" id="locality">
     <InputDataConnector ref="ldap" attributeNames="l" />
     <DisplayName xml:lang="en">Locality</DisplayName>
     <DisplayDescription xml:lang="en">Locality (city of work place)</DisplayDescription>

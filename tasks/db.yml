@@ -21,6 +21,7 @@
     owner: root
     group: root
     mode: 0644
+  notify: 'Restart database'
 
 - name: 'Start database server'
   service:

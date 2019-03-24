@@ -6,7 +6,7 @@ The Shibboleth IdP Installer is designed to automate the install of version 3 fo
 For a full set of documentation please refer to [http://ausaccessfed.github.io/shibboleth-idp-installer/](http://ausaccessfed.github.io/shibboleth-idp-installer/).
 
 ## Status
-This software is currently under active development and not yet ready for use in production environments.
+This software is actively being developed and maintained. It is ready for use in production environments.
 
 ## License
 Apache License Version 2.0, January 2004
