@@ -14,20 +14,20 @@
         sha256sum: 257af1ea443d5302c6baab348e93c5184196e4a39e2d8607f68daa8a768c5cce
       mysql_connector:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/Connector-J"
-        version: 8.0.13
-        sha256sum: 99501fbc74b4cb80cd75a4d06c38b662be01bfd39c409efa3c747ec83216329b
+        version: 8.0.16
+        sha256sum: de7d7f8ce9d777c2a6c7c47695d87bfd635e621f9142467a5e56538fcaf4644a
       dta_ssl:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/jetty9-dta-ssl"
         version: 1.0.0
         sha256sum: 9c62a5999d5adddea905d7caf4220fc073e6033b755f224084cc240dc8d992a6
       commons_dbcp2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_dbcp2"
-        version: 2.5.0
-        sha256sum: 2e9da64b97af50951a3ac14b2269993fd8de323e00265d0e6a952fc108f05a22
+        version: 2.6.0
+        sha256sum: 56896038a278bb0fa69236cc20a51e75c77ac2fe97efdde9f2fcf0411f289cf1
       commons_pool2:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/commons_pool2"
-        version: 2.6.0
-        sha256sum: 961606add45d4212951482327d6b541214af1f95ea21b0528628eb031a4af522
+        version: 2.6.2
+        sha256sum: 30a4248ea82e886d9d60a9afc0251da5bcb60633b1a2512fef83a78b7e708f75
       aaf_shib_ext:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/aaf_shib_ext"
         version: 1.1.1
