@@ -7,18 +7,18 @@
     port: '{{ item }}'
     state: enabled
     permanent: yes
+    immediate: yes
   with_items:
     - 443/tcp
-  register: firewall
 
 - name: 'Open Apache firewall port 8443 for the Backchannel when enabled'
   firewalld:
     port: '{{ item }}'
     state: enabled
     permanent: yes
+    immediate: yes
   with_items:
     - 8443/tcp
-  register: firewall
   when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Close Apache firewall port 8443 for the Backchannel when disabled'
@@ -26,14 +26,10 @@
     port: '{{ item }}'
     state: disabled
     permanent: yes
+    immediate: yes
   with_items:
     - 8443/tcp
-  register: firewall
   when: enable_backchannel is defined and enable_backchannel=="false"
-
-- name: 'Restart firewalld'
-  service: name=firewalld state=restarted enabled=yes
-  when: firewall.changed
 
 - meta: flush_handlers
 
