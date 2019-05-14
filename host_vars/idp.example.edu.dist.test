@@ -38,7 +38,7 @@ federation_group_id: "https://md.test.aaf.edu.au/aaf-test-metadata.xml"
 # Run yum -update on every execution of update_idp.sh
 server_patch: "true"
 
-# Installed Firewall
+# Installed Firewall [firewalld | iptables | none ]
 firewall: "firewalld"
 
 # Enable BackChannel
