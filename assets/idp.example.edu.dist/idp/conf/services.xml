@@ -72,7 +72,7 @@
     <util:list id ="shibboleth.AttributeFilterResources">
         <value>%{idp.home}/conf/metadata-based-attribute-filter.xml</value>
         <value>%{idp.home}/conf/attribute-filter.xml</value>
-        {% if enable_edugain %}
+        {% if enable_edugain == "true" %}
         <value>%{idp.home}/conf/edugain-attribute-filter.xml</value>
         {% endif %}
     </util:list>

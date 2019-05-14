@@ -95,7 +95,7 @@
       </MetadataFilter>
     </MetadataProvider>
 
-    {% if enable_edugain %}
+    {% if enable_edugain == "true" %}
     <!-- eduGAIN metadata -->
     <MetadataProvider id="eduGAINMetadata"
       disregardTLSCertificate="true"
