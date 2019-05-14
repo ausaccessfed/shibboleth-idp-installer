@@ -44,3 +44,6 @@ firewall: "firewalld"
 
 # Enable BackChannel
 enable_backchannel: "false"
+
+# Enable eduGAIN
+enable_edugain: "false"
