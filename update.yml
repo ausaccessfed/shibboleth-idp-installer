@@ -184,7 +184,7 @@
     - name: 'Add enable_backchannel to host_vars if it does not exist'
       lineinfile:
         path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
-        line: "\n# Enable eduGAIN\nenable_edugain: \"false\""
+        line: "\n# Enable eduGAIN [firewalld | iptables | none ]\nenable_edugain: \"false\""
         insertafter: EOF
       when: enable_backchannel is not defined
 
@@ -194,3 +194,10 @@
         line: "\n# eduGAIN metadata\nedugain_metadata_url: \"https://md.aaf.edu.au/aaf-edugain-metadata.xml\""
         insertafter: EOF
       when: edugain_metadata_url is not defined
+
+    - name: 'Add enable_edugain to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Enable eduGAIN\nenable_edugain: \"false\""
+        insertafter: EOF
+      when: enable_edugain is not defined
