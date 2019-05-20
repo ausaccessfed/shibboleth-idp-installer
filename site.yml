@@ -5,6 +5,7 @@
     installer:
       root: "{{ install_base }}/shibboleth-idp-installer"
       path: "{{ install_base }}/shibboleth-idp-installer/build"
+      repository: "{{ install_base }}/shibboleth-idp-installer/repository"
   tasks:
     - name: 'Verify Ansible meets AAF Installer version requirments.'
       assert:
