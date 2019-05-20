@@ -1,6 +1,11 @@
 ---
 - hosts: all
   pre_tasks:
+  vars:
+    installer:
+      root: "{{ install_base }}/shibboleth-idp-installer"
+      path: "{{ install_base }}/shibboleth-idp-installer/build"
+  tasks:
     - name: 'Verify Ansible meets AAF Installer version requirments.'
       assert:
         that: "ansible_version.full is version_compare('2.7', '>=')"
