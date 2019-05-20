@@ -8,6 +8,8 @@ For a full set of documentation please refer to [http://ausaccessfed.github.io/s
 ## Status
 This software is actively being developed and maintained. It is ready for use in production environments.
 
+This version now eanle connection to eduGAIN, the global federation of federations.
+
 ## License
 Apache License Version 2.0, January 2004
 
