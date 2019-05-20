@@ -94,8 +94,24 @@ if [[ $response =~ ^(yes|y)$ ]]
 then
   if [[ $upgrade = true ]]
   then
+    echo -e "\nAttempting to update the AAF Installer respositry...\n"
+
     git pull
-    ansible-playbook -i ansible_hosts update.yml --extra-var="install_base=$the_install_base"
+
+    retval=$?
+
+    if [ $retval -ne 0 ]
+    then
+      echo -e "\n   ----"
+      echo -e "   An ERROR occurred attempting to upgrade the local AAF Installer respoitory"
+      echo -e "   This must be resolved before your upgrade can proceed!\n"
+      echo -e "   Details of the issue are shown above."
+      echo -e "   ----"
+      echo -e "\nNo changes have been made. Exiting."
+      exit 1
+  else
+        ansible-playbook -i ansible_hosts update.yml --extra-var="install_base=$the_install_base"
+    fi
   fi
 
   ansible-playbook -i ansible_hosts site.yml --force-handlers --extra-var="install_base=$the_install_base"
