@@ -8,8 +8,8 @@
 
     - name: 'Create local_conf.yml if it does not exist'
       copy:
-        src: '{{ installer.repository }}/templates/installer/local_conf.yml
-        dest: '{{ installer.repository }}/tasks/local_cond.yml'
+        src: '{{ installer.repository }}/templates/installer/local_conf.yml'
+        dest: '{{ installer.repository }}/tasks/local_conf.yml'
         owner: root
         group: root
         mode: 0644
