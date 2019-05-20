@@ -289,6 +289,23 @@
     mode: 0640
     backup: no
 
+- name: 'Create Java Script directory'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/js/'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: 'Copy customised IdP branding (Java Script)'
+  copy:
+    dest: '{{ shib_idp.home }}/edit-webapp/js/'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/js/'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: no
+
 - name: 'Set customised views'
   template:
     dest: '{{ shib_idp.home }}/views/{{ item }}'
