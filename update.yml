@@ -55,6 +55,7 @@
         - 'webapp'
         - 'webapp/css'
         - 'webapp/images'
+        - 'webapp/js'
         
     - name: 'Move file - authn-messages.properties if it exists in its old location'
       stat:
