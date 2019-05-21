@@ -98,7 +98,6 @@
     {% if enable_edugain == "true" %}
     <!-- eduGAIN metadata -->
     <MetadataProvider id="eduGAINMetadata"
-      disregardTLSCertificate="true"
       xsi:type="FileBackedHTTPMetadataProvider"
       refreshDelayFactor="0.125"
       maxRefreshDelay="PT2H"
