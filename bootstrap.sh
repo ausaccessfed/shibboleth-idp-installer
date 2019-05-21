@@ -324,7 +324,7 @@ function set_ansible_host_vars {
     $ANSIBLE_HOST_VARS
   replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
     $ANSIBLE_HOST_VARS
-  replace_property 'enable_:edugain' "\"$ENABLE_EDUGAIN\"" \
+  replace_property 'enable_edugain:' "\"$ENABLE_EDUGAIN\"" \
     $ANSIBLE_HOST_VARS
 }
 
