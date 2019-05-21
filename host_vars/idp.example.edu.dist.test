@@ -45,7 +45,7 @@ firewall: "firewalld"
 enable_backchannel: "false"
 
 # eduGAIN metadata
-edugain_metadata_url: "https://md.aaf.edu.au/aaf-edugain-metadata.xml"
+edugain_metadata_url: "https://md.test.aaf.edu.au/aaf-edugain-metadata.xml"
 
 # Enable eduGAIN
 enable_edugain: "false"
