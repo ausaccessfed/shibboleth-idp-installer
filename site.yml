@@ -1,4 +1,26 @@
 ---
+- hosts: all
+  pre_tasks:
+  vars:
+    installer:
+      root: "{{ install_base }}/shibboleth-idp-installer"
+      path: "{{ install_base }}/shibboleth-idp-installer/build"
+      repository: "{{ install_base }}/shibboleth-idp-installer/repository"
+  tasks:
+    - name: 'Verify Ansible meets AAF Installer version requirments.'
+      assert:
+        that: "ansible_version.full is version_compare('2.7', '>=')"
+        msg: "You must update Ansible to at least 2.7 to use this version of the AAF IdP Installer."
+
+    - name: 'Create local_conf.yml if it does not exist'
+      copy:
+        src: '{{ installer.repository }}/templates/installer/local_conf.yml'
+        dest: '{{ installer.repository }}/tasks/local_conf.yml'
+        owner: root
+        group: root
+        mode: 0644
+        force: no
+
 - hosts: idp-servers
   vars:
     aaf_binaries:
@@ -137,6 +159,7 @@
       when: firewall is defined and firewall=="firewalld"
     - include_tasks: tasks/iptables.yml
       when: firewall is defined and firewall=="iptables"
+    - include_tasks: tasks/local_conf.yml
 
   handlers:
     - name: Restart idp

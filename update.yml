@@ -1,4 +1,11 @@
 ---
+- hosts: all
+  pre_tasks:
+    - name: 'Verify Ansible meets AAF Installer version requirments.'
+      assert:
+        that: "ansible_version.full is version_compare('2.7', '>=')"
+        msg: "You must update Ansible to at least 2.7 to use this version of the AAF IdP Installer."
+
 - hosts: idp-servers
   vars:
     installer:
@@ -48,6 +55,7 @@
         - 'webapp'
         - 'webapp/css'
         - 'webapp/images'
+        - 'webapp/js'
         
     - name: 'Move file - authn-messages.properties if it exists in its old location'
       stat:
@@ -167,3 +175,37 @@
         dest: '{{ installer.repository }}/assets/{{inventory_hostname}}'
         force: no
 
+    - name: 'Add server_patch to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Run yum -update on every execution of update_idp.sh\nserver_patch: \"true\""
+        insertafter: EOF
+      when: server_patch is not defined
+
+    - name: 'Add firewall to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Installed Firewall\nfirewall: \"firewalld\""
+        insertafter: EOF
+      when: firewall is not defined
+
+    - name: 'Add enable_backchannel to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Enable eduGAIN [firewalld | iptables | none ]\nenable_edugain: \"false\""
+        insertafter: EOF
+      when: enable_backchannel is not defined
+
+    - name: 'Add edugain_metadata_url to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# eduGAIN metadata\nedugain_metadata_url: \"https://md.aaf.edu.au/aaf-edugain-metadata.xml\""
+        insertafter: EOF
+      when: edugain_metadata_url is not defined
+
+    - name: 'Add enable_edugain to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Enable eduGAIN\nenable_edugain: \"false\""
+        insertafter: EOF
+      when: enable_edugain is not defined

@@ -39,39 +39,43 @@
     <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
     <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
     <Script><![CDATA[
-        var BasicAttribute = Java.type("edu.internet2.middleware.shibboleth.common.attribute.provider.BasicAttribute");
-        var newAffiliations = new BasicAttribute("eduPersonAffiliation");
+        var HashSet = Java.type("java.util.HashSet");
+        var StringAttributeValue = Java.type("net.shibboleth.idp.attribute.StringAttributeValue");
+        var newAffiliations = new HashSet();
+
+        add_member = false;
 
         if (typeof eduPersonAffiliation != "undefined" && eduPersonAffiliation.getValues().size() >= 1) {
             for ( i = 0; i < eduPersonAffiliation.getValues().size(); i++){
                 value = eduPersonAffiliation.getValues().get(i).toLowerCase();
-                if (value.equals("student") ||
-                    value.equals("faculty") ||
-                    value.equals("staff") ||
-                    value.equals("employee") ||
-                    value.equals("affiliate") ||
+                if ( value.equals("affiliate") ||
                     value.equals("alum") ||
                     value.equals("member") ||
                     value.equals("library-walk-in")) {
-                    newAffiliations.addValue(value);
+                    newAffiliations.add(new StringAttributeValue(value));
+                }
+                if (value.equals("student") ||
+                    value.equals("faculty") ||
+                    value.equals("staff") ||
+                    value.equals("employee")) {
+                    newAffiliations.add(new StringAttributeValue(value));
+                    add_member = true;
                 }
             }
         }
 
-        add_member =  newAffiliations.getValues().contains("student") ||
-                      newAffiliations.getValues().contains("faculty") ||
-                      newAffiliations.getValues().contains("staff") ||
-                      newAffiliations.getValues().contains("employee");
+        if (add_member) { newAffiliations.add(new StringAttributeValue("member")); }
 
-        if (add_member) { newAffiliations.addValue("member"); }
-
-        if (newAffiliations.getValues().size() < 1) {
-            newAffiliations.addValue("affiliate");
+        if (newAffiliations.size() < 1) {
+            newAffiliations.add(new StringAttributeValue("affiliate"));
         }
 
         eduPersonAffiliation.getValues().clear();
 
-        eduPersonAffiliation.getValues().addAll(newAffiliations.getValues());
+        itr = newAffiliations.iterator();
+        while(itr.hasNext()){
+           eduPersonAffiliation.addValue(itr.next());
+        }
     ]]></Script>
   </AttributeDefinition>
 

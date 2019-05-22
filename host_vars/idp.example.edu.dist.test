@@ -38,8 +38,14 @@ federation_group_id: "https://md.test.aaf.edu.au/aaf-test-metadata.xml"
 # Run yum -update on every execution of update_idp.sh
 server_patch: "true"
 
-# Installed Firewall
+# Installed Firewall [firewalld | iptables | none ]
 firewall: "firewalld"
 
 # Enable BackChannel
 enable_backchannel: "false"
+
+# eduGAIN metadata
+edugain_metadata_url: "https://md.test.aaf.edu.au/aaf-edugain-test-metadata.xml"
+
+# Enable eduGAIN
+enable_edugain: "false"

@@ -95,4 +95,26 @@
       </MetadataFilter>
     </MetadataProvider>
 
+    {% if enable_edugain == "true" %}
+    <!-- eduGAIN metadata -->
+    <MetadataProvider id="eduGAINMetadata"
+      xsi:type="FileBackedHTTPMetadataProvider"
+      refreshDelayFactor="0.125"
+      maxRefreshDelay="PT2H"
+      backingFile="{{ shib_idp.home }}/metadata/eduGAIN-metadata.xml"
+      metadataURL="{{ edugain_metadata_url }}">
+
+      <MetadataFilter xsi:type="RequiredValidUntil" maxValidityInterval="P30D" />
+
+      <MetadataFilter xsi:type="SignatureValidation"
+        certificateFile="/opt/shibboleth/shibboleth-idp/current/credentials/federation-metadata-cert.pem"
+        requireSignedRoot="true">
+      </MetadataFilter>
+
+      <MetadataFilter xsi:type="EntityRoleWhiteList">
+        <RetainedRole>md:SPSSODescriptor</RetainedRole>
+      </MetadataFilter>
+    </MetadataProvider>
+    {% endif %}
+
 </MetadataProvider>
