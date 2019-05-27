@@ -119,8 +119,20 @@ FIREWALL=firewalld
 # recommend it no longer be enable be default. If it is required, for example 
 # for a standalone Attribute Authority service, then setting the following to true
 # will enable configuration for the backchannel.
+#
 ENABLE_BACKCHANNEL=false
 
+#
+
+# Enable your IdP to participate in eduGAIN (https://aaf.edu.au/edugain/). Your 
+# orgainisation must be enable at the federation before being enabled to use 
+# eduGAIN services. Setting the following values to true will only technically
+# enable your IdP. You MUST complete the steps described AAF eduGAIN web site in
+# addition to making the technical changes.
+#
+ENABLE_EDUGAIN=false
+
+#
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
 LOCAL_REPO=$INSTALL_BASE/shibboleth-idp-installer/repository
@@ -145,7 +157,7 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
     HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL \
-    ENABLE_BACKCHANNEL; do
+    ENABLE_BACKCHANNEL ENABLE_EDUGAIN; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -177,6 +189,13 @@ function ensure_mandatory_variables_set {
   if [ $ENABLE_BACKCHANNEL != "true" ] && [ $ENABLE_BACKCHANNEL != "false" ]
   then
      echo "Variable ENABLE_BACKCHANNEL must be either true or false"
+     exit 1
+  fi
+
+
+  if [ $ENABLE_EDUGAIN != "true" ] && [ $ENABLE_EDUGAIN != "false" ]
+  then
+     echo "Variable ENABLE_EDUGAIN must be either true or false"
      exit 1
   fi
 }
@@ -304,6 +323,8 @@ function set_ansible_host_vars {
   replace_property 'firewall:' "\"$FIREWALL\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'enable_edugain:' "\"$ENABLE_EDUGAIN\"" \
     $ANSIBLE_HOST_VARS
 }
 

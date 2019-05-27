@@ -289,6 +289,23 @@
     mode: 0640
     backup: no
 
+- name: 'Create Java Script directory'
+  file:
+    name: '{{ shib_idp.home }}/edit-webapp/js/'
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: 'Copy customised IdP branding (Java Script)'
+  copy:
+    dest: '{{ shib_idp.home }}/edit-webapp/js/'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/js/'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: no
+
 - name: 'Set customised views'
   template:
     dest: '{{ shib_idp.home }}/views/{{ item }}'
@@ -423,6 +440,15 @@
   template:
     src: 'assets/{{inventory_hostname}}/idp/conf/attribute-filter.xml'
     dest: '{{ shib_idp.home }}/conf/attribute-filter.xml'
+    owner: root
+    group: jetty
+    mode: 0640
+    backup: yes
+
+- name: 'Set eduGAIN attribute filter'
+  template:
+    src: 'assets/{{inventory_hostname}}/idp/conf/edugain-attribute-filter.xml'
+    dest: '{{ shib_idp.home }}/conf/edugain-attribute-filter.xml'
     owner: root
     group: jetty
     mode: 0640
@@ -828,6 +854,7 @@
   - conf/audit.xml
   - conf/cas-protocol.xml
   - conf/credentials.xml
+  - conf/edugain-attribute-filter.xml
   - conf/errors.xml
   - conf/global.xml
   - conf/ldap.properties
