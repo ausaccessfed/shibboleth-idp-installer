@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This file is specific to the installer but can be modified for differing setups
+
+java -jar `dirname "$0"`/rapid-idp-migrate.jar $*
