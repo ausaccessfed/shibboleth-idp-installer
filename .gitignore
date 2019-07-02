@@ -9,3 +9,5 @@ assets/*
 Vagrantfile
 vagrant_id_rsa
 **/*.swp
+.idea/
+.DS_Store
