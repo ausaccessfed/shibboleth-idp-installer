@@ -1,5 +1,15 @@
 #!/bin/bash
 
-# This file is specific to the installer but can be modified for differing setups
+uri="https://aaf-build-artifacts.s3-ap-southeast-2.amazonaws.com/rapid-idp-migrate/rapid-idp-migrate.jar"
+file="rapid-idp-migrate.jar"
+dir=`dirname "$0"`
 
-java -jar `dirname "$0"`/rapid-idp-migrate.jar $*
+# Check if the jar file has ever been downloaded
+if test -e "$dir/$file"
+then zflag=(-z "$dir/$file" -Ss) # Existing file. Check if newer exists.
+else zflag=() # Never existed. Show download progress (lack of -Ss).
+fi
+
+curl -o "$dir/$file" "${zflag[@]}" "$uri"
+
+java -jar ${dir}/rapid-idp-migrate.jar $*

@@ -11,3 +11,4 @@ vagrant_id_rsa
 **/*.swp
 .idea/
 .DS_Store
+rapid-idp-migrate/rapid-idp-migrate.jar
