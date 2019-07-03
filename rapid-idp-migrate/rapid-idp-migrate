@@ -4,15 +4,15 @@ set -e
 
 file="rapid-idp-migrate-latest.jar"
 uri="https://aaf-build-artifacts.s3-ap-southeast-2.amazonaws.com/rapid-idp-migrate/$file"
-dir=`dirname "$0"`
+dir=$(dirname "$0")
 local_file="$dir/$file"
 
 # Check if the jar file has ever been downloaded
-if test -e ${local_file}
+if test -e "${local_file}"
 then zflag=(-z "$local_file" -Ss) # Existing file. Check if newer exists.
 else zflag=() # Never existed. Show download progress (lack of -Ss).
 fi
 
 curl -o "$local_file" "${zflag[@]}" "$uri"
 
-java -jar ${local_file} $*
+java -jar "${local_file}" "$@"
