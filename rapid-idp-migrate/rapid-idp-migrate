@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 file="rapid-idp-migrate-latest.jar"
 uri="https://aaf-build-artifacts.s3-ap-southeast-2.amazonaws.com/rapid-idp-migrate/$file"
 dir=`dirname "$0"`
