@@ -1,3 +1,13 @@
+> &nbsp;
+>
+> [<img src="https://aaf.edu.au/images/Rapid-IdP.png"  width="400"/>](https://aaf.edu.au/rapid/)
+>
+> Need a managed, secure and highly available Identity Provider solution?
+>
+> [Contact the AAF about Rapid IdP today.](https://aaf.edu.au/rapid/)
+>
+> &nbsp;
+
 # Shibboleth IdP Installer
 
 ## Overview
@@ -13,11 +23,3 @@ This version now enables the technical connection to eduGAIN, the global federat
 ## License
 Apache License Version 2.0, January 2004
 
----
-
-# AAF Rapid IdP
-Need a secure, highly available and feature rich Identity Provider solution?
-
-Contact the AAF about Rapid IdP today.  https://aaf.edu.au/rapid/
-
-[![](https://aaf.edu.au/images/Rapid-IdP.png)](https://aaf.edu.au/rapid/)
