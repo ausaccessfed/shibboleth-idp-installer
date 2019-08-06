@@ -192,7 +192,7 @@
     - name: 'Add enable_backchannel to host_vars if it does not exist'
       lineinfile:
         path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
-        line: "\n# Enable eduGAIN [firewalld | iptables | none ]\nenable_edugain: \"false\""
+        line: "\n# Enable back channel\nenable_backchannel: \"false\""
         insertafter: EOF
       when: enable_backchannel is not defined
 
