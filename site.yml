@@ -9,8 +9,8 @@
   tasks:
     - name: 'Verify Ansible meets AAF Installer version requirments.'
       assert:
-        that: "ansible_version.full is version_compare('2.7', '>=')"
-        msg: "You must update Ansible to at least 2.7 to use this version of the AAF IdP Installer."
+        that: "ansible_version.full is version_compare('2.6', '>=')"
+        msg: "You must update Ansible to at least 2.6 to use this version of the AAF IdP Installer."
 
     - name: 'Create local_conf.yml if it does not exist'
       copy:
