@@ -4,6 +4,7 @@ layout: about
 
 ## Previous versions of the AAF Installer
 
+- [**1.3.2+idp-3.4.2**](#1.3.2)
 - [**1.2.0+idp-3.2.1**](#1.2.0)
 - [**1.1.0+idp-3.2.1**](#1.1.0)
 - [**1.1.0+idp-3.2.1**](#1.0.0)
@@ -15,6 +16,19 @@ layout: about
 - [**1.0.0-alpha.1**](#1.0.0-alpha.1)
 
 ----------
+
+## <a name="1.3.2"></a>1.3.2+idp-3.4.3 ##
+| Software | Version |
+| -------- | ------- |
+| Shibboleth IdP | 3.4.3 |
+| Jetty | 9.4.14.v20181114 |
+| MySQL Connector  | 8.0.13  |
+| AAF Shared Token Extension | 1.1.1 |
+| dta_ssl | 1.0.0 |
+| commons_dbcp2 | 2.5.0 |
+| commons_pool2 | 2.6.0 |
+| cas-client-core | 3.4.1 |
+| shib-cas-authenticator | 3.2.3 |
 
 ## <a name="1.2.0"></a>1.2.0+idp-3.2.1 ##
 

@@ -4,9 +4,10 @@ layout: about
 
 # Release notes
 
-**Current Version:** [**1.3.2+idp-3.4.3**](#1.3.2)
+**Current Version:** [**1.4.2+idp-3.4.5**](#1.4.2)
 
 ***Earlier versions***
+- [**1.3.2+idp-3.4.3**](#1.3.2)
 - [**1.3.1+idp-3.3.1-eduGAIN**](#1.3.1)
 - [**1.3.0+idp-3.3.1**](#1.3.0)
 - [**1.2.0+idp-3.2.1**](#1.2.0)
@@ -23,6 +24,20 @@ layout: about
 - [**1.0.0-alpha.1**](1.0.0-alpha.1)
 
 ----------
+
+## <a name="1.4.2"></a>1.4.2+idp-3.4.5 ##
+
+September 2019
+
+- Update of software versions (Shibboleth and Jetty)
+
+## <a name="1.3.2"></a>1.3.2+idp-3.4.3 ##
+
+January, 2019
+
+- Update of software versions (Shibboleth, Jetty, etc)
+- Minor improvements and bug fixes
+
 ## <a name="1.3.1"></a>1.3.1+idp-3.3.1-eduGAIN ##
 
 January, 2018
