@@ -60,12 +60,12 @@
         sha256sum: ae4185b2f0bb1af00abc6a4502fbfbdc6a90aec65c7bcee08e37a1bc20de5ac1 
       cas_client_core:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.4.1
-        sha256sum: 840a860da8e1cd65bb2b66c38222518e87158edfe8c3dc5a94f6e1183511c445
+        version: 3.6.0
+        sha256sum: 21c46f083530a494fb3f94c91d1c817851608409717382c9e3673c44acada522
       shib_cas_authenticator:
         baseurl: "{{ aaf_binaries.baseurl }}/jars/cas_extensions"
-        version: 3.2.3
-        sha256sum: a21766ff6010f15177760d2cfc4409c81e068447ce1f62281586e5daf07c23a0
+        version: 3.3.0
+        sha256sum: 435aebc3e301341e31c22e73ee5dee42c36bb1ea88483b5db182b13170a79ff2
     urls:
       jetty:
         url: "{{ download.jetty.baseurl }}/jetty-distribution-{{ download.jetty.version }}.tar.gz"
