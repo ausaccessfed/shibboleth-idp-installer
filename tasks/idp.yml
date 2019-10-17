@@ -212,6 +212,15 @@
     src: '{{ shib_idp.libs }}/commons-pool2-{{ download.commons_pool2.version }}.jar'
     state: link
 
+- name: 'Set web.xml with optional shibcas config'
+  template:
+    dest: '{{ shib_idp.home }}//edit-webapp/WEB-INF/web.xml'
+    src: 'assets/{{ inventory_hostname }}/idp/branding/webapp/WEB-INF/web.xml'
+    owner: root
+    group: root
+    mode: 0755
+    backup: yes
+
 - name: 'Set customised messages.properties'
   template:
     dest: '{{ shib_idp.home }}/messages/messages.properties'
@@ -719,7 +728,7 @@
     mode: 0640
 
 - name: 'Set authn/general-authn.xml'
-  copy:
+  template:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
     dest: '{{ shib_idp.home }}/conf/authn/general-authn.xml'
     owner: root

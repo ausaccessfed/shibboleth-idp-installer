@@ -132,6 +132,11 @@ ENABLE_BACKCHANNEL=false
 #
 ENABLE_EDUGAIN=false
 
+# Enable your IdP to off load authentications to your CAS IdP. Note: Additioanl
+# configuration will be required on compelation of the Bootstrap process.
+#
+ENABLE_SHIBCAS=false
+
 #
 # ------------------------ END BOOTRAP CONFIGURATION ---------------------------
 
@@ -157,7 +162,7 @@ FR_PROD_REG=https://manager.aaf.edu.au/federationregistry/registration/idp
 function ensure_mandatory_variables_set {
   for var in HOST_NAME ENVIRONMENT ORGANISATION_NAME ORGANISATION_BASE_DOMAIN \
     HOME_ORG_TYPE SOURCE_ATTRIBUTE_ID INSTALL_BASE YUM_UPDATE FIREWALL \
-    ENABLE_BACKCHANNEL ENABLE_EDUGAIN; do
+    ENABLE_BACKCHANNEL ENABLE_EDUGAIN ENABLE_SHIBCAS; do
     if [ ! -n "${!var:-}" ]; then
       echo "Variable '$var' is not set! Set this in `basename $0`"
       exit 1
@@ -196,6 +201,12 @@ function ensure_mandatory_variables_set {
   if [ $ENABLE_EDUGAIN != "true" ] && [ $ENABLE_EDUGAIN != "false" ]
   then
      echo "Variable ENABLE_EDUGAIN must be either true or false"
+     exit 1
+  fi
+
+  if [ $ENABLE_SHIBCAS != "true" ] && [ $ENABLE_SHIBCAS != "false" ]
+  then
+     echo "Variable ENABLE_SHIBCAS must be either true or false"
      exit 1
   fi
 }
@@ -325,6 +336,8 @@ function set_ansible_host_vars {
   replace_property 'enable_backchannel:' "\"$ENABLE_BACKCHANNEL\"" \
     $ANSIBLE_HOST_VARS
   replace_property 'enable_edugain:' "\"$ENABLE_EDUGAIN\"" \
+    $ANSIBLE_HOST_VARS
+  replace_property 'enable_shibcas:' "\"$ENABLE_SHIBCAS\"" \
     $ANSIBLE_HOST_VARS
 }
 
