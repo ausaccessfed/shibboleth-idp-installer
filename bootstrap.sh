@@ -224,7 +224,7 @@ function install_yum_dependencies {
   then
     yum -y update
   else
-    count_updates=`yum check-update --quiet | grep '^[a-Z0-9]' | wc -l`
+    count_updates=`yum check-update --quiet | grep '^[[:alnum:]]' | wc -l`
    
     echo "WARNING: Automatic server software updates performed by this"
     echo "         installer have been disabled!"
