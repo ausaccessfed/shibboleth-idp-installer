@@ -719,7 +719,7 @@
     mode: 0640
 
 - name: 'Set authn/general-authn.xml'
-  copy:
+  template:
     src: 'assets/{{inventory_hostname}}/idp/conf/authn/general-authn.xml'
     dest: '{{ shib_idp.home }}/conf/authn/general-authn.xml'
     owner: root

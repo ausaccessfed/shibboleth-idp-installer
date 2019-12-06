@@ -49,3 +49,6 @@ edugain_metadata_url: "https://md.test.aaf.edu.au/aaf-edugain-test-metadata.xml"
 
 # Enable eduGAIN
 enable_edugain: "false"
+
+# Enable shibcas
+enable_shibcas: "false"

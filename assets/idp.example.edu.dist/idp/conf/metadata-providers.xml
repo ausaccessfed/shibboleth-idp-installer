@@ -107,7 +107,7 @@
       <MetadataFilter xsi:type="RequiredValidUntil" maxValidityInterval="P30D" />
 
       <MetadataFilter xsi:type="SignatureValidation"
-        certificateFile="/opt/shibboleth/shibboleth-idp/current/credentials/federation-metadata-cert.pem"
+        certificateFile="{{ shib_idp.home }}/credentials/federation-metadata-cert.pem"
         requireSignedRoot="true">
       </MetadataFilter>
 
