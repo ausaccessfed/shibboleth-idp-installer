@@ -52,7 +52,20 @@
         </bean>
         
         <bean id="authn/External" parent="shibboleth.AuthenticationFlow"
-            p:nonBrowserSupported="false" />
+            {% if enable_shibcas == "true" %}
+             p:passiveAuthenticationSupported="true"
+             p:forcedAuthenticationSupported="true"
+            {% endif %}
+            p:nonBrowserSupported="false">
+            {% if enable_shibcas == "true" %}
+            <property name="supportedPrincipals">
+                <list>
+                    <bean parent="shibboleth.SAML2AuthnContextClassRef"
+                        c:classRef="urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport" />
+                </list>
+            </property>
+            {% endif %}
+        </bean>
 
         <bean id="authn/RemoteUser" parent="shibboleth.AuthenticationFlow"
             p:nonBrowserSupported="false" />

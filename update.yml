@@ -209,3 +209,12 @@
         line: "\n# Enable eduGAIN\nenable_edugain: \"false\""
         insertafter: EOF
       when: enable_edugain is not defined
+
+    - name: 'Add enable_shibcas to host_vars if it does not exist'
+      lineinfile:
+        path: '{{ installer.repository }}/host_vars/{{inventory_hostname}}'
+        line: "\n# Enable shibCAS\nenable_shibcas: \"false\""
+        insertafter: EOF
+      when: enable_shibcas is not defined
+
+
