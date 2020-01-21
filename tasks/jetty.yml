@@ -230,7 +230,7 @@
     group: jetty
     mode: 0640
     backup: yes
-  when: enable_backchannel is defined and enable_backchannel=="false"
+  when: enable_backchannel is defined and enable_backchannel=="true"
 
 - name: 'Unset jetty-ssl.xml when backchannel disabled'
   file:
